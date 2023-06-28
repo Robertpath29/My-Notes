@@ -1,20 +1,32 @@
-import React from "react";
+import React, { useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { startPages } from "../routers/routers";
+import { loginPages, startPages } from "../routers/routers";
+import { RouterContext } from "../context/context";
 
 function App() {
+    const [loads, setLoads] = useState(true);
     return (
-        <BrowserRouter>
-            <Routes>
-                {startPages.map((route) => (
-                    <Route
-                        path={route.path}
-                        element={route.element}
-                        key={route.path}
-                    />
-                ))}
-            </Routes>
-        </BrowserRouter>
+        <RouterContext.Provider value={{ setLoads }}>
+            <BrowserRouter>
+                <Routes>
+                    {loads
+                        ? startPages.map((route) => (
+                              <Route
+                                  path={route.path}
+                                  element={route.element}
+                                  key={route.path}
+                              />
+                          ))
+                        : loginPages.map((route) => (
+                              <Route
+                                  path={route.path}
+                                  element={route.element}
+                                  key={route.path}
+                              />
+                          ))}
+                </Routes>
+            </BrowserRouter>
+        </RouterContext.Provider>
     );
 }
 

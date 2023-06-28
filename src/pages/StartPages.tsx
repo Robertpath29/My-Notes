@@ -1,11 +1,11 @@
 import React from "react";
-import Pencil from "../components/startPage/Pencil";
+import Loading from "../components/startPage/Loading";
 import StartPagesStyle from "../style/startPages/startPages.style";
 
 const StartPages = () => {
     return (
         <StartPagesStyle>
-            <Pencil />
+            <Loading />
         </StartPagesStyle>
     );
 };
