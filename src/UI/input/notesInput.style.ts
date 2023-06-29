@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 const NotesInputStyle = styled.input`
+    z-index: 11;
     outline: none;
     margin: 4px;
     width: 70%;

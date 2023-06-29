@@ -6,6 +6,9 @@ const baseTheme: baseThemeType = {
             main: "'Slackside One', cursive;",
         },
     },
+    font: {
+        text: `Arial, Helvetica, sans-serif`,
+    },
     color: {
         main: "rgb(87, 25, 0)",
     },

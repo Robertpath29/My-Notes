@@ -4,6 +4,9 @@ type baseThemeType = {
             main: string;
         };
     };
+    font: {
+        text: string;
+    };
     color: {
         main: string;
     };

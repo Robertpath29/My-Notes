@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 const LogoStyle = styled.h1`
+    z-index: 111;
     font-family: ${({ theme }) => theme.logo.font.main};
     margin: 10px;
     padding: 0;
