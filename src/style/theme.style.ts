@@ -6,6 +6,9 @@ const baseTheme: baseThemeType = {
             main: "'Slackside One', cursive;",
         },
     },
+    color: {
+        main: "rgb(87, 25, 0)",
+    },
 };
 
 export default baseTheme;
