@@ -8,6 +8,9 @@ const NotesInput: FC<notesInputType> = ({
     placeholder,
     required,
     value,
+    autocomplete,
+    onChange,
+    valid,
 }) => {
     return (
         <NotesInputStyle
@@ -16,6 +19,9 @@ const NotesInput: FC<notesInputType> = ({
             placeholder={placeholder}
             required={required}
             value={value}
+            autoComplete={autocomplete}
+            onChange={onChange}
+            valid={valid}
         />
     );
 };

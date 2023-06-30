@@ -10,7 +10,6 @@ const LoginPages = () => {
     function animationBackground(e: React.MouseEvent<Element, MouseEvent>) {
         if ((e.target as Element).localName === `input`) {
             setBackground(true);
-            console.log((e.target as Element).localName);
         } else {
             setBackground(false);
         }
