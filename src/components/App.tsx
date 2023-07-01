@@ -5,8 +5,9 @@ import { RouterContext } from "../context/context";
 
 function App() {
     const [loads, setLoads] = useState(true);
+    const [loading, setLoading] = useState(false);
     return (
-        <RouterContext.Provider value={{ setLoads }}>
+        <RouterContext.Provider value={{ setLoads, loading, setLoading }}>
             <BrowserRouter>
                 <Routes>
                     {loads

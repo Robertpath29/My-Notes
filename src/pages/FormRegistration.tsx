@@ -1,13 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 import RegistrationPagesStyle from "../style/registrationPages/registrationPages.style";
 import NotesInput from "../UI/input/NotesInput";
 import NotesButton from "../UI/button/NotesButton";
 import { useNavigate } from "react-router-dom";
 import WarningMessageStyle from "../UI/warning_message/warningMessage.style";
 import { useSubmitForm } from "../hooks/useSubmitForm";
+import { RouterContext } from "../context/context";
 
 const FormRegistration = () => {
     const routerBack = useNavigate();
+    const { loading } = useContext(RouterContext);
     const { dataForm, setDataForm, setValid, submitFormReg, valid } =
         useSubmitForm();
 
@@ -88,6 +90,7 @@ const FormRegistration = () => {
                 паролі не збігаються
             </WarningMessageStyle>
             <NotesButton onClick={submitFormReg}>Зареєструватися</NotesButton>
+            {loading ? <h1>загрузка....</h1> : undefined}
             <NotesButton
                 onClick={() => {
                     routerBack(`/login`);

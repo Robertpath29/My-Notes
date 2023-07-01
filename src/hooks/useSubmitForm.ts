@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useState } from "react";
 import validFormsReg from "../utils/formRegistValidation";
 import validFormsLogin from "../utils/formLoginValidation";
+import AxiosQuery from "../api/AxiosQuery";
+import { RouterContext } from "../context/context";
 
 export function useSubmitForm() {
+    const { setLoading } = useContext(RouterContext);
     const [dataForm, setDataForm] = useState({
         userName: ``,
         email: ``,
@@ -18,12 +21,13 @@ export function useSubmitForm() {
         repeatPassword: false,
         samePasswords: false,
     });
-    function submitFormReg(e: React.MouseEvent<Element, MouseEvent>) {
+    async function submitFormReg(e: React.MouseEvent<Element, MouseEvent>) {
         e.preventDefault();
         const validation = validFormsReg(dataForm, setValid);
         if (validation) {
-            const newUser = JSON.stringify(dataForm);
-            console.log(newUser);
+            setLoading(true);
+            const newUser = await AxiosQuery.createUser(dataForm, setLoading);
+            console.log(newUser.data);
         }
     }
     function submitFormLogin(e: React.MouseEvent<Element, MouseEvent>) {
@@ -34,8 +38,6 @@ export function useSubmitForm() {
                 userName: dataForm.userName,
                 password: dataForm.password,
             });
-
-            console.log(loginUser);
         }
     }
     return {
