@@ -1,8 +1,8 @@
 import { Navigate } from "react-router-dom";
-import { routerType } from "../types/routers/routerType";
-import StartPages from "../pages/StartPages";
-import LoginPages from "../pages/LoginPages";
-import FormRegistration from "../pages/FormRegistration";
+import { routerType } from "./routerType";
+import StartPages from "../pages/StartPages/StartPages";
+import LoginPages from "../pages/LoginPages/LoginPages";
+import FormRegistration from "../pages/FormRegistration/FormRegistration";
 
 export const startPages: routerType = [
     { path: "/", element: <StartPages /> },

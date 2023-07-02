@@ -11,6 +11,7 @@ const NotesInput: FC<notesInputType> = ({
     autocomplete,
     onChange,
     valid,
+    registration,
 }) => {
     return (
         <NotesInputStyle
@@ -22,6 +23,7 @@ const NotesInput: FC<notesInputType> = ({
             autoComplete={autocomplete}
             onChange={onChange}
             valid={valid}
+            registration={registration}
         />
     );
 };

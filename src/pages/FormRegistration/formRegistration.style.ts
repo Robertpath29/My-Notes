@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const RegistrationPagesStyle = styled.form`
+export const RegistrationPagesStyle = styled.form`
     width: 100%;
     height: 100vh;
     background-image: url("./images/backgroundLoginPages.jpeg");
@@ -29,17 +29,11 @@ const RegistrationPagesStyle = styled.form`
         max-width: 150px;
         width: 100%;
     }
-    & > input {
-        max-width: 400px;
-        width: 100%;
-        margin: 10px;
-    }
-    & > h1 {
-        font-size: 2rem;
-        z-index: 11;
-        font-family: ${({ theme }) => theme.font.text};
-        color: ${({ theme }) => theme.color.main};
-    }
 `;
 
-export default RegistrationPagesStyle;
+export const HeaderFormRegistration = styled.h1`
+    font-size: 2rem;
+    z-index: 11;
+    font-family: ${({ theme }) => theme.font.text};
+    color: ${({ theme }) => theme.color.main};
+`;

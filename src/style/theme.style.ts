@@ -1,4 +1,4 @@
-import baseThemeType from "../types/style/baseThemeType";
+import baseThemeType from "../types/baseThemeType";
 
 const baseTheme: baseThemeType = {
     logo: {

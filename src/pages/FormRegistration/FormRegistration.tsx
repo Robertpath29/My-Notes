@@ -1,11 +1,14 @@
 import React, { useContext } from "react";
-import RegistrationPagesStyle from "../style/registrationPages/registrationPages.style";
-import NotesInput from "../UI/input/NotesInput";
-import NotesButton from "../UI/button/NotesButton";
+import {
+    HeaderFormRegistration,
+    RegistrationPagesStyle,
+} from "./formRegistration.style";
+import NotesInput from "../../components/basic/input/NotesInput";
+import NotesButton from "../../components/basic/button/NotesButton";
 import { useNavigate } from "react-router-dom";
-import WarningMessageStyle from "../UI/warning_message/warningMessage.style";
-import { useSubmitForm } from "../hooks/useSubmitForm";
-import { RouterContext } from "../context/context";
+import WarningMessageStyle from "../../components/basic/warning_message/warningMessage.style";
+import { useSubmitForm } from "../../hooks/useSubmitForm";
+import { RouterContext } from "../../context/context";
 
 const FormRegistration = () => {
     const routerBack = useNavigate();
@@ -13,68 +16,74 @@ const FormRegistration = () => {
     const { dataForm, setDataForm, setValid, submitFormReg, valid } =
         useSubmitForm();
 
+    function resetFormRegistration(e: React.MouseEvent<Element, MouseEvent>) {
+        if ((e.target as Element).localName === `button`) return;
+        setValid((valid) => ({
+            ...valid,
+            email: false,
+            password: false,
+            userName: false,
+            repeatPassword: false,
+        }));
+    }
+
     return (
-        <RegistrationPagesStyle
-            onClick={(e) => {
-                if ((e.target as Element).localName === `button`) return;
-                setValid((valid) => ({
-                    ...valid,
-                    email: false,
-                    password: false,
-                    userName: false,
-                    repeatPassword: false,
-                }));
-            }}
-        >
-            <h1>Заповніть форму нижче</h1>
+        <RegistrationPagesStyle onClick={resetFormRegistration}>
+            <HeaderFormRegistration>
+                Fill out the form below
+            </HeaderFormRegistration>
             <NotesInput
                 type="text"
-                placeholder="Логін (від 3 до 16 символів)"
+                placeholder="Login (from 3 to 16 characters)"
                 autocomplete="username"
                 value={dataForm.userName}
                 valid={valid.userName}
+                registration
                 onChange={(e) => {
                     setDataForm({ ...dataForm, userName: e.target.value });
                     setValid((valid) => ({ ...valid, userName: false }));
                 }}
             />
             <WarningMessageStyle none={valid.userName}>
-                Не коректно ведений логін
+                Incorrectly entered login
             </WarningMessageStyle>
             <NotesInput
                 type="email"
-                placeholder="Імейл (notes@gmail.com)"
+                placeholder="Email (notes@gmail.com)"
                 autocomplete="username"
                 value={dataForm.email}
                 valid={valid.email}
+                registration
                 onChange={(e) => {
                     setDataForm({ ...dataForm, email: e.target.value });
                     setValid((valid) => ({ ...valid, email: false }));
                 }}
             />
             <WarningMessageStyle none={valid.email}>
-                Не коректно ведений імейл
+                Incorrectly entered email
             </WarningMessageStyle>
             <NotesInput
                 type="password"
-                placeholder="Пароль (test1234)"
+                placeholder="Password (test1234)"
                 autocomplete="new-password"
                 value={dataForm.password}
                 valid={valid.password}
+                registration
                 onChange={(e) => {
                     setDataForm({ ...dataForm, password: e.target.value });
                     setValid((valid) => ({ ...valid, password: false }));
                 }}
             />
             <WarningMessageStyle none={valid.password}>
-                Не коректно ведений пароль
+                Incorrectly entered password
             </WarningMessageStyle>
             <NotesInput
                 type="password"
-                placeholder="Повторити пароль (test1234)"
+                placeholder="Repeat password (test1234)"
                 autocomplete="new-password"
                 value={dataForm.repeatPassword}
                 valid={valid.repeatPassword}
+                registration
                 onChange={(e) => {
                     setDataForm({
                         ...dataForm,
@@ -84,19 +93,19 @@ const FormRegistration = () => {
                 }}
             />
             <WarningMessageStyle none={valid.repeatPassword}>
-                Не коректно ведений пароль
+                Incorrectly entered password
             </WarningMessageStyle>
             <WarningMessageStyle none={valid.samePasswords}>
-                паролі не збігаються
+                passwords do not match
             </WarningMessageStyle>
-            <NotesButton onClick={submitFormReg}>Зареєструватися</NotesButton>
+            <NotesButton onClick={submitFormReg}>Sign up</NotesButton>
             {loading ? <h1>загрузка....</h1> : undefined}
             <NotesButton
                 onClick={() => {
                     routerBack(`/login`);
                 }}
             >
-                Назад
+                Back
             </NotesButton>
         </RegistrationPagesStyle>
     );

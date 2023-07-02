@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./components/App.tsx";
+import App from "./App.tsx";
 import GlobalStyles from "./style/global.style.ts";
 import { ThemeProvider } from "styled-components";
 import baseTheme from "./style/theme.style.ts";

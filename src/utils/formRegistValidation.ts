@@ -1,7 +1,4 @@
-import {
-    useValidFormType,
-    validFormType,
-} from "../types/validationForm/validFormType";
+import { useValidFormType, validFormType } from "../types/validFormType";
 
 let userName = false,
     email = false,
@@ -21,11 +18,7 @@ function validFormsReg(
         setValid((valid) => ({ ...valid, userName: true }));
     } else {
         const isValidUsername = usernameRegex.test(data.userName);
-        if (isValidUsername) {
-            userName = true;
-        } else {
-            userName = false;
-        }
+        isValidUsername ? (userName = true) : (userName = false);
         setValid((valid) => ({ ...valid, userName: !isValidUsername }));
     }
     if (data.email === "") {
@@ -33,11 +26,7 @@ function validFormsReg(
         setValid((valid) => ({ ...valid, email: true }));
     } else {
         const isValidEmail = emailRegex.test(data.email);
-        if (isValidEmail) {
-            email = true;
-        } else {
-            email = false;
-        }
+        isValidEmail ? (email = true) : (email = false);
         setValid((valid) => ({ ...valid, email: !isValidEmail }));
     }
     if (data.password === "") {
@@ -45,11 +34,7 @@ function validFormsReg(
         setValid((valid) => ({ ...valid, password: true }));
     } else {
         const isValidPassword = passwordRegex.test(data.password);
-        if (isValidPassword) {
-            password = true;
-        } else {
-            password = false;
-        }
+        isValidPassword ? (password = true) : (password = false);
         setValid((valid) => ({ ...valid, password: !isValidPassword }));
     }
     if (data.repeatPassword === "") {
@@ -57,11 +42,7 @@ function validFormsReg(
         setValid((valid) => ({ ...valid, repeatPassword: true }));
     } else {
         const isValidPassword = passwordRegex.test(data.repeatPassword);
-        if (isValidPassword) {
-            repeatPassword = true;
-        } else {
-            repeatPassword = false;
-        }
+        isValidPassword ? (repeatPassword = true) : (repeatPassword = false);
         setValid((valid) => ({
             ...valid,
             repeatPassword: !isValidPassword,
@@ -74,12 +55,9 @@ function validFormsReg(
         samePasswords = true;
         setValid((valid) => ({ ...valid, samePasswords: false }));
     }
-
-    if (userName && email && password && repeatPassword && samePasswords) {
-        return true;
-    } else {
-        return false;
-    }
+    const isValidFormRegistration =
+        userName && email && password && repeatPassword && samePasswords;
+    return isValidFormRegistration ? true : false;
 }
 
 export default validFormsReg;

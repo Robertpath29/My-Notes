@@ -9,6 +9,7 @@ type notesInputType = {
     autocomplete?: string;
     valid?: boolean;
     onChange?: (e: any) => void;
+    registration?: boolean;
 };
 
 export default notesInputType;

@@ -1,32 +1,30 @@
-import React, { FC } from "react";
-import NotesInput from "../../UI/input/NotesInput";
-import FormLoginStyle from "../../style/loginPages/formLogin/formLoginStyle";
-import LogoStyle from "../../UI/logo/logo.style";
-import NotesButton from "../../UI/button/NotesButton";
-import formLoginType from "../../types/components/formLoginType";
-import WarningMessage from "../../UI/warning_message/WarningMessage";
+import React, { FC, MouseEvent } from "react";
+import NotesInput from "../basic/input/NotesInput";
+import { FormLoginStyle } from "./formLogin.style";
+import LogoStyle from "../basic/logo/logo.style";
+import NotesButton from "../basic/button/NotesButton";
+import formLoginType from "./formLoginType";
+import WarningMessage from "../basic/warning_message/WarningMessage";
 import { useSubmitForm } from "../../hooks/useSubmitForm";
 
 const FormLogin: FC<formLoginType> = ({ background }) => {
     const { dataForm, setDataForm, setValid, submitFormLogin, valid } =
         useSubmitForm();
 
+    function resetFormLogin(e: MouseEvent) {
+        if ((e.target as Element).localName === `button`) return;
+        setValid((valid) => ({
+            ...valid,
+            password: false,
+            userName: false,
+        }));
+    }
     return (
-        <FormLoginStyle
-            background={background}
-            onClick={(e) => {
-                if ((e.target as Element).localName === `button`) return;
-                setValid((valid) => ({
-                    ...valid,
-                    password: false,
-                    userName: false,
-                }));
-            }}
-        >
+        <FormLoginStyle background={background} onClick={resetFormLogin}>
             <LogoStyle>My-Notes</LogoStyle>
             <NotesInput
                 type="text"
-                placeholder="Логін (від 3 до 16 символів)"
+                placeholder="Login (from 3 to 16 characters)"
                 autocomplete="username"
                 value={dataForm.userName}
                 valid={valid.userName}
@@ -36,11 +34,11 @@ const FormLogin: FC<formLoginType> = ({ background }) => {
                 }}
             />
             <WarningMessage none={valid.userName}>
-                Не коректно ведений логін
+                Incorrectly entered login
             </WarningMessage>
             <NotesInput
                 type="password"
-                placeholder="Пароль (test1234)"
+                placeholder="password (test1234)"
                 autocomplete="new-password"
                 value={dataForm.password}
                 valid={valid.password}
@@ -50,9 +48,9 @@ const FormLogin: FC<formLoginType> = ({ background }) => {
                 }}
             />
             <WarningMessage none={valid.password}>
-                Не коректно ведений пароль
+                Incorrectly entered password
             </WarningMessage>
-            <NotesButton onClick={submitFormLogin}>Вхід</NotesButton>
+            <NotesButton onClick={submitFormLogin}>log in</NotesButton>
         </FormLoginStyle>
     );
 };

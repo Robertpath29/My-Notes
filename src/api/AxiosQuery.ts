@@ -16,4 +16,5 @@ class AxiosQuery {
     }
 }
 
-export default new AxiosQuery();
+const axiosQuery = new AxiosQuery();
+export default axiosQuery;

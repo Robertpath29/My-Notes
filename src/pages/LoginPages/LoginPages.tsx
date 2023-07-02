@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import LoginPagesStyle from "../style/loginPages/loginPages.style";
-import FormLogin from "../components/loginPages/FormLogin";
-import NotesButton from "../UI/button/NotesButton";
+import LoginPagesStyle from "./loginPages.style";
+import FormLogin from "../../components/FormLogin/FormLogin";
+import NotesButton from "../../components/basic/button/NotesButton";
 import { useNavigate } from "react-router-dom";
 
 const LoginPages = () => {
@@ -17,10 +17,11 @@ const LoginPages = () => {
     function moveRegistration() {
         routerRegistration(`/registration`);
     }
+
     return (
         <LoginPagesStyle onClick={animationBackground} background={background}>
             <FormLogin background={background} />
-            <NotesButton onClick={moveRegistration}>Реєстрація</NotesButton>
+            <NotesButton onClick={moveRegistration}>Registration</NotesButton>
         </LoginPagesStyle>
     );
 };

@@ -1,18 +1,18 @@
-import React, { useContext, useEffect, useState } from "react";
-import LoadingStyle from "../../style/startPages/loading/loading.style";
+import React, { useCallback, useContext, useEffect, useState } from "react";
+import { LoadingStyle, LoadingText, ParentImg, Pencil } from "./loading.style";
 import { RouterContext } from "../../context/context";
 
 const Loading = () => {
     const [load, setLoad] = useState({ loadingPencil: 100, loadingNumber: 0 });
     const { setLoads } = useContext(RouterContext);
 
-    function bootEmulation() {
+    const bootEmulation = useCallback(() => {
         setLoad((load) => ({
             ...load,
             loadingNumber: load.loadingNumber + 1,
             loadingPencil: load.loadingPencil - 1,
         }));
-    }
+    }, [setLoad]);
 
     useEffect(() => {
         let currentNumber = 0;
@@ -26,14 +26,14 @@ const Loading = () => {
                 }, 1000);
             }
         }, 1);
-    }, [setLoads]);
+    }, [bootEmulation, setLoads]);
 
     return (
-        <LoadingStyle load={load.loadingPencil}>
-            <div>
-                <img src="./images/animation-pencil.png" alt="loading..." />
-            </div>
-            <h1>{load.loadingNumber}%</h1>
+        <LoadingStyle>
+            <ParentImg load={load.loadingPencil}>
+                <Pencil src="./images/animation-pencil.png" alt="loading..." />
+            </ParentImg>
+            <LoadingText>{load.loadingNumber}%</LoadingText>
         </LoadingStyle>
     );
 };

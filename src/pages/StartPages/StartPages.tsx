@@ -1,6 +1,6 @@
 import React from "react";
-import Loading from "../components/startPage/Loading";
-import StartPagesStyle from "../style/startPages/startPages.style";
+import Loading from "../../components/Loading/Loading";
+import StartPagesStyle from "./startPages.style";
 
 const StartPages = () => {
     return (
