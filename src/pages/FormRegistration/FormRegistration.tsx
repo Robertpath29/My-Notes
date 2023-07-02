@@ -6,11 +6,11 @@ import {
 import NotesInput from "../../components/basic/input/NotesInput";
 import NotesButton from "../../components/basic/button/NotesButton";
 import { useNavigate } from "react-router-dom";
-import WarningMessageStyle from "../../components/basic/warning_message/warningMessage.style";
 import { useSubmitForm } from "../../hooks/useSubmitForm";
 import { RouterContext } from "../../context/context";
 import Loading from "../../components/basic/loading/Loading";
 import UserIsRegistered from "../../components/userIsRegistered/UserIsRegistered";
+import WarningMessage from "../../components/basic/warning_message/WarningMessage";
 
 const FormRegistration = () => {
     const routerBack = useNavigate();
@@ -67,9 +67,9 @@ const FormRegistration = () => {
                             }));
                         }}
                     />
-                    <WarningMessageStyle none={valid.userName}>
+                    <WarningMessage none={valid.userName}>
                         Incorrectly entered login
-                    </WarningMessageStyle>
+                    </WarningMessage>
                     <NotesInput
                         type="email"
                         placeholder="Email (notes@gmail.com)"
@@ -82,9 +82,9 @@ const FormRegistration = () => {
                             setValid((valid) => ({ ...valid, email: false }));
                         }}
                     />
-                    <WarningMessageStyle none={valid.email}>
+                    <WarningMessage none={valid.email}>
                         Incorrectly entered email
-                    </WarningMessageStyle>
+                    </WarningMessage>
                     <NotesInput
                         type="password"
                         placeholder="Password (test1234)"
@@ -103,9 +103,9 @@ const FormRegistration = () => {
                             }));
                         }}
                     />
-                    <WarningMessageStyle none={valid.password}>
+                    <WarningMessage none={valid.password}>
                         Incorrectly entered password
-                    </WarningMessageStyle>
+                    </WarningMessage>
                     <NotesInput
                         type="password"
                         placeholder="Repeat password (test1234)"
@@ -124,15 +124,15 @@ const FormRegistration = () => {
                             }));
                         }}
                     />
-                    <WarningMessageStyle none={valid.repeatPassword}>
+                    <WarningMessage none={valid.repeatPassword}>
                         Incorrectly entered password
-                    </WarningMessageStyle>
-                    <WarningMessageStyle none={valid.samePasswords}>
+                    </WarningMessage>
+                    <WarningMessage none={valid.samePasswords}>
                         passwords do not match
-                    </WarningMessageStyle>
-                    <WarningMessageStyle none={isRegister.cancelRegister}>
+                    </WarningMessage>
+                    <WarningMessage none={isRegister.cancelRegister}>
                         {isRegister.message}
-                    </WarningMessageStyle>
+                    </WarningMessage>
                     {isLoading ? (
                         <Loading />
                     ) : (

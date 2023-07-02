@@ -10,6 +10,7 @@ function App() {
         message: "",
         cancelRegister: false,
         userIsRegistered: false,
+        userIsLogIn: false,
     });
     return (
         <RouterContext.Provider

@@ -1,9 +1,14 @@
 import axios from "axios";
-const REG_URL = `http://localhost:5001/registration`;
+export const REG_URL = `http://localhost:5001/registration`;
+export const LOGIN_URL = `http://localhost:5001/login`;
 class AxiosQuery {
-    async createUser(data: object, setLoading: (value: boolean) => void) {
+    async axiosQueryPost(
+        data: object,
+        setLoading: (value: boolean) => void,
+        url: string
+    ) {
         return await axios
-            .post(REG_URL, data)
+            .post(url, data)
             .then((response) => {
                 return response;
             })

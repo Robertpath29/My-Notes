@@ -1,4 +1,4 @@
-import React, { FC, MouseEvent } from "react";
+import React, { FC, MouseEvent, useContext } from "react";
 import NotesInput from "../basic/input/NotesInput";
 import { FormLoginStyle } from "./formLogin.style";
 import LogoStyle from "../basic/logo/logo.style";
@@ -6,10 +6,13 @@ import NotesButton from "../basic/button/NotesButton";
 import formLoginType from "./formLoginType";
 import WarningMessage from "../basic/warning_message/WarningMessage";
 import { useSubmitForm } from "../../hooks/useSubmitForm";
+import { RouterContext } from "../../context/context";
+import Loading from "../basic/loading/Loading";
 
 const FormLogin: FC<formLoginType> = ({ background }) => {
     const { dataForm, setDataForm, setValid, submitFormLogin, valid } =
         useSubmitForm();
+    const { isRegister, isLoading } = useContext(RouterContext);
 
     function resetFormLogin(e: MouseEvent) {
         if ((e.target as Element).localName === `button`) return;
@@ -50,7 +53,14 @@ const FormLogin: FC<formLoginType> = ({ background }) => {
             <WarningMessage none={valid.password}>
                 Incorrectly entered password
             </WarningMessage>
-            <NotesButton onClick={submitFormLogin}>log in</NotesButton>
+            <WarningMessage none={isRegister.cancelRegister}>
+                {isRegister.message}
+            </WarningMessage>
+            {isLoading ? (
+                <Loading />
+            ) : (
+                <NotesButton onClick={submitFormLogin}>log in</NotesButton>
+            )}
         </FormLoginStyle>
     );
 };

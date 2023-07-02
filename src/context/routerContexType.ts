@@ -14,6 +14,7 @@ export type routerContextType = {
             message: string;
             cancelRegister: boolean;
             userIsRegistered: boolean;
+            userIsLogIn: boolean;
         }>
     >;
 };

@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { useState } from "react";
 import validFormsReg from "../utils/formRegistValidation";
 import validFormsLogin from "../utils/formLoginValidation";
-import AxiosQuery from "../api/AxiosQuery";
+import AxiosQuery, { LOGIN_URL, REG_URL } from "../api/AxiosQuery";
 import { RouterContext } from "../context/context";
 
 export function useSubmitForm() {
@@ -26,7 +26,11 @@ export function useSubmitForm() {
         const validation = validFormsReg(dataForm, setValid);
         if (validation) {
             setLoading(true);
-            const newUser = await AxiosQuery.createUser(dataForm, setLoading);
+            const newUser = await AxiosQuery.axiosQueryPost(
+                dataForm,
+                setLoading,
+                REG_URL
+            );
             if (newUser.data.cancelRegister) {
                 setRegister((obj) => ({
                     ...obj,
@@ -43,14 +47,27 @@ export function useSubmitForm() {
             }
         }
     }
-    function submitFormLogin(e: React.MouseEvent<Element, MouseEvent>) {
+    async function submitFormLogin(e: React.MouseEvent<Element, MouseEvent>) {
         e.preventDefault();
         const validation = validFormsLogin(dataForm, setValid);
         if (validation) {
-            const loginUser = JSON.stringify({
-                userName: dataForm.userName,
-                password: dataForm.password,
-            });
+            setLoading(true);
+            const loginUser = await AxiosQuery.axiosQueryPost(
+                dataForm,
+                setLoading,
+                LOGIN_URL
+            );
+            if (loginUser.data.cancelRegister) {
+                setRegister((obj) => ({
+                    ...obj,
+                    message: loginUser.data.message,
+                    cancelRegister: loginUser.data.cancelRegister,
+                }));
+            }
+
+            if (loginUser.data.userIsLogIn) {
+                console.log(loginUser.data.user);
+            }
         }
     }
     return {

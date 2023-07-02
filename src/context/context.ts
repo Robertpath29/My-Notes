@@ -11,6 +11,7 @@ export const RouterContext = createContext<routerContextType>({
             message: string;
             cancelRegister: boolean;
             userIsRegistered: boolean;
+            userIsLogIn: boolean;
         }>
     ) => {},
 });
