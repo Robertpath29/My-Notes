@@ -6,7 +6,7 @@ import AxiosQuery from "../api/AxiosQuery";
 import { RouterContext } from "../context/context";
 
 export function useSubmitForm() {
-    const { setLoading } = useContext(RouterContext);
+    const { setLoading, setRegister } = useContext(RouterContext);
     const [dataForm, setDataForm] = useState({
         userName: ``,
         email: ``,
@@ -27,7 +27,20 @@ export function useSubmitForm() {
         if (validation) {
             setLoading(true);
             const newUser = await AxiosQuery.createUser(dataForm, setLoading);
-            console.log(newUser.data);
+            if (newUser.data.cancelRegister) {
+                setRegister((obj) => ({
+                    ...obj,
+                    message: newUser.data.message,
+                    cancelRegister: newUser.data.cancelRegister,
+                }));
+            }
+            if (newUser.data.userIsRegistered) {
+                setRegister((obj) => ({
+                    ...obj,
+                    message: newUser.data.message,
+                    userIsRegistered: newUser.data.userIsRegistered,
+                }));
+            }
         }
     }
     function submitFormLogin(e: React.MouseEvent<Element, MouseEvent>) {

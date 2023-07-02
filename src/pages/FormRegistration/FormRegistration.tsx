@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import {
     HeaderFormRegistration,
     RegistrationPagesStyle,
@@ -9,10 +9,12 @@ import { useNavigate } from "react-router-dom";
 import WarningMessageStyle from "../../components/basic/warning_message/warningMessage.style";
 import { useSubmitForm } from "../../hooks/useSubmitForm";
 import { RouterContext } from "../../context/context";
+import Loading from "../../components/basic/loading/Loading";
+import UserIsRegistered from "../../components/userIsRegistered/UserIsRegistered";
 
 const FormRegistration = () => {
     const routerBack = useNavigate();
-    const { loading } = useContext(RouterContext);
+    const { isLoading, isRegister, setRegister } = useContext(RouterContext);
     const { dataForm, setDataForm, setValid, submitFormReg, valid } =
         useSubmitForm();
 
@@ -25,89 +27,129 @@ const FormRegistration = () => {
             userName: false,
             repeatPassword: false,
         }));
+        setRegister((obj) => ({ ...obj, cancelRegister: false }));
     }
 
     return (
-        <RegistrationPagesStyle onClick={resetFormRegistration}>
-            <HeaderFormRegistration>
-                Fill out the form below
-            </HeaderFormRegistration>
-            <NotesInput
-                type="text"
-                placeholder="Login (from 3 to 16 characters)"
-                autocomplete="username"
-                value={dataForm.userName}
-                valid={valid.userName}
-                registration
-                onChange={(e) => {
-                    setDataForm({ ...dataForm, userName: e.target.value });
-                    setValid((valid) => ({ ...valid, userName: false }));
-                }}
-            />
-            <WarningMessageStyle none={valid.userName}>
-                Incorrectly entered login
-            </WarningMessageStyle>
-            <NotesInput
-                type="email"
-                placeholder="Email (notes@gmail.com)"
-                autocomplete="username"
-                value={dataForm.email}
-                valid={valid.email}
-                registration
-                onChange={(e) => {
-                    setDataForm({ ...dataForm, email: e.target.value });
-                    setValid((valid) => ({ ...valid, email: false }));
-                }}
-            />
-            <WarningMessageStyle none={valid.email}>
-                Incorrectly entered email
-            </WarningMessageStyle>
-            <NotesInput
-                type="password"
-                placeholder="Password (test1234)"
-                autocomplete="new-password"
-                value={dataForm.password}
-                valid={valid.password}
-                registration
-                onChange={(e) => {
-                    setDataForm({ ...dataForm, password: e.target.value });
-                    setValid((valid) => ({ ...valid, password: false }));
-                }}
-            />
-            <WarningMessageStyle none={valid.password}>
-                Incorrectly entered password
-            </WarningMessageStyle>
-            <NotesInput
-                type="password"
-                placeholder="Repeat password (test1234)"
-                autocomplete="new-password"
-                value={dataForm.repeatPassword}
-                valid={valid.repeatPassword}
-                registration
-                onChange={(e) => {
-                    setDataForm({
-                        ...dataForm,
-                        repeatPassword: e.target.value,
-                    });
-                    setValid((valid) => ({ ...valid, repeatPassword: false }));
-                }}
-            />
-            <WarningMessageStyle none={valid.repeatPassword}>
-                Incorrectly entered password
-            </WarningMessageStyle>
-            <WarningMessageStyle none={valid.samePasswords}>
-                passwords do not match
-            </WarningMessageStyle>
-            <NotesButton onClick={submitFormReg}>Sign up</NotesButton>
-            {loading ? <h1>загрузка....</h1> : undefined}
-            <NotesButton
-                onClick={() => {
-                    routerBack(`/login`);
-                }}
-            >
-                Back
-            </NotesButton>
-        </RegistrationPagesStyle>
+        <>
+            {isRegister.userIsRegistered ? (
+                <UserIsRegistered
+                    onClick={() => {
+                        routerBack(`/login`);
+                        setRegister((obj) => ({
+                            ...obj,
+                            userIsRegistered: false,
+                        }));
+                    }}
+                >
+                    {isRegister.message}
+                </UserIsRegistered>
+            ) : (
+                <RegistrationPagesStyle onClick={resetFormRegistration}>
+                    <HeaderFormRegistration>
+                        Fill out the form below
+                    </HeaderFormRegistration>
+                    <NotesInput
+                        type="text"
+                        placeholder="Login (from 3 to 16 characters)"
+                        autocomplete="username"
+                        value={dataForm.userName}
+                        valid={valid.userName}
+                        registration
+                        onChange={(e) => {
+                            setDataForm({
+                                ...dataForm,
+                                userName: e.target.value,
+                            });
+                            setValid((valid) => ({
+                                ...valid,
+                                userName: false,
+                            }));
+                        }}
+                    />
+                    <WarningMessageStyle none={valid.userName}>
+                        Incorrectly entered login
+                    </WarningMessageStyle>
+                    <NotesInput
+                        type="email"
+                        placeholder="Email (notes@gmail.com)"
+                        autocomplete="username"
+                        value={dataForm.email}
+                        valid={valid.email}
+                        registration
+                        onChange={(e) => {
+                            setDataForm({ ...dataForm, email: e.target.value });
+                            setValid((valid) => ({ ...valid, email: false }));
+                        }}
+                    />
+                    <WarningMessageStyle none={valid.email}>
+                        Incorrectly entered email
+                    </WarningMessageStyle>
+                    <NotesInput
+                        type="password"
+                        placeholder="Password (test1234)"
+                        autocomplete="new-password"
+                        value={dataForm.password}
+                        valid={valid.password}
+                        registration
+                        onChange={(e) => {
+                            setDataForm({
+                                ...dataForm,
+                                password: e.target.value,
+                            });
+                            setValid((valid) => ({
+                                ...valid,
+                                password: false,
+                            }));
+                        }}
+                    />
+                    <WarningMessageStyle none={valid.password}>
+                        Incorrectly entered password
+                    </WarningMessageStyle>
+                    <NotesInput
+                        type="password"
+                        placeholder="Repeat password (test1234)"
+                        autocomplete="new-password"
+                        value={dataForm.repeatPassword}
+                        valid={valid.repeatPassword}
+                        registration
+                        onChange={(e) => {
+                            setDataForm({
+                                ...dataForm,
+                                repeatPassword: e.target.value,
+                            });
+                            setValid((valid) => ({
+                                ...valid,
+                                repeatPassword: false,
+                            }));
+                        }}
+                    />
+                    <WarningMessageStyle none={valid.repeatPassword}>
+                        Incorrectly entered password
+                    </WarningMessageStyle>
+                    <WarningMessageStyle none={valid.samePasswords}>
+                        passwords do not match
+                    </WarningMessageStyle>
+                    <WarningMessageStyle none={isRegister.cancelRegister}>
+                        {isRegister.message}
+                    </WarningMessageStyle>
+                    {isLoading ? (
+                        <Loading />
+                    ) : (
+                        <NotesButton onClick={submitFormReg}>
+                            Sign up
+                        </NotesButton>
+                    )}
+                    <NotesButton
+                        onClick={() => {
+                            routerBack(`/login`);
+                        }}
+                    >
+                        Back
+                    </NotesButton>
+                </RegistrationPagesStyle>
+            )}
+        </>
     );
 };
 

@@ -1,13 +1,13 @@
 import styled from "styled-components";
 
-export const LoadingStyle = styled.div`
+export const StartPagesLoadingStyle = styled.div`
     padding: 20px;
     max-width: 550px;
     width: 100%;
     text-align: center;
 `;
 
-export const ParentImg = styled.div<{ load?: number }>`
+export const ParentImgStyle = styled.div<{ load?: number }>`
     width: 100%;
     position: relative;
     &::after {
@@ -20,10 +20,10 @@ export const ParentImg = styled.div<{ load?: number }>`
         background-color: white;
     }
 `;
-export const Pencil = styled.img`
+export const PencilStyle = styled.img`
     width: 100%;
 `;
-export const LoadingText = styled.h1`
+export const LoadingTextStyle = styled.h1`
     position: relative;
     margin: 0;
     margin-top: 15px;

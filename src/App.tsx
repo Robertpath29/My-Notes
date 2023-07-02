@@ -4,13 +4,26 @@ import { loginPages, startPages } from "./routers/routers";
 import { RouterContext } from "./context/context";
 
 function App() {
-    const [loads, setLoads] = useState(true);
-    const [loading, setLoading] = useState(false);
+    const [isLoadingPagesStart, setIsLoadingPagesStart] = useState(true);
+    const [isLoading, setLoading] = useState(false);
+    const [isRegister, setRegister] = useState({
+        message: "",
+        cancelRegister: false,
+        userIsRegistered: false,
+    });
     return (
-        <RouterContext.Provider value={{ setLoads, loading, setLoading }}>
+        <RouterContext.Provider
+            value={{
+                setIsLoadingPagesStart,
+                isLoading,
+                setLoading,
+                isRegister,
+                setRegister,
+            }}
+        >
             <BrowserRouter>
                 <Routes>
-                    {loads
+                    {isLoadingPagesStart
                         ? startPages.map((route) => (
                               <Route
                                   path={route.path}

@@ -1,11 +1,11 @@
 import React from "react";
-import Loading from "../../components/Loading/Loading";
+import StartPagesLoading from "../../components/StartPagesLoading/StartPagesLoading";
 import StartPagesStyle from "./startPages.style";
 
 const StartPages = () => {
     return (
         <StartPagesStyle>
-            <Loading />
+            <StartPagesLoading />
         </StartPagesStyle>
     );
 };
