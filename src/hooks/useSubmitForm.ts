@@ -1,13 +1,11 @@
-import React, { useContext } from "react";
+import React from "react";
 import { useState } from "react";
 import validFormsReg from "../utils/formRegistValidation";
 import validFormsLogin from "../utils/formLoginValidation";
 import AxiosQuery, { LOGIN_URL, REG_URL } from "../api/AxiosQuery";
-import { RouterContext } from "../context/context";
 import { useAction } from "./useAction";
 
 export function useSubmitForm() {
-    const { setRegister } = useContext(RouterContext);
     const [dataForm, setDataForm] = useState({
         userName: ``,
         email: ``,
@@ -15,7 +13,7 @@ export function useSubmitForm() {
         repeatPassword: ``,
     });
 
-    const { stateLoading } = useAction();
+    const { stateLoading, cancelRegister, userRegistration } = useAction();
 
     const [valid, setValid] = useState({
         userName: false,
@@ -35,18 +33,16 @@ export function useSubmitForm() {
                 REG_URL
             );
             if (newUser.data.cancelRegister) {
-                setRegister((obj) => ({
-                    ...obj,
+                cancelRegister({
                     message: newUser.data.message,
                     cancelRegister: newUser.data.cancelRegister,
-                }));
+                });
             }
             if (newUser.data.userIsRegistered) {
-                setRegister((obj) => ({
-                    ...obj,
+                userRegistration({
                     message: newUser.data.message,
                     userIsRegistered: newUser.data.userIsRegistered,
-                }));
+                });
             }
         }
     }
@@ -61,11 +57,10 @@ export function useSubmitForm() {
                 LOGIN_URL
             );
             if (loginUser.data.cancelRegister) {
-                setRegister((obj) => ({
-                    ...obj,
+                cancelRegister({
                     message: loginUser.data.message,
                     cancelRegister: loginUser.data.cancelRegister,
-                }));
+                });
             }
 
             if (loginUser.data.userIsLogIn) {

@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import {
     HeaderFormRegistration,
     RegistrationPagesStyle,
@@ -7,19 +7,25 @@ import NotesInput from "../../components/basic/input/NotesInput";
 import NotesButton from "../../components/basic/button/NotesButton";
 import { useNavigate } from "react-router-dom";
 import { useSubmitForm } from "../../hooks/useSubmitForm";
-import { RouterContext } from "../../context/context";
 import Loading from "../../components/basic/loading/Loading";
 import UserIsRegistered from "../../components/userIsRegistered/UserIsRegistered";
 import WarningMessage from "../../components/basic/warning_message/WarningMessage";
 import { useSelector } from "react-redux";
 import { reducersType } from "../../redux/combineReducers/combineReducers";
+import { useAction } from "../../hooks/useAction";
 
 const FormRegistration = () => {
     const routerBack = useNavigate();
-    const { isRegister, setRegister } = useContext(RouterContext);
     const { dataForm, setDataForm, setValid, submitFormReg, valid } =
         useSubmitForm();
-    const { isLoading } = useSelector((store: reducersType) => store.loading);
+
+    const isLoading = useSelector(
+        (store: reducersType) => store.loading.isLoading
+    );
+    const registerLogIn = useSelector(
+        (store: reducersType) => store.registerLogIn
+    );
+    const { cancelRegister, userRegistration } = useAction();
 
     function resetFormRegistration(e: React.MouseEvent<Element, MouseEvent>) {
         if ((e.target as Element).localName === `button`) return;
@@ -30,22 +36,19 @@ const FormRegistration = () => {
             userName: false,
             repeatPassword: false,
         }));
-        setRegister((obj) => ({ ...obj, cancelRegister: false }));
+        cancelRegister({ cancelRegister: false });
     }
 
     return (
         <>
-            {isRegister.userIsRegistered ? (
+            {registerLogIn.userIsRegistered ? (
                 <UserIsRegistered
                     onClick={() => {
                         routerBack(`/login`);
-                        setRegister((obj) => ({
-                            ...obj,
-                            userIsRegistered: false,
-                        }));
+                        userRegistration({ userRegistration: false });
                     }}
                 >
-                    {isRegister.message}
+                    {registerLogIn.message}
                 </UserIsRegistered>
             ) : (
                 <RegistrationPagesStyle onClick={resetFormRegistration}>
@@ -133,8 +136,8 @@ const FormRegistration = () => {
                     <WarningMessage none={valid.samePasswords}>
                         passwords do not match
                     </WarningMessage>
-                    <WarningMessage none={isRegister.cancelRegister}>
-                        {isRegister.message}
+                    <WarningMessage none={registerLogIn.cancelRegister}>
+                        {registerLogIn.message}
                     </WarningMessage>
                     {isLoading ? (
                         <Loading />

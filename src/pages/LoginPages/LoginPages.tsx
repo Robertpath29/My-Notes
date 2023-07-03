@@ -1,14 +1,14 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import LoginPagesStyle from "./loginPages.style";
 import FormLogin from "../../components/FormLogin/FormLogin";
 import NotesButton from "../../components/basic/button/NotesButton";
 import { useNavigate } from "react-router-dom";
-import { RouterContext } from "../../context/context";
+import { useAction } from "../../hooks/useAction";
 
 const LoginPages = () => {
     const routerRegistration = useNavigate();
     const [background, setBackground] = useState(false);
-    const { setRegister } = useContext(RouterContext);
+    const { cancelRegister } = useAction();
     function animationBackground(e: React.MouseEvent<Element, MouseEvent>) {
         if ((e.target as Element).localName === `input`) {
             setBackground(true);
@@ -20,7 +20,7 @@ const LoginPages = () => {
         routerRegistration(`/registration`);
     }
     function clearWarning() {
-        setRegister((obj) => ({ ...obj, cancelRegister: false }));
+        cancelRegister({ cancelRegister: false });
     }
 
     return (

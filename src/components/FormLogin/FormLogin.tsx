@@ -1,4 +1,4 @@
-import React, { FC, MouseEvent, useContext } from "react";
+import React, { FC, MouseEvent } from "react";
 import NotesInput from "../basic/input/NotesInput";
 import { FormLoginStyle } from "./formLogin.style";
 import LogoStyle from "../basic/logo/logo.style";
@@ -6,7 +6,6 @@ import NotesButton from "../basic/button/NotesButton";
 import formLoginType from "./formLoginType";
 import WarningMessage from "../basic/warning_message/WarningMessage";
 import { useSubmitForm } from "../../hooks/useSubmitForm";
-import { RouterContext } from "../../context/context";
 import Loading from "../basic/loading/Loading";
 import { useSelector } from "react-redux";
 import { reducersType } from "../../redux/combineReducers/combineReducers";
@@ -14,8 +13,13 @@ import { reducersType } from "../../redux/combineReducers/combineReducers";
 const FormLogin: FC<formLoginType> = ({ background }) => {
     const { dataForm, setDataForm, setValid, submitFormLogin, valid } =
         useSubmitForm();
-    const { isRegister } = useContext(RouterContext);
-    const { isLoading } = useSelector((store: reducersType) => store.loading);
+
+    const isLoading = useSelector(
+        (store: reducersType) => store.loading.isLoading
+    );
+    const registerLogIn = useSelector(
+        (store: reducersType) => store.registerLogIn
+    );
 
     function resetFormLogin(e: MouseEvent) {
         if ((e.target as Element).localName === `button`) return;
@@ -56,8 +60,8 @@ const FormLogin: FC<formLoginType> = ({ background }) => {
             <WarningMessage none={valid.password}>
                 Incorrectly entered password
             </WarningMessage>
-            <WarningMessage none={isRegister.cancelRegister}>
-                {isRegister.message}
+            <WarningMessage none={registerLogIn.cancelRegister}>
+                {registerLogIn.message}
             </WarningMessage>
             {isLoading ? (
                 <Loading />
