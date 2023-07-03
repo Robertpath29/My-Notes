@@ -4,15 +4,18 @@ import validFormsReg from "../utils/formRegistValidation";
 import validFormsLogin from "../utils/formLoginValidation";
 import AxiosQuery, { LOGIN_URL, REG_URL } from "../api/AxiosQuery";
 import { RouterContext } from "../context/context";
+import { useAction } from "./useAction";
 
 export function useSubmitForm() {
-    const { setLoading, setRegister } = useContext(RouterContext);
+    const { setRegister } = useContext(RouterContext);
     const [dataForm, setDataForm] = useState({
         userName: ``,
         email: ``,
         password: ``,
         repeatPassword: ``,
     });
+
+    const { stateLoading } = useAction();
 
     const [valid, setValid] = useState({
         userName: false,
@@ -25,10 +28,10 @@ export function useSubmitForm() {
         e.preventDefault();
         const validation = validFormsReg(dataForm, setValid);
         if (validation) {
-            setLoading(true);
+            stateLoading(true);
             const newUser = await AxiosQuery.axiosQueryPost(
                 dataForm,
-                setLoading,
+                stateLoading,
                 REG_URL
             );
             if (newUser.data.cancelRegister) {
@@ -51,10 +54,10 @@ export function useSubmitForm() {
         e.preventDefault();
         const validation = validFormsLogin(dataForm, setValid);
         if (validation) {
-            setLoading(true);
+            stateLoading(true);
             const loginUser = await AxiosQuery.axiosQueryPost(
                 dataForm,
-                setLoading,
+                stateLoading,
                 LOGIN_URL
             );
             if (loginUser.data.cancelRegister) {

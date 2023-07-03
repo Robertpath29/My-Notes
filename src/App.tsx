@@ -5,7 +5,7 @@ import { RouterContext } from "./context/context";
 
 function App() {
     const [isLoadingPagesStart, setIsLoadingPagesStart] = useState(true);
-    const [isLoading, setLoading] = useState(false);
+    // const [isLoading, setLoading] = useState(false);
     const [isRegister, setRegister] = useState({
         message: "",
         cancelRegister: false,
@@ -16,8 +16,8 @@ function App() {
         <RouterContext.Provider
             value={{
                 setIsLoadingPagesStart,
-                isLoading,
-                setLoading,
+                // isLoading,
+                // setLoading,
                 isRegister,
                 setRegister,
             }}

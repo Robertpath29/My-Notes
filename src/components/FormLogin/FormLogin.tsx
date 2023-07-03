@@ -8,11 +8,14 @@ import WarningMessage from "../basic/warning_message/WarningMessage";
 import { useSubmitForm } from "../../hooks/useSubmitForm";
 import { RouterContext } from "../../context/context";
 import Loading from "../basic/loading/Loading";
+import { useSelector } from "react-redux";
+import { reducersType } from "../../redux/combineReducers/combineReducers";
 
 const FormLogin: FC<formLoginType> = ({ background }) => {
     const { dataForm, setDataForm, setValid, submitFormLogin, valid } =
         useSubmitForm();
-    const { isRegister, isLoading } = useContext(RouterContext);
+    const { isRegister } = useContext(RouterContext);
+    const { isLoading } = useSelector((store: reducersType) => store.loading);
 
     function resetFormLogin(e: MouseEvent) {
         if ((e.target as Element).localName === `button`) return;

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import {
     HeaderFormRegistration,
     RegistrationPagesStyle,
@@ -11,12 +11,15 @@ import { RouterContext } from "../../context/context";
 import Loading from "../../components/basic/loading/Loading";
 import UserIsRegistered from "../../components/userIsRegistered/UserIsRegistered";
 import WarningMessage from "../../components/basic/warning_message/WarningMessage";
+import { useSelector } from "react-redux";
+import { reducersType } from "../../redux/combineReducers/combineReducers";
 
 const FormRegistration = () => {
     const routerBack = useNavigate();
-    const { isLoading, isRegister, setRegister } = useContext(RouterContext);
+    const { isRegister, setRegister } = useContext(RouterContext);
     const { dataForm, setDataForm, setValid, submitFormReg, valid } =
         useSubmitForm();
+    const { isLoading } = useSelector((store: reducersType) => store.loading);
 
     function resetFormRegistration(e: React.MouseEvent<Element, MouseEvent>) {
         if ((e.target as Element).localName === `button`) return;
