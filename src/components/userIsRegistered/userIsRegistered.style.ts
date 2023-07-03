@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { RegistrationPagesStyle } from "../../pages/FormRegistration/formRegistration.style";
 
 export const UserIsRegisteredStyle = styled.div`
     width: 100%;

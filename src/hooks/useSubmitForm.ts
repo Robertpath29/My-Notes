@@ -13,18 +13,28 @@ export function useSubmitForm() {
         repeatPassword: ``,
     });
 
-    const { stateLoading, cancelRegister, userRegistration } = useAction();
+    const {
+        stateLoading,
+        registerMessage,
+        cancelRegister,
+        userRegistration,
+        validUserName,
+        validPassword,
+        validEmail,
+        validRepeatPassword,
+        validSamePasswords,
+    } = useAction();
 
-    const [valid, setValid] = useState({
-        userName: false,
-        email: false,
-        password: false,
-        repeatPassword: false,
-        samePasswords: false,
-    });
     async function submitFormReg(e: React.MouseEvent<Element, MouseEvent>) {
         e.preventDefault();
-        const validation = validFormsReg(dataForm, setValid);
+        const validation = validFormsReg(
+            dataForm,
+            validUserName,
+            validPassword,
+            validEmail,
+            validRepeatPassword,
+            validSamePasswords
+        );
         if (validation) {
             stateLoading(true);
             const newUser = await AxiosQuery.axiosQueryPost(
@@ -34,21 +44,25 @@ export function useSubmitForm() {
             );
             if (newUser.data.cancelRegister) {
                 cancelRegister({
-                    message: newUser.data.message,
                     cancelRegister: newUser.data.cancelRegister,
                 });
+                registerMessage({ message: newUser.data.message });
             }
             if (newUser.data.userIsRegistered) {
                 userRegistration({
-                    message: newUser.data.message,
                     userIsRegistered: newUser.data.userIsRegistered,
                 });
+                registerMessage({ message: newUser.data.message });
             }
         }
     }
     async function submitFormLogin(e: React.MouseEvent<Element, MouseEvent>) {
         e.preventDefault();
-        const validation = validFormsLogin(dataForm, setValid);
+        const validation = validFormsLogin(
+            dataForm,
+            validUserName,
+            validPassword
+        );
         if (validation) {
             stateLoading(true);
             const loginUser = await AxiosQuery.axiosQueryPost(
@@ -58,9 +72,9 @@ export function useSubmitForm() {
             );
             if (loginUser.data.cancelRegister) {
                 cancelRegister({
-                    message: loginUser.data.message,
                     cancelRegister: loginUser.data.cancelRegister,
                 });
+                registerMessage({ message: loginUser.data.message });
             }
 
             if (loginUser.data.userIsLogIn) {
@@ -71,8 +85,6 @@ export function useSubmitForm() {
     return {
         dataForm,
         setDataForm,
-        valid,
-        setValid,
         submitFormReg,
         submitFormLogin,
     };

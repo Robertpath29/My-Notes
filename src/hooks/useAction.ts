@@ -1,12 +1,14 @@
 import { bindActionCreators } from "@reduxjs/toolkit";
 import { useMemo } from "react";
 import { useDispatch } from "react-redux";
-import { actions as actionsLoading } from "../redux/Loading/loadingSlice";
-import { actions as actionsRegisterLogIn } from "../redux/RegisterLogIn/registerLogInSlice";
+import { actions as actionsLoading } from "../redux/LoadingSlice/loadingSlice";
+import { actions as actionsRegisterLogIn } from "../redux/RegisterLogInSlice/registerLogInSlice";
+import { actions as actionsValidationForm } from "../redux/errorMessageForm/errorMessageFormSlice";
 
 const rootAction = {
     ...actionsLoading,
     ...actionsRegisterLogIn,
+    ...actionsValidationForm,
 };
 
 export const useAction = () => {

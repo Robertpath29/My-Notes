@@ -1,4 +1,4 @@
-import React, { FC, MouseEvent } from "react";
+import React, { FC } from "react";
 import NotesInput from "../basic/input/NotesInput";
 import { FormLoginStyle } from "./formLogin.style";
 import LogoStyle from "../basic/logo/logo.style";
@@ -9,10 +9,10 @@ import { useSubmitForm } from "../../hooks/useSubmitForm";
 import Loading from "../basic/loading/Loading";
 import { useSelector } from "react-redux";
 import { reducersType } from "../../redux/combineReducers/combineReducers";
+import { useAction } from "../../hooks/useAction";
 
 const FormLogin: FC<formLoginType> = ({ background }) => {
-    const { dataForm, setDataForm, setValid, submitFormLogin, valid } =
-        useSubmitForm();
+    const { dataForm, setDataForm, submitFormLogin } = useSubmitForm();
 
     const isLoading = useSelector(
         (store: reducersType) => store.loading.isLoading
@@ -21,16 +21,12 @@ const FormLogin: FC<formLoginType> = ({ background }) => {
         (store: reducersType) => store.registerLogIn
     );
 
-    function resetFormLogin(e: MouseEvent) {
-        if ((e.target as Element).localName === `button`) return;
-        setValid((valid) => ({
-            ...valid,
-            password: false,
-            userName: false,
-        }));
-    }
+    const valid = useSelector((store: reducersType) => store.validationForm);
+
+    const { validUserName, validPassword } = useAction();
+
     return (
-        <FormLoginStyle background={background} onClick={resetFormLogin}>
+        <FormLoginStyle background={background}>
             <LogoStyle>My-Notes</LogoStyle>
             <NotesInput
                 type="text"
@@ -40,7 +36,7 @@ const FormLogin: FC<formLoginType> = ({ background }) => {
                 valid={valid.userName}
                 onChange={(e) => {
                     setDataForm({ ...dataForm, userName: e.target.value });
-                    setValid((valid) => ({ ...valid, userName: false }));
+                    validUserName({ userName: false });
                 }}
             />
             <WarningMessage none={valid.userName}>
@@ -54,7 +50,7 @@ const FormLogin: FC<formLoginType> = ({ background }) => {
                 valid={valid.password}
                 onChange={(e) => {
                     setDataForm({ ...dataForm, password: e.target.value });
-                    setValid((valid) => ({ ...valid, password: false }));
+                    validPassword({ password: false });
                 }}
             />
             <WarningMessage none={valid.password}>

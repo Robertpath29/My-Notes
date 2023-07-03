@@ -31,7 +31,7 @@ const StartPagesLoading = () => {
                 }, 1000);
             }
         }, 1);
-    }, [bootEmulation, setLoad]);
+    }, [bootEmulation, setLoad, setIsLoadingPagesStart]);
 
     return (
         <StartPagesLoadingStyle>

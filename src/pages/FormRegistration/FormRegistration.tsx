@@ -16,8 +16,7 @@ import { useAction } from "../../hooks/useAction";
 
 const FormRegistration = () => {
     const routerBack = useNavigate();
-    const { dataForm, setDataForm, setValid, submitFormReg, valid } =
-        useSubmitForm();
+    const { dataForm, setDataForm, submitFormReg } = useSubmitForm();
 
     const isLoading = useSelector(
         (store: reducersType) => store.loading.isLoading
@@ -25,17 +24,25 @@ const FormRegistration = () => {
     const registerLogIn = useSelector(
         (store: reducersType) => store.registerLogIn
     );
-    const { cancelRegister, userRegistration } = useAction();
+    const valid = useSelector((store: reducersType) => store.validationForm);
+    const {
+        cancelRegister,
+        userRegistration,
+        validUserName,
+        validPassword,
+        validEmail,
+        validRepeatPassword,
+        validSamePasswords,
+    } = useAction();
 
     function resetFormRegistration(e: React.MouseEvent<Element, MouseEvent>) {
-        if ((e.target as Element).localName === `button`) return;
-        setValid((valid) => ({
-            ...valid,
-            email: false,
-            password: false,
-            userName: false,
-            repeatPassword: false,
-        }));
+        if ((e.target as Element).innerHTML === `Sign up`) return;
+        validUserName({ userName: false });
+        validPassword({ password: false });
+        validEmail({ email: false });
+        validRepeatPassword({ repeatPassword: false });
+        validSamePasswords({ samePasswords: false });
+
         cancelRegister({ cancelRegister: false });
     }
 
@@ -67,10 +74,9 @@ const FormRegistration = () => {
                                 ...dataForm,
                                 userName: e.target.value,
                             });
-                            setValid((valid) => ({
-                                ...valid,
+                            validUserName({
                                 userName: false,
-                            }));
+                            });
                         }}
                     />
                     <WarningMessage none={valid.userName}>
@@ -85,7 +91,9 @@ const FormRegistration = () => {
                         registration
                         onChange={(e) => {
                             setDataForm({ ...dataForm, email: e.target.value });
-                            setValid((valid) => ({ ...valid, email: false }));
+                            validEmail({
+                                email: false,
+                            });
                         }}
                     />
                     <WarningMessage none={valid.email}>
@@ -103,10 +111,9 @@ const FormRegistration = () => {
                                 ...dataForm,
                                 password: e.target.value,
                             });
-                            setValid((valid) => ({
-                                ...valid,
+                            validPassword({
                                 password: false,
-                            }));
+                            });
                         }}
                     />
                     <WarningMessage none={valid.password}>
@@ -124,10 +131,9 @@ const FormRegistration = () => {
                                 ...dataForm,
                                 repeatPassword: e.target.value,
                             });
-                            setValid((valid) => ({
-                                ...valid,
+                            validRepeatPassword({
                                 repeatPassword: false,
-                            }));
+                            });
                         }}
                     />
                     <WarningMessage none={valid.repeatPassword}>

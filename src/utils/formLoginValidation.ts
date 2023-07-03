@@ -1,4 +1,4 @@
-import { useValidFormType, validFormType } from "../types/validFormType";
+import { validFormType } from "../types/validFormType";
 
 let userName = false,
     password = false;
@@ -7,23 +7,24 @@ const usernameRegex = /^[a-zA-Z0-9_-]{3,16}$/,
 
 function validFormsLogin(
     data: validFormType,
-    setValid: React.Dispatch<React.SetStateAction<useValidFormType>>
+    validUserName: (value: object) => void,
+    validPassword: (value: object) => void
 ): boolean {
     if (data.userName === "") {
         userName = false;
-        setValid((valid) => ({ ...valid, userName: true }));
+        validUserName({ userName: true });
     } else {
         const isValidUsername = usernameRegex.test(data.userName);
         isValidUsername ? (userName = true) : (userName = false);
-        setValid((valid) => ({ ...valid, userName: !isValidUsername }));
+        validUserName({ userName: !isValidUsername });
     }
     if (data.password === "") {
         password = false;
-        setValid((valid) => ({ ...valid, password: true }));
+        validPassword({ password: true });
     } else {
         const isValidPassword = passwordRegex.test(data.password);
         isValidPassword ? (password = true) : (password = false);
-        setValid((valid) => ({ ...valid, password: !isValidPassword }));
+        validPassword({ password: !isValidPassword });
     }
     const isValidFormLogin = userName && password;
     return isValidFormLogin ? true : false;
