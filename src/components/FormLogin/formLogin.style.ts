@@ -4,14 +4,15 @@ export const FormLoginStyle = styled.form<{ background?: boolean }>`
     z-index: 11;
     display: flex;
     flex-direction: column;
-    max-width: ${({ background }) => (background ? `600px` : `400px`)};
+    max-width: 450px;
     width: 100%;
-    height: 40%;
+    height: max-content;
     justify-content: center;
     align-items: center;
     transition: all 0.3s;
+    transform: scale(${({ background }) => (background ? `1.1` : `1`)});
 
-    &:hover > :nth-child(n) {
-        max-width: 500px;
+    &:hover {
+        transform: scale(1.1);
     }
 `;

@@ -35,25 +35,29 @@ export function useSubmitForm() {
             validRepeatPassword,
             validSamePasswords
         );
-        if (validation) {
-            stateLoading(true);
-            const newUser = await AxiosQuery.axiosQueryPost(
-                dataForm,
-                stateLoading,
-                REG_URL
-            );
-            if (newUser.data.cancelRegister) {
-                cancelRegister({
-                    cancelRegister: newUser.data.cancelRegister,
-                });
-                registerMessage({ message: newUser.data.message });
+        try {
+            if (validation) {
+                stateLoading(true);
+                const newUser = await AxiosQuery.axiosQueryPost(
+                    dataForm,
+                    stateLoading,
+                    REG_URL
+                );
+                if (newUser.data.cancelRegister) {
+                    cancelRegister({
+                        cancelRegister: newUser.data.cancelRegister,
+                    });
+                    registerMessage({ message: newUser.data.message });
+                }
+                if (newUser.data.userIsRegistered) {
+                    userRegistration({
+                        userIsRegistered: newUser.data.userIsRegistered,
+                    });
+                    registerMessage({ message: newUser.data.message });
+                }
             }
-            if (newUser.data.userIsRegistered) {
-                userRegistration({
-                    userIsRegistered: newUser.data.userIsRegistered,
-                });
-                registerMessage({ message: newUser.data.message });
-            }
+        } catch (error) {
+            console.log(error);
         }
     }
     async function submitFormLogin(e: React.MouseEvent<Element, MouseEvent>) {
@@ -63,23 +67,27 @@ export function useSubmitForm() {
             validUserName,
             validPassword
         );
-        if (validation) {
-            stateLoading(true);
-            const loginUser = await AxiosQuery.axiosQueryPost(
-                dataForm,
-                stateLoading,
-                LOGIN_URL
-            );
-            if (loginUser.data.cancelRegister) {
-                cancelRegister({
-                    cancelRegister: loginUser.data.cancelRegister,
-                });
-                registerMessage({ message: loginUser.data.message });
-            }
+        try {
+            if (validation) {
+                stateLoading(true);
+                const loginUser = await AxiosQuery.axiosQueryPost(
+                    dataForm,
+                    stateLoading,
+                    LOGIN_URL
+                );
+                if (loginUser.data.cancelRegister) {
+                    cancelRegister({
+                        cancelRegister: loginUser.data.cancelRegister,
+                    });
+                    registerMessage({ message: loginUser.data.message });
+                }
 
-            if (loginUser.data.userIsLogIn) {
-                console.log(loginUser.data.user);
+                if (loginUser.data.userIsLogIn) {
+                    console.log(loginUser.data.user);
+                }
             }
+        } catch (error) {
+            console.log(error);
         }
     }
     return {

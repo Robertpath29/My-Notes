@@ -3,7 +3,7 @@ import { useMemo } from "react";
 import { useDispatch } from "react-redux";
 import { actions as actionsLoading } from "../redux/LoadingSlice/loadingSlice";
 import { actions as actionsRegisterLogIn } from "../redux/RegisterLogInSlice/registerLogInSlice";
-import { actions as actionsValidationForm } from "../redux/errorMessageForm/errorMessageFormSlice";
+import { actions as actionsValidationForm } from "../redux/errorMessageFormSlice/errorMessageFormSlice";
 
 const rootAction = {
     ...actionsLoading,

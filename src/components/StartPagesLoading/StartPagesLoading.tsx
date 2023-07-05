@@ -2,20 +2,18 @@ import React, { useCallback, useContext, useEffect, useState } from "react";
 import {
     StartPagesLoadingStyle,
     LoadingTextStyle,
-    ParentImgStyle,
-    PencilStyle,
 } from "./StartPagesLoading.style";
 import { RouterContext } from "../../context/context";
+import Loading from "../basic/loading/Loading";
 
 const StartPagesLoading = () => {
-    const [load, setLoad] = useState({ loadingPencil: 100, loadingNumber: 0 });
+    const [load, setLoad] = useState({ loadingNumber: 0 });
     const { setIsLoadingPagesStart } = useContext(RouterContext);
 
     const bootEmulation = useCallback(() => {
         setLoad((load) => ({
             ...load,
             loadingNumber: load.loadingNumber + 1,
-            loadingPencil: load.loadingPencil - 1,
         }));
     }, [setLoad]);
 
@@ -35,12 +33,7 @@ const StartPagesLoading = () => {
 
     return (
         <StartPagesLoadingStyle>
-            <ParentImgStyle load={load.loadingPencil}>
-                <PencilStyle
-                    src="./images/animation-pencil.png"
-                    alt="loading..."
-                />
-            </ParentImgStyle>
+            <Loading />
             <LoadingTextStyle>{load.loadingNumber}%</LoadingTextStyle>
         </StartPagesLoadingStyle>
     );
