@@ -4,11 +4,11 @@ export const LOGIN_URL = `http://localhost:5001/login`;
 class AxiosQuery {
     async axiosQueryPost(
         data: object,
-        stateLoading: (value: boolean) => void,
-        url: string
+        url: string,
+        stateLoading?: (value: boolean) => void
     ) {
         return await axios
-            .post(url, data)
+            .post(url, data, { withCredentials: true })
             .then((response) => {
                 return response;
             })
@@ -16,7 +16,7 @@ class AxiosQuery {
                 return e.message;
             })
             .finally(() => {
-                stateLoading(false);
+                if (stateLoading) stateLoading(false);
             });
     }
 }

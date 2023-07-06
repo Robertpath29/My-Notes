@@ -10,21 +10,17 @@ const registerLogInSlice = createSlice({
     name: `registerLogIn`,
     initialState,
     reducers: {
-        cancelRegister: (state, action) => {
-            const stateRegister = action.payload;
-            state.cancelRegister = stateRegister.cancelRegister;
+        cancelRegister: (state, { payload }) => {
+            state.cancelRegister = payload.cancelRegister;
         },
-        registerMessage: (state, action) => {
-            const stateRegister = action.payload;
-            state.message = stateRegister.message;
+        registerMessage: (state, { payload }) => {
+            state.message = payload.message;
         },
-        userRegistration: (state, action) => {
-            const stateRegister = action.payload;
-            state.userIsRegistered = stateRegister.userIsRegistered;
+        userRegistration: (state, { payload }) => {
+            state.userIsRegistered = payload.userIsRegistered;
         },
-        userLogIn: (state, action) => {
-            const stateRegister = action.payload;
-            state.userIsLogIn = stateRegister.userIsLogIn;
+        userLogIn: (state, { payload }) => {
+            state.userIsLogIn = payload.userIsLogIn;
         },
     },
 });

@@ -2,10 +2,12 @@ import React from "react";
 import { useState } from "react";
 import validFormsReg from "../utils/formRegistValidation";
 import validFormsLogin from "../utils/formLoginValidation";
-import AxiosQuery, { LOGIN_URL, REG_URL } from "../api/AxiosQuery";
+import axiosQuery, { LOGIN_URL, REG_URL } from "../api/AxiosQuery";
 import { useAction } from "./useAction";
+import { useNavigate } from "react-router-dom";
 
 export function useSubmitForm() {
+    const routerUser = useNavigate();
     const [dataForm, setDataForm] = useState({
         userName: ``,
         email: ``,
@@ -23,6 +25,8 @@ export function useSubmitForm() {
         validEmail,
         validRepeatPassword,
         validSamePasswords,
+        userLogIn,
+        setUser,
     } = useAction();
 
     async function submitFormReg(e: React.MouseEvent<Element, MouseEvent>) {
@@ -38,10 +42,10 @@ export function useSubmitForm() {
         try {
             if (validation) {
                 stateLoading(true);
-                const newUser = await AxiosQuery.axiosQueryPost(
+                const newUser = await axiosQuery.axiosQueryPost(
                     dataForm,
-                    stateLoading,
-                    REG_URL
+                    REG_URL,
+                    stateLoading
                 );
                 if (newUser.data.cancelRegister) {
                     cancelRegister({
@@ -70,11 +74,12 @@ export function useSubmitForm() {
         try {
             if (validation) {
                 stateLoading(true);
-                const loginUser = await AxiosQuery.axiosQueryPost(
+                const loginUser = await axiosQuery.axiosQueryPost(
                     dataForm,
-                    stateLoading,
-                    LOGIN_URL
+                    LOGIN_URL,
+                    stateLoading
                 );
+
                 if (loginUser.data.cancelRegister) {
                     cancelRegister({
                         cancelRegister: loginUser.data.cancelRegister,
@@ -83,7 +88,29 @@ export function useSubmitForm() {
                 }
 
                 if (loginUser.data.userIsLogIn) {
-                    console.log(loginUser.data.user);
+                    userLogIn({ userIsLogIn: true });
+                    const user = loginUser.data.user;
+                    setUser({
+                        id: user.id,
+                        login: user.login,
+                        email: user.email,
+                        dataUser: [],
+                    });
+                    const saveUser = window.confirm(`save login and password?`);
+                    if (saveUser) {
+                        const user = {
+                            userName: dataForm.userName,
+                            password: dataForm.password,
+                        };
+                        const userJSON = JSON.stringify(user);
+                        const expirationDate = new Date();
+                        expirationDate.setTime(
+                            expirationDate.getTime() + 300000
+                        );
+                        document.cookie = `saveUser=${userJSON}; expires=${expirationDate.toUTCString()}`;
+                    }
+
+                    routerUser(`/user/${user.login}`);
                 }
             }
         } catch (error) {
