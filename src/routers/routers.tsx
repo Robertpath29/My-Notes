@@ -6,8 +6,8 @@ import FormRegistration from "../pages/FormRegistration/FormRegistration";
 import MainPages from "../pages/MainPages/MainPages";
 
 export const startPages: routerType = [
-    { path: "/", element: <StartPages /> },
-    { path: "*", element: <Navigate to={"/"} /> },
+    { path: "/loading", element: <StartPages /> },
+    { path: "*", element: <Navigate to={"/loading"} /> },
 ];
 
 export const loginPages: routerType = [
@@ -17,6 +17,6 @@ export const loginPages: routerType = [
 ];
 
 export const mainPages: routerType = [
-    { path: "/user/:login", element: <MainPages /> },
-    { path: "*", element: <Navigate to={"/user"} /> },
+    { path: "/my-notes", element: <MainPages /> },
+    { path: "*", element: <Navigate to={"/my-notes"} /> },
 ];

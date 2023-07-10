@@ -110,7 +110,7 @@ export function useSubmitForm() {
                         document.cookie = `saveUser=${userJSON}; expires=${expirationDate.toUTCString()}`;
                     }
 
-                    routerUser(`/user/${user.login}`);
+                    routerUser(`/my-notes`);
                 }
             }
         } catch (error) {

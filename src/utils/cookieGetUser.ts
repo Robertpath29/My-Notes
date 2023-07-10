@@ -1,7 +1,6 @@
 import axiosQuery, { LOGIN_URL } from "../api/AxiosQuery";
 export async function cookieGetUser(
     userLogIn: (value: object) => void,
-    routeUser: (value: string) => void,
     setUser: (value: object) => void
 ) {
     const saveUser = document.cookie.split("; ");
@@ -20,6 +19,5 @@ export async function cookieGetUser(
             email: user.data.user.email,
             dataUser: [],
         });
-        routeUser(`/user/${user.data.user.login}`);
     }
 }

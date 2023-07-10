@@ -5,9 +5,14 @@ import { reducersType } from "../../redux/combineReducers/combineReducers";
 
 const MainPages = () => {
     const userData = useSelector((store: reducersType) => store.user);
-    console.log(userData);
 
-    return <MainPagesStyle></MainPagesStyle>;
+    return (
+        <MainPagesStyle>
+            <h1>{userData.id}</h1>
+            <h1>{userData.login}</h1>
+            <h1>{userData.email}</h1>
+        </MainPagesStyle>
+    );
 };
 
 export default MainPages;
