@@ -1,8 +1,14 @@
 import React from "react";
-import { FooterStyle } from "./footer.style";
+import { FooterCopyright, FooterStyle } from "./footer.style";
 
 const Footer = () => {
-    return <FooterStyle></FooterStyle>;
+    return (
+        <FooterStyle>
+            <FooterCopyright>
+                Copyright © 2023 all rights reserved
+            </FooterCopyright>
+        </FooterStyle>
+    );
 };
 
 export default Footer;
