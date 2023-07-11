@@ -17,6 +17,7 @@ export const loginPages: routerType = [
 ];
 
 export const mainPages: routerType = [
+    { path: "/login", element: <LoginPages /> },
     { path: "/my-notes", element: <MainPages /> },
     { path: "*", element: <Navigate to={"/my-notes"} /> },
 ];
