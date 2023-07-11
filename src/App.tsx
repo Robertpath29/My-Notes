@@ -16,7 +16,6 @@ function App() {
     const { userLogIn, setUser } = useAction();
 
     const user = useSelector((store: reducersType) => store.user);
-    console.log(user);
 
     useEffect(() => {
         if (!cookieLoadingPagesStart(setIsLoadingPagesStart)) {

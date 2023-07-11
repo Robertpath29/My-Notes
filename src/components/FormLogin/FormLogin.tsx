@@ -1,7 +1,6 @@
 import React, { FC } from "react";
 import NotesInput from "../basic/input/NotesInput";
 import { FormLoginStyle } from "./formLogin.style";
-import LogoStyle from "../basic/logo/logo.style";
 import NotesButton from "../basic/button/NotesButton";
 import formLoginType from "./formLoginType";
 import WarningMessage from "../basic/warning_message/WarningMessage";
@@ -10,6 +9,7 @@ import Loading from "../basic/loading/Loading";
 import { useSelector } from "react-redux";
 import { reducersType } from "../../redux/combineReducers/combineReducers";
 import { useAction } from "../../hooks/useAction";
+import Logo from "../basic/logo/Logo";
 
 const FormLogin: FC<formLoginType> = ({ background }) => {
     const { dataForm, setDataForm, submitFormLogin } = useSubmitForm();
@@ -27,7 +27,7 @@ const FormLogin: FC<formLoginType> = ({ background }) => {
 
     return (
         <FormLoginStyle background={background}>
-            <LogoStyle>My-Notes</LogoStyle>
+            <Logo>My-Notes</Logo>
             <NotesInput
                 type="text"
                 placeholder="Login (from 3 to 16 characters)"

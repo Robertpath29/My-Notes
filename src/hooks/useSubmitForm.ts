@@ -104,9 +104,7 @@ export function useSubmitForm() {
                         };
                         const userJSON = JSON.stringify(user);
                         const expirationDate = new Date();
-                        expirationDate.setTime(
-                            expirationDate.getTime() + 300000
-                        );
+                        expirationDate.setDate(expirationDate.getDate() + 1);
                         document.cookie = `saveUser=${userJSON}; expires=${expirationDate.toUTCString()}`;
                     }
 
