@@ -1,5 +1,10 @@
 import React, { FC } from "react";
-import { ConfirmStyle, ContainerLoading, MessageStyle } from "./confirm.style";
+import {
+    ConfirmStyle,
+    ContainerConfirm,
+    ContainerLoading,
+    MessageStyle,
+} from "./confirm.style";
 import { ContainerGroupStyle } from "../Header/header.style";
 import NotesButton from "../basic/button/NotesButton";
 import { ConfirmType } from "./confirmType";
@@ -18,14 +23,16 @@ const Confirm: FC<ConfirmType> = ({ message, onConfirm, onCancel }) => {
     }
     return (
         <ConfirmStyle>
-            <MessageStyle>{message}</MessageStyle>
-            <ContainerLoading>
-                <Loading />
-            </ContainerLoading>
-            <ContainerGroupStyle>
-                <NotesButton onClick={btnConfirm}>Yes</NotesButton>
-                <NotesButton onClick={btnCancel}>no</NotesButton>
-            </ContainerGroupStyle>
+            <ContainerConfirm>
+                <MessageStyle>{message}</MessageStyle>
+                <ContainerLoading>
+                    <Loading />
+                </ContainerLoading>
+                <ContainerGroupStyle>
+                    <NotesButton onClick={btnConfirm}>Yes</NotesButton>
+                    <NotesButton onClick={btnCancel}>no</NotesButton>
+                </ContainerGroupStyle>
+            </ContainerConfirm>
         </ConfirmStyle>
     );
 };
