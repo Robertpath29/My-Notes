@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const LoginPagesStyle = styled.section<{ background?: boolean }>`
+export const LoginPagesStyle = styled.section<{ background?: boolean }>`
     width: 100%;
     height: 100vh;
     background-image: url("./images/backgroundLoginPages.jpeg");
@@ -21,12 +21,14 @@ const LoginPagesStyle = styled.section<{ background?: boolean }>`
         opacity: ${({ background }) => (background ? `0.5` : `0`)};
         transition: opacity 0.3s;
     }
-    & > :last-child {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        max-width: 150px;
-        width: 100%;
-    }
 `;
-export default LoginPagesStyle;
+
+export const BtnRegistrationStyle = styled.div`
+    position: absolute;
+    display: flex;
+    z-index: 111111;
+    top: 10px;
+    right: 10px;
+    max-width: 200px;
+    width: 100%;
+`;

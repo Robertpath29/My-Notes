@@ -7,7 +7,8 @@ import { useAction } from "./useAction";
 import { useNavigate } from "react-router-dom";
 
 export function useSubmitForm() {
-    const routerUser = useNavigate();
+    const router = useNavigate();
+    const { visibilityConfirm } = useAction();
     const [dataForm, setDataForm] = useState({
         userName: ``,
         email: ``,
@@ -96,29 +97,35 @@ export function useSubmitForm() {
                         email: user.email,
                         dataUser: [],
                     });
-                    const saveUser = window.confirm(`save login and password?`);
-                    if (saveUser) {
-                        const user = {
-                            userName: dataForm.userName,
-                            password: dataForm.password,
-                        };
-                        const userJSON = JSON.stringify(user);
-                        const expirationDate = new Date();
-                        expirationDate.setDate(expirationDate.getDate() + 1);
-                        document.cookie = `saveUser=${userJSON}; expires=${expirationDate.toUTCString()}`;
-                    }
-
-                    routerUser(`/my-notes`);
+                    visibilityConfirm({ visibility: true });
                 }
             }
         } catch (error) {
             console.log(error);
         }
     }
+
+    function confirmSaveUser() {
+        const user = {
+            userName: dataForm.userName,
+            password: dataForm.password,
+        };
+        const userJSON = JSON.stringify(user);
+        const expirationDate = new Date();
+        expirationDate.setDate(expirationDate.getDate() + 1);
+        document.cookie = `saveUser=${userJSON}; expires=${expirationDate.toUTCString()}`;
+        router(`/my-notes`);
+    }
+    function cancelSaveUser() {
+        router(`/my-notes`);
+    }
+
     return {
         dataForm,
         setDataForm,
         submitFormReg,
         submitFormLogin,
+        confirmSaveUser,
+        cancelSaveUser,
     };
 }

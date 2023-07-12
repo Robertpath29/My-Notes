@@ -4,16 +4,18 @@ import { FormLoginStyle } from "./formLogin.style";
 import NotesButton from "../basic/button/NotesButton";
 import formLoginType from "./formLoginType";
 import WarningMessage from "../basic/warning_message/WarningMessage";
-import { useSubmitForm } from "../../hooks/useSubmitForm";
 import Loading from "../basic/loading/Loading";
 import { useSelector } from "react-redux";
 import { reducersType } from "../../redux/combineReducers/combineReducers";
 import { useAction } from "../../hooks/useAction";
 import Logo from "../basic/logo/Logo";
 
-const FormLogin: FC<formLoginType> = ({ background }) => {
-    const { dataForm, setDataForm, submitFormLogin } = useSubmitForm();
-
+const FormLogin: FC<formLoginType> = ({
+    background,
+    dataForm,
+    setDataForm,
+    submitFormLogin,
+}) => {
     const isLoading = useSelector(
         (store: reducersType) => store.loading.isLoading
     );
@@ -35,7 +37,10 @@ const FormLogin: FC<formLoginType> = ({ background }) => {
                 value={dataForm.userName}
                 valid={valid.userName}
                 onChange={(e) => {
-                    setDataForm({ ...dataForm, userName: e.target.value });
+                    setDataForm({
+                        ...dataForm,
+                        userName: e.target.value,
+                    });
                     validUserName({ userName: false });
                 }}
             />
@@ -49,7 +54,10 @@ const FormLogin: FC<formLoginType> = ({ background }) => {
                 value={dataForm.password}
                 valid={valid.password}
                 onChange={(e) => {
-                    setDataForm({ ...dataForm, password: e.target.value });
+                    setDataForm({
+                        ...dataForm,
+                        password: e.target.value,
+                    });
                     validPassword({ password: false });
                 }}
             />
