@@ -5,6 +5,8 @@ import validFormsLogin from "../utils/formLoginValidation";
 import axiosQuery, { LOGIN_URL, REG_URL } from "../api/AxiosQuery";
 import { useAction } from "./useAction";
 import { useNavigate } from "react-router-dom";
+import { secretKAY } from "../config/config";
+import CryptoJS from "crypto-js";
 
 export function useSubmitForm() {
     const router = useNavigate();
@@ -111,9 +113,10 @@ export function useSubmitForm() {
             password: dataForm.password,
         };
         const userJSON = JSON.stringify(user);
+        const encryptedData = CryptoJS.AES.encrypt(userJSON, secretKAY);
         const expirationDate = new Date();
         expirationDate.setDate(expirationDate.getDate() + 1);
-        document.cookie = `saveUser=${userJSON}; expires=${expirationDate.toUTCString()}`;
+        document.cookie = `saveUser=${encryptedData}; expires=${expirationDate.toUTCString()}`;
         router(`/my-notes`);
     }
     function cancelSaveUser() {

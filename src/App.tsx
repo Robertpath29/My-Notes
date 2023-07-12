@@ -15,8 +15,6 @@ function App() {
     );
     const { userLogIn, setUser } = useAction();
 
-    const user = useSelector((store: reducersType) => store.user);
-
     useEffect(() => {
         if (!cookieLoadingPagesStart(setIsLoadingPagesStart)) {
             const expirationDate = new Date();
