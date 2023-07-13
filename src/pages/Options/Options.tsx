@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { ContainerStyle, OptionsStyle, VerticalStrip } from "./options.style";
 import { useSelector } from "react-redux";
 import { reducersType } from "../../redux/combineReducers/combineReducers";
@@ -13,6 +13,8 @@ const Options = () => {
         router(`/my-notes`);
     }
     const userData = useSelector((store: reducersType) => store.user);
+    const [element, setElement] = useState(<></>);
+    const [visDisplay, setVisDisplay] = useState("none");
     return (
         <OptionsStyle>
             <Header
@@ -21,9 +23,11 @@ const Options = () => {
                 fnBtn={moveToMainPages}
             />
             <ContainerStyle>
-                <NavOptions />
+                <NavOptions fn={setElement} visDisplay={setVisDisplay} />
                 <VerticalStrip />
-                <OptionsDisplay></OptionsDisplay>
+                <OptionsDisplay visDisplay={visDisplay}>
+                    {element}
+                </OptionsDisplay>
             </ContainerStyle>
         </OptionsStyle>
     );

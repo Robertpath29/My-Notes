@@ -11,6 +11,7 @@ const baseTheme: baseThemeType = {
     },
     color: {
         main: "rgb(87, 25, 0)",
+        text: `#b8a2a2`,
     },
 };
 

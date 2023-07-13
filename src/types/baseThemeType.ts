@@ -9,6 +9,7 @@ type baseThemeType = {
     };
     color: {
         main: string;
+        text: string;
     };
 };
 export default baseThemeType;
