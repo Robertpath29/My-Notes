@@ -5,6 +5,7 @@ import { reducersType } from "../../redux/combineReducers/combineReducers";
 import { useNavigate } from "react-router-dom";
 import Header from "../../components/Header/Header";
 import NavOptions from "../../components/NavOptions/NavOptions";
+import OptionsDisplay from "../../components/OptionsDisplay/OptionsDisplay";
 
 const Options = () => {
     const router = useNavigate();
@@ -22,6 +23,7 @@ const Options = () => {
             <ContainerStyle>
                 <NavOptions />
                 <VerticalStrip />
+                <OptionsDisplay></OptionsDisplay>
             </ContainerStyle>
         </OptionsStyle>
     );
