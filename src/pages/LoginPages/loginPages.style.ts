@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const LoginPagesStyle = styled.section<{ background?: boolean }>`
     width: 100%;
     height: 100vh;
-    background-image: url("./images/backgroundLoginPages.jpeg");
+    background-image: url("/images/backgroundLoginPages.jpeg");
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -25,10 +25,7 @@ export const LoginPagesStyle = styled.section<{ background?: boolean }>`
 
 export const BtnRegistrationStyle = styled.div`
     position: absolute;
-    display: flex;
     z-index: 111111;
     top: 10px;
     right: 10px;
-    max-width: 200px;
-    width: 100%;
 `;

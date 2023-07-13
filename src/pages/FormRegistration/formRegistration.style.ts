@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const RegistrationPagesStyle = styled.form`
     width: 100%;
     height: 100vh;
-    background-image: url("./images/backgroundLoginPages.jpeg");
+    background-image: url("/images/backgroundLoginPages.jpeg");
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -15,7 +15,6 @@ export const RegistrationPagesStyle = styled.form`
 
     &::before {
         content: "";
-        z-index: 1;
         position: absolute;
         width: 100%;
         height: 100%;

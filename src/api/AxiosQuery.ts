@@ -1,6 +1,7 @@
 import axios from "axios";
-export const REG_URL = `http://localhost:5001/registration`;
-export const LOGIN_URL = `http://localhost:5001/login`;
+const URL_SERVER = `http://192.168.1.104:5001`;
+export const REG_URL = `${URL_SERVER}/registration`;
+export const LOGIN_URL = `${URL_SERVER}/login`;
 class AxiosQuery {
     async axiosQueryPost(
         data: object,
