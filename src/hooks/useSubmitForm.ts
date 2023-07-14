@@ -77,8 +77,11 @@ export function useSubmitForm() {
         try {
             if (validation) {
                 stateLoading(true);
-                const loginUser = await axiosQuery.axiosQueryPost(
-                    dataForm,
+                const loginUser = await axiosQuery.axiosQueryGet(
+                    {
+                        userName: dataForm.userName,
+                        password: dataForm.password,
+                    },
                     LOGIN_URL,
                     stateLoading
                 );

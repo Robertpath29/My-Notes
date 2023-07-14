@@ -19,7 +19,13 @@ export async function cookieGetUser(
         ).toString(CryptoJS.enc.Utf8);
         const parsedResponse = JSON.parse(decryptedData);
 
-        const user = await axiosQuery.axiosQueryPost(parsedResponse, LOGIN_URL);
+        const user = await axiosQuery.axiosQueryGet(
+            {
+                userName: parsedResponse.userName,
+                password: parsedResponse.password,
+            },
+            LOGIN_URL
+        );
         setUser({
             id: user.data.user.id,
             login: user.data.user.login,

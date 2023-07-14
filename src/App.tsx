@@ -23,6 +23,7 @@ function App() {
         }
         cookieGetUser(userLogIn, setUser);
     }, [setUser, userLogIn]);
+
     return (
         <RouterContext.Provider
             value={{
