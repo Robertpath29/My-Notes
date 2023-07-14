@@ -3,7 +3,15 @@ const initialState = {
     id: ``,
     login: ``,
     email: ``,
-    dataUser: [],
+    dataUser: {
+        photo: "",
+        name: "",
+        surname: "",
+        birthday: "",
+        country: "",
+        city: "",
+        address: "",
+    },
 };
 export const userSlice = createSlice({
     name: `User`,
@@ -13,9 +21,10 @@ export const userSlice = createSlice({
             state.id = payload.id;
             state.login = payload.login;
             state.email = payload.email;
+        },
+        setDataUser: (state, { payload }) => {
             state.dataUser = payload.dataUser;
         },
-        setDataUser: (state, { payload }) => {},
     },
 });
 

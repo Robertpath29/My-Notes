@@ -100,7 +100,6 @@ export function useSubmitForm() {
                         id: user.id,
                         login: user.login,
                         email: user.email,
-                        dataUser: [],
                     });
                     visibilityConfirm({ visibility: true });
                 }

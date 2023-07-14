@@ -4,6 +4,10 @@ export const MyInfoStyle = styled.div`
     width: 100%;
     height: 100%;
     position: relative;
+    & > article {
+        width: 100%;
+        height: 100%;
+    }
 `;
 export const ContainerLoading = styled.div`
     width: max-content;
