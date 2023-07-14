@@ -1,11 +1,11 @@
 import axios from "axios";
-const URL_SERVER = `http://192.168.1.104:5001`;
+export const URL_SERVER = `http://192.168.1.104:5001`;
 export const REG_URL = `${URL_SERVER}/registration`;
 export const LOGIN_URL = `${URL_SERVER}/login`;
 export const GET_INFO_USER_URL = `${URL_SERVER}/InfoUser`;
 class AxiosQuery {
     async axiosQueryPost(
-        data: object,
+        data: object | FormData,
         url: string,
         stateLoading?: (value: boolean) => void
     ) {

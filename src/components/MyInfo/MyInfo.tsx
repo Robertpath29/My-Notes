@@ -7,12 +7,14 @@ import Loading from "../basic/loading/Loading";
 import { useAction } from "../../hooks/useAction";
 import InformationUser from "../InformationUser/InformationUser";
 import Confirm from "../Confirm/Confirm";
+import FormUserInfo from "../FormUserInfo/FormUserInfo";
 
 const MyInfo = () => {
     const { id } = useSelector((state: reducersType) => state.user);
     const { isLoading } = useSelector((state: reducersType) => state.loading);
     const { stateLoading, setDataUser } = useAction();
     const [confirmDataInfo, isConfirmDataInfo] = useState(false);
+    const [formInfoUser, isFormInfoUser] = useState(false);
 
     const getInfoUser = useCallback(async () => {
         const infoUser = await axiosQuery.axiosQueryGet(
@@ -27,7 +29,7 @@ const MyInfo = () => {
                 isConfirmDataInfo(true);
                 setDataUser({
                     dataUser: {
-                        photo: "/images/userIcon.svg",
+                        photo: "",
                         name: "...",
                         surname: "...",
                         birthday: "...",
@@ -39,7 +41,7 @@ const MyInfo = () => {
             }
             stateLoading(false);
         }
-    }, [id, stateLoading]);
+    }, [id, stateLoading, setDataUser]);
 
     useEffect(() => {
         getInfoUser();
@@ -55,11 +57,16 @@ const MyInfo = () => {
             ) : confirmDataInfo ? (
                 <Confirm
                     message="You have not filled in the data, fill it in?"
-                    onConfirm={() => {}}
+                    onConfirm={() => {
+                        isFormInfoUser(true);
+                        isConfirmDataInfo(false);
+                    }}
                     onCancel={() => {
                         isConfirmDataInfo(false);
                     }}
                 />
+            ) : formInfoUser ? (
+                <FormUserInfo isFormInfoUser={isFormInfoUser} />
             ) : (
                 <InformationUser />
             )}

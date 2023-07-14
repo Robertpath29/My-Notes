@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
     AddressStyle,
     BirthdayStyle,
@@ -11,14 +11,21 @@ import {
 } from "./informationUser.style";
 import { useSelector } from "react-redux";
 import { reducersType } from "../../redux/combineReducers/combineReducers";
+import { URL_SERVER } from "../../api/AxiosQuery";
 
 const InformationUser = () => {
     const { dataUser } = useSelector((state: reducersType) => state.user);
-    console.log(dataUser);
 
     return (
         <InformationUserStyle>
-            <PhotoStyle src={dataUser.photo} alt="User Photo" />
+            <PhotoStyle
+                src={
+                    dataUser.photo === ""
+                        ? "/images/userIcon.svg"
+                        : `${URL_SERVER}/${dataUser.photo}`
+                }
+                alt="User Photo"
+            />
             <NameStyle>Name: {dataUser.name}</NameStyle>
             <SurnameStyle>Surname: {dataUser.surname}</SurnameStyle>
             <BirthdayStyle>Birthday: {dataUser.birthday}</BirthdayStyle>

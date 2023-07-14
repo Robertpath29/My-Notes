@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const UserIsRegisteredStyle = styled.div`
     width: 100%;
     height: 100vh;
-    background-image: url("./images/backgroundLoginPages.jpeg");
+    background-image: url("/images/backgroundLoginPages.jpeg");
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
