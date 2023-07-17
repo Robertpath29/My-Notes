@@ -25,6 +25,9 @@ export const userSlice = createSlice({
         setDataUser: (state, { payload }) => {
             state.dataUser = payload.dataUser;
         },
+        setImgUser: (state, { payload }) => {
+            state.dataUser.photo = payload.photo;
+        },
     },
 });
 
