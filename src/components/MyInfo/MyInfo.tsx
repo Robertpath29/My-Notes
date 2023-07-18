@@ -8,6 +8,7 @@ import InformationUser from "../InformationUser/InformationUser";
 import Confirm from "../Confirm/Confirm";
 import FormUserInfo from "../FormUserInfo/FormUserInfo";
 import { UseGetInfoUser } from "../../hooks/useGetInfoUser";
+import { useSubmitFormInfoUser } from "../../hooks/useSubmitFormInfoUser";
 
 const MyInfo = () => {
     const { isLoading } = useSelector((state: reducersType) => state.loading);
@@ -15,6 +16,8 @@ const MyInfo = () => {
     const { stateLoading } = useAction();
     const { confirmDataInfo, isConfirmDataInfo, getInfoUser } =
         UseGetInfoUser();
+    const { submitFormInfoUser, setSelectedImg } =
+        useSubmitFormInfoUser(isFormInfoUser);
     useEffect(() => {
         getInfoUser();
         stateLoading(true);
@@ -37,7 +40,10 @@ const MyInfo = () => {
                     }}
                 />
             ) : formInfoUser ? (
-                <FormUserInfo isFormInfoUser={isFormInfoUser} />
+                <FormUserInfo
+                    setSelectedImg={setSelectedImg}
+                    submit={submitFormInfoUser}
+                />
             ) : (
                 <InformationUser />
             )}

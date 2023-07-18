@@ -19,16 +19,15 @@ export const UseGetInfoUser = () => {
                 isConfirmDataInfo(false);
             } else {
                 isConfirmDataInfo(true);
-                console.log(confirmDataInfo);
                 setDataUser({
                     dataUser: {
                         photo: "",
-                        name: "...",
-                        surname: "...",
-                        birthday: "...",
-                        country: "...",
-                        city: "...",
-                        address: "...",
+                        name: "",
+                        surname: "",
+                        birthday: "",
+                        country: "",
+                        city: "",
+                        address: "",
                     },
                 });
             }
@@ -39,7 +38,7 @@ export const UseGetInfoUser = () => {
     const getImgUser = useCallback(async () => {
         try {
             const infoUser = await axiosQuery.axiosQueryGet(
-                { id: id },
+                { id: Number(id) },
                 GET_INFO_USER_URL
             );
 

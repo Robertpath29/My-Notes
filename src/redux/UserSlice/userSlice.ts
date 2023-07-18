@@ -4,6 +4,7 @@ const initialState = {
     login: ``,
     email: ``,
     dataUser: {
+        id: 0,
         photo: "",
         name: "",
         surname: "",

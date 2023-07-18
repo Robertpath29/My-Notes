@@ -39,6 +39,23 @@ class AxiosQuery {
                 if (stateLoading) stateLoading(false);
             });
     }
+    async axiosQueryPut(
+        data: object | FormData,
+        url: string,
+        stateLoading?: (value: boolean) => void
+    ) {
+        return await axios
+            .put(url, data)
+            .then((response) => {
+                return response;
+            })
+            .catch((e) => {
+                return e.message;
+            })
+            .finally(() => {
+                if (stateLoading) stateLoading(false);
+            });
+    }
 }
 
 const axiosQuery = new AxiosQuery();

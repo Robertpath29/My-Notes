@@ -8,49 +8,25 @@ import {
 } from "./formUserInfo.style";
 import NotesInput from "../basic/input/NotesInput";
 import NotesButton from "../basic/button/NotesButton";
-import axiosQuery, { GET_INFO_USER_URL } from "../../api/AxiosQuery";
 import { useSelector } from "react-redux";
 import { reducersType } from "../../redux/combineReducers/combineReducers";
 import { formInfoUserType } from "./formInfoUserType";
-import { useAction } from "../../hooks/useAction";
 
-const FormUserInfo: FC<formInfoUserType> = ({ isFormInfoUser }) => {
-    const { id } = useSelector((state: reducersType) => state.user);
+const FormUserInfo: FC<formInfoUserType> = ({ setSelectedImg, submit }) => {
+    const { id, dataUser } = useSelector((state: reducersType) => state.user);
+
     const [data, setData] = useState({
-        name: "...",
-        surname: "...",
-        birthday: "...",
-        country: "...",
-        city: "...",
-        address: "...",
+        name: dataUser.name,
+        surname: dataUser.surname,
+        birthday: dataUser.birthday,
+        country: dataUser.country,
+        city: dataUser.city,
+        address: dataUser.address,
         user_id: id,
+        infoUser_id: dataUser.id,
+        photo: dataUser.photo,
     });
-    const [selectedImg, setSelectedImg] = useState(null);
-    const { setDataUser } = useAction();
 
-    async function submitFormInfoUser() {
-        const formData = new FormData();
-        let response = null;
-        if (selectedImg) {
-            formData.append("img", selectedImg);
-            formData.append("data", JSON.stringify(data));
-            response = await axiosQuery.axiosQueryPost(
-                formData,
-                GET_INFO_USER_URL
-            );
-        } else {
-            formData.append("data", JSON.stringify(data));
-            response = await axiosQuery.axiosQueryPost(
-                formData,
-                GET_INFO_USER_URL
-            );
-        }
-        if (response) {
-            setDataUser({ dataUser: response.data });
-            isFormInfoUser(false);
-        }
-        console.log(response);
-    }
     return (
         <ContainerForm>
             <HeaderFormInfoUser>Fill out the form below</HeaderFormInfoUser>
@@ -60,6 +36,7 @@ const FormUserInfo: FC<formInfoUserType> = ({ isFormInfoUser }) => {
                     <NotesInput
                         type="text"
                         placeholder="Max"
+                        value={data.name}
                         onChange={(e) => {
                             setData({ ...data, name: e.target.value });
                         }}
@@ -70,6 +47,7 @@ const FormUserInfo: FC<formInfoUserType> = ({ isFormInfoUser }) => {
                     <NotesInput
                         type="text"
                         placeholder="Smith"
+                        value={data.surname}
                         onChange={(e) => {
                             setData({ ...data, surname: e.target.value });
                         }}
@@ -80,6 +58,7 @@ const FormUserInfo: FC<formInfoUserType> = ({ isFormInfoUser }) => {
                     <NotesInput
                         type="date"
                         placeholder="Max"
+                        value={data.birthday}
                         onChange={(e) => {
                             setData({ ...data, birthday: e.target.value });
                         }}
@@ -90,6 +69,7 @@ const FormUserInfo: FC<formInfoUserType> = ({ isFormInfoUser }) => {
                     <NotesInput
                         type="text"
                         placeholder="USA"
+                        value={data.country}
                         onChange={(e) => {
                             setData({ ...data, country: e.target.value });
                         }}
@@ -100,6 +80,7 @@ const FormUserInfo: FC<formInfoUserType> = ({ isFormInfoUser }) => {
                     <NotesInput
                         type="text"
                         placeholder="New York"
+                        value={data.city}
                         onChange={(e) => {
                             setData({ ...data, city: e.target.value });
                         }}
@@ -111,6 +92,7 @@ const FormUserInfo: FC<formInfoUserType> = ({ isFormInfoUser }) => {
                         type="text"
                         placeholder="9844 Second Dr.
 Brooklyn, NY 11211"
+                        value={data.address}
                         onChange={(e) => {
                             setData({ ...data, address: e.target.value });
                         }}
@@ -126,7 +108,13 @@ Brooklyn, NY 11211"
                     />
                 </FieldsetStyle>
             </FormUserInfoStyle>
-            <NotesButton onClick={submitFormInfoUser}>Submit form</NotesButton>
+            <NotesButton
+                onClick={() => {
+                    submit(data);
+                }}
+            >
+                Submit form
+            </NotesButton>
         </ContainerForm>
     );
 };
