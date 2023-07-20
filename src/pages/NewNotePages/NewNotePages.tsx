@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { reducersType } from "../../redux/combineReducers/combineReducers";
 import { useRouter } from "../../hooks/useRouter";
 import Header from "../../components/Header/Header";
+import FormNewNote from "../../components/FormNewNote/FormNewNote";
 
 const NewNotePages = () => {
     const userData = useSelector((store: reducersType) => store.user);
@@ -21,6 +22,7 @@ const NewNotePages = () => {
                     moveTo("/my-notes");
                 }}
             />
+            <FormNewNote />
         </NewNotePagesStyle>
     );
 };

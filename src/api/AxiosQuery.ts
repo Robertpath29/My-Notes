@@ -3,6 +3,7 @@ export const URL_SERVER = `http://192.168.1.104:5001`;
 export const REG_URL = `${URL_SERVER}/registration`;
 export const LOGIN_URL = `${URL_SERVER}/login`;
 export const GET_INFO_USER_URL = `${URL_SERVER}/InfoUser`;
+export const NEW_NOTE_URL = `${URL_SERVER}/newNote`;
 class AxiosQuery {
     async axiosQueryPost(
         data: object | FormData,
