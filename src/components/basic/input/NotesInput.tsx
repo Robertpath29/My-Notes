@@ -12,10 +12,12 @@ const NotesInput: FC<notesInputType> = ({
     onChange,
     valid,
     registration,
+    accept,
 }) => {
     return (
         <NotesInputStyle
             type={type}
+            accept={accept}
             disabled={disabled}
             placeholder={placeholder}
             required={required}

@@ -11,9 +11,12 @@ import NotesButton from "../basic/button/NotesButton";
 import { useSelector } from "react-redux";
 import { reducersType } from "../../redux/combineReducers/combineReducers";
 import { formInfoUserType } from "./formInfoUserType";
+import WarningMessage from "../basic/warning_message/WarningMessage";
+import { isImages } from "../../utils/isImages";
 
 const FormUserInfo: FC<formInfoUserType> = ({ setSelectedImg, submit }) => {
     const { id, dataUser } = useSelector((state: reducersType) => state.user);
+    const [img, isImg] = useState(false);
 
     const [data, setData] = useState({
         name: dataUser.name,
@@ -102,10 +105,17 @@ Brooklyn, NY 11211"
                     <LegendStyle>Photo</LegendStyle>
                     <NotesInput
                         type="file"
+                        accept=".jpeg, .png, .gif, .svg"
                         onChange={(e) => {
-                            setSelectedImg(e.target.files[0]);
+                            if (isImages(e)) {
+                                setSelectedImg(e.target.files[0]);
+                                isImg(false);
+                            } else {
+                                isImg(true);
+                            }
                         }}
                     />
+                    <WarningMessage none={img}>Invalid format!</WarningMessage>
                 </FieldsetStyle>
             </FormUserInfoStyle>
             <NotesButton

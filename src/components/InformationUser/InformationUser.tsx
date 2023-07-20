@@ -24,13 +24,7 @@ const InformationUser = () => {
     const { setSelectedImg, editFormInfoUser } =
         useSubmitFormInfoUser(isFormInfoUser);
     return (
-        <InformationUserStyle
-            images={
-                dataUser.photo === ""
-                    ? "/images/userIcon.svg"
-                    : `${URL_SERVER}/${dataUser.photo}`
-            }
-        >
+        <InformationUserStyle>
             {formInfoUser ? (
                 <FormUserInfo
                     setSelectedImg={setSelectedImg}
@@ -38,6 +32,13 @@ const InformationUser = () => {
                 />
             ) : (
                 <>
+                    <PhotoStyle
+                        src={
+                            dataUser.photo === ""
+                                ? "/images/userIcon.svg"
+                                : `${URL_SERVER}/${dataUser.photo}`
+                        }
+                    />
                     <NameStyle>Name: {dataUser.name}</NameStyle>
                     <SurnameStyle>Surname: {dataUser.surname}</SurnameStyle>
                     <BirthdayStyle>Birthday: {dataUser.birthday}</BirthdayStyle>
