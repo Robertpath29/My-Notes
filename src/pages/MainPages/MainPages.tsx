@@ -6,22 +6,25 @@ import Header from "../../components/Header/Header";
 import NoteDisplay from "../../components/NoteDisplay/NoteDisplay";
 import Footer from "../../components/Footer/Footer";
 import { useNavigate } from "react-router-dom";
+import { useRouter } from "../../hooks/useRouter";
 
 const MainPages = () => {
     const userData = useSelector((store: reducersType) => store.user);
-    const router = useNavigate();
-
-    function moveToOptions() {
-        router(`/my-notes/options`);
-    }
+    const { moveTo } = useRouter();
 
     return (
         <MainPagesStyle>
             <>
                 <Header
                     userName={userData.login}
-                    nameBtn="Options"
-                    fnBtn={moveToOptions}
+                    nameBtnOptions="Options"
+                    fnBtnOptions={() => {
+                        moveTo("/my-notes/options");
+                    }}
+                    nameBtnNewNote="New note"
+                    fnBtnNewNote={() => {
+                        moveTo("/my-notes/new-note");
+                    }}
                 />
                 <NoteDisplay />
                 <Footer />

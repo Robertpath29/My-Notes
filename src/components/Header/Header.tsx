@@ -16,7 +16,13 @@ import { reducersType } from "../../redux/combineReducers/combineReducers";
 import { URL_SERVER } from "../../api/AxiosQuery";
 import { UseGetInfoUser } from "../../hooks/useGetInfoUser";
 
-const Header: FC<headerType> = ({ userName, nameBtn, fnBtn }) => {
+const Header: FC<headerType> = ({
+    userName,
+    nameBtnOptions,
+    fnBtnOptions,
+    fnBtnNewNote,
+    nameBtnNewNote,
+}) => {
     const { visibility } = useSelector((state: reducersType) => state.confirm);
     const userData = useSelector((store: reducersType) => store.user);
     const { visibilityConfirm, userLogIn } = useAction();
@@ -51,7 +57,12 @@ const Header: FC<headerType> = ({ userName, nameBtn, fnBtn }) => {
             </ContainerGroupStyle>
 
             <ContainerGroupStyle>
-                <NotesButton onClick={fnBtn}>{nameBtn}</NotesButton>
+                <NotesButton onClick={fnBtnNewNote}>
+                    {nameBtnNewNote}
+                </NotesButton>
+                <NotesButton onClick={fnBtnOptions}>
+                    {nameBtnOptions}
+                </NotesButton>
                 <NotesButton
                     onClick={() => visibilityConfirm({ visibility: true })}
                 >

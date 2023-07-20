@@ -1,5 +1,7 @@
 export type headerType = {
     userName: string;
-    nameBtn: string;
-    fnBtn: () => void;
+    nameBtnOptions: string;
+    fnBtnOptions: () => void;
+    nameBtnNewNote: string;
+    fnBtnNewNote: () => void;
 };
