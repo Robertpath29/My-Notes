@@ -9,7 +9,6 @@ import {
 } from "./formNewNote.style";
 import NotesInput from "../basic/input/NotesInput";
 import NotesButton from "../basic/button/NotesButton";
-import { submitFormNewNoteType } from "./formNewNoteType";
 import WarningMessage from "../basic/warning_message/WarningMessage";
 import { useSelector } from "react-redux";
 import { reducersType } from "../../redux/combineReducers/combineReducers";
@@ -17,10 +16,12 @@ import Loading from "../basic/loading/Loading";
 import { useSubmitFormNewNote } from "../../hooks/useSubmitFormNewNote";
 
 const FormNewNote = () => {
+    const { id } = useSelector((state: reducersType) => state.user);
     const [data, setData] = useState({
         name: "",
         textarea: "",
         color: "#ffffff",
+        user_id: Number(id),
     });
     const { isLoading } = useSelector((state: reducersType) => state.loading);
 

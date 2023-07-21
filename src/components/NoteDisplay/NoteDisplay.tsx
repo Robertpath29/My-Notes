@@ -1,8 +1,51 @@
-import React from "react";
-import { NoteDisplayStyle } from "./noteDisplay.style";
+import React, { useCallback, useEffect, useState } from "react";
+import { NoteDisplayStyle, SelectStyle } from "./noteDisplay.style";
+import axiosQuery, { NEW_NOTE_URL } from "../../api/AxiosQuery";
+import { useSelector } from "react-redux";
+import { reducersType } from "../../redux/combineReducers/combineReducers";
+import { noteType } from "../Note/noteType";
+import Note from "../Note/Note";
 
 const NoteDisplay = () => {
-    return <NoteDisplayStyle></NoteDisplayStyle>;
+    const [note, setNote] = useState<noteType[]>([]);
+    const [select, setSelect] = useState("Are performed");
+    const { id } = useSelector((state: reducersType) => state.user);
+    const getNotes = useCallback(async () => {
+        const response = await axiosQuery.axiosQueryGet(
+            { user_id: id, select: select },
+            NEW_NOTE_URL
+        );
+
+        setNote(response.data);
+    }, [id, select]);
+    useEffect(() => {
+        getNotes();
+    }, [getNotes, select]);
+
+    return (
+        <NoteDisplayStyle>
+            <SelectStyle
+                defaultValue={"Are performed"}
+                onChange={(e) => {
+                    setSelect(e.target.value);
+                }}
+            >
+                <option value="All">All</option>
+                <option value="Are performed">Are performed</option>
+                <option value="Done">Done</option>
+            </SelectStyle>
+            {note.map((note) => (
+                <Note
+                    id={note.id}
+                    color={note.color}
+                    done={note.done}
+                    name={note.name}
+                    textarea={note.textarea}
+                    key={note.id}
+                />
+            ))}
+        </NoteDisplayStyle>
+    );
 };
 
 export default NoteDisplay;

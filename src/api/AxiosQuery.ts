@@ -57,6 +57,23 @@ class AxiosQuery {
                 if (stateLoading) stateLoading(false);
             });
     }
+    async axiosQueryDelete(
+        params: object,
+        url: string,
+        stateLoading?: (value: boolean) => void
+    ) {
+        return await axios
+            .delete(url, { params: params })
+            .then((response) => {
+                return response;
+            })
+            .catch((e) => {
+                return e.message;
+            })
+            .finally(() => {
+                if (stateLoading) stateLoading(false);
+            });
+    }
 }
 
 const axiosQuery = new AxiosQuery();
