@@ -31,8 +31,6 @@ const Note: FC<noteType> = (data: noteType) => {
             { id: data.id },
             NEW_NOTE_URL
         );
-
-        console.log(response.data);
     }
     useEffect(() => {
         if (display === true) setOpacityCheckbox(1);

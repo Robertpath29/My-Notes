@@ -1,10 +1,17 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { NoteDisplayStyle, SelectStyle } from "./noteDisplay.style";
+import {
+    CleanTableGroup,
+    CleanTableImgGroup,
+    CleanTableTitleGroup,
+    NoteDisplayStyle,
+    SelectStyle,
+} from "./noteDisplay.style";
 import axiosQuery, { NEW_NOTE_URL } from "../../api/AxiosQuery";
 import { useSelector } from "react-redux";
 import { reducersType } from "../../redux/combineReducers/combineReducers";
 import { noteType } from "../Note/noteType";
 import Note from "../Note/Note";
+import NotesButton from "../basic/button/NotesButton";
 
 const NoteDisplay = () => {
     const [note, setNote] = useState<noteType[]>([]);
@@ -44,6 +51,12 @@ const NoteDisplay = () => {
                     key={note.id}
                 />
             ))}
+            {note.length === 0 && (
+                <CleanTableGroup>
+                    <CleanTableTitleGroup>Has no notes...</CleanTableTitleGroup>
+                    <CleanTableImgGroup src="/images/clean-table.gif" />
+                </CleanTableGroup>
+            )}
         </NoteDisplayStyle>
     );
 };
