@@ -27,10 +27,7 @@ const Note: FC<noteType> = (data: noteType) => {
     }
 
     async function deleteNote() {
-        const response = await axiosQuery.axiosQueryDelete(
-            { id: data.id },
-            NEW_NOTE_URL
-        );
+        await axiosQuery.axiosQueryDelete({ id: data.id }, NEW_NOTE_URL);
     }
     useEffect(() => {
         if (display === true) setOpacityCheckbox(1);

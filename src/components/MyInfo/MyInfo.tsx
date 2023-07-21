@@ -9,9 +9,11 @@ import Confirm from "../Confirm/Confirm";
 import FormUserInfo from "../FormUserInfo/FormUserInfo";
 import { UseGetInfoUser } from "../../hooks/useGetInfoUser";
 import { useSubmitFormInfoUser } from "../../hooks/useSubmitFormInfoUser";
+import { useRouter } from "../../hooks/useRouter";
 
 const MyInfo = () => {
     const { isLoading } = useSelector((state: reducersType) => state.loading);
+    const { moveTo } = useRouter();
     const [formInfoUser, isFormInfoUser] = useState(false);
     const { stateLoading } = useAction();
     const { confirmDataInfo, isConfirmDataInfo, getInfoUser } =
@@ -36,7 +38,7 @@ const MyInfo = () => {
                         isConfirmDataInfo(false);
                     }}
                     onCancel={() => {
-                        isConfirmDataInfo(false);
+                        moveTo(`/my-notes`);
                     }}
                 />
             ) : formInfoUser ? (

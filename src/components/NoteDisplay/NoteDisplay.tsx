@@ -11,7 +11,6 @@ import { useSelector } from "react-redux";
 import { reducersType } from "../../redux/combineReducers/combineReducers";
 import { noteType } from "../Note/noteType";
 import Note from "../Note/Note";
-import NotesButton from "../basic/button/NotesButton";
 
 const NoteDisplay = () => {
     const [note, setNote] = useState<noteType[]>([]);
