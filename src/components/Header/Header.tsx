@@ -64,6 +64,7 @@ const Header: FC<headerType> = ({
             <ContainerGroupStyle>
                 <ChatContainerBtn display={displayBtnChat}>
                     <NotesButton
+                        id="openChat"
                         onClick={() => {
                             setDisplayChat({ displayChat: "visibility" });
                             setDisplayBtnChat({ displayBtnChat: "none" });

@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
     displayBtnChat: "Block",
     displayChat: "none",
+    opacity: 1,
 };
 
 export const chatSlice = createSlice({
@@ -14,6 +15,9 @@ export const chatSlice = createSlice({
         },
         setDisplayChat(state, { payload }) {
             state.displayChat = payload.displayChat;
+        },
+        setOpacity(state, { payload }) {
+            state.opacity = payload.opacity;
         },
     },
 });

@@ -1,11 +1,12 @@
 import styled from "styled-components";
 
-export const ChatStyle = styled.div<{ display: string }>`
+export const ChatStyle = styled.div<{ display: string; opacity: number }>`
     width: 40%;
     z-index: 111;
     padding: 20px 20px 10px 20px;
     position: fixed;
     bottom: 20px;
+    opacity: ${({ opacity }) => opacity};
     right: ${({ display }) => (display === `none` ? `-40%` : `20px`)};
     border: 2px solid black;
     border-radius: 20px 0 20px 0;

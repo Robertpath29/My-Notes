@@ -7,14 +7,22 @@ import Header from "../../components/Header/Header";
 import NavOptions from "../../components/NavOptions/NavOptions";
 import OptionsDisplay from "../../components/OptionsDisplay/OptionsDisplay";
 import { useRouter } from "../../hooks/useRouter";
+import { opacityChat } from "../../utils/opacityChat";
+import { useAction } from "../../hooks/useAction";
 
 const Options = () => {
     const { moveTo } = useRouter();
     const userData = useSelector((store: reducersType) => store.user);
+    const { displayChat } = useSelector((store: reducersType) => store.chat);
     const [element, setElement] = useState(<></>);
     const [visDisplay, setVisDisplay] = useState("none");
+    const { setOpacity } = useAction();
     return (
-        <OptionsStyle>
+        <OptionsStyle
+            onClick={(e) => {
+                opacityChat(e, setOpacity, displayChat);
+            }}
+        >
             <Header
                 userName={userData.login}
                 nameBtnOptions="Main page"

@@ -15,28 +15,48 @@ import { reducersType } from "../../redux/combineReducers/combineReducers";
 import { useAction } from "../../hooks/useAction";
 
 const Chat = () => {
-    const { displayChat } = useSelector((store: reducersType) => store.chat);
-    const { setDisplayBtnChat, setDisplayChat } = useAction();
+    const { displayChat, opacity } = useSelector(
+        (store: reducersType) => store.chat
+    );
+    const { setDisplayBtnChat, setDisplayChat, setOpacity } = useAction();
     return (
-        <ChatStyle display={displayChat}>
-            <GroupNameUserStyle>
-                <NotesInput type="text" placeholder="user login" />
-                <NotesButton onClick={() => {}}>+</NotesButton>
+        <ChatStyle
+            id="chat"
+            display={displayChat}
+            opacity={opacity}
+            onClick={() => {
+                setOpacity({ opacity: 1 });
+                console.log(1);
+            }}
+        >
+            <GroupNameUserStyle id="groupNameUser">
+                <NotesInput
+                    type="text"
+                    placeholder="user login"
+                    id="inputUserLogin"
+                />
+                <NotesButton id="userLoginBtn" onClick={() => {}}>
+                    +
+                </NotesButton>
             </GroupNameUserStyle>
-            <GroupMessageUserStyle>
-                <ChatDisplayStyle></ChatDisplayStyle>
-                <UserDisplayStyle></UserDisplayStyle>
+            <GroupMessageUserStyle id="groupMessageUser">
+                <ChatDisplayStyle id="chatDisplay"></ChatDisplayStyle>
+                <UserDisplayStyle id="userDisplay"></UserDisplayStyle>
             </GroupMessageUserStyle>
-            <WriteTextGroupStyle>
+            <WriteTextGroupStyle id="writeTextGroup">
                 <TextareaShatStyle
+                    id="textareaShat"
                     spellCheck
                     rows={3}
                     cols={20}
                     placeholder="you message"
                 />
-                <NotesButton onClick={() => {}}>Submit</NotesButton>
+                <NotesButton id="submit" onClick={() => {}}>
+                    Submit
+                </NotesButton>
             </WriteTextGroupStyle>
             <NotesButton
+                id="closeChat"
                 onClick={() => {
                     setDisplayChat({ displayChat: "none" });
                     setDisplayBtnChat({ displayBtnChat: "block" });

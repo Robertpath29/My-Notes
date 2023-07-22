@@ -13,9 +13,11 @@ const NotesInput: FC<notesInputType> = ({
     valid,
     registration,
     accept,
+    id,
 }) => {
     return (
         <NotesInputStyle
+            id={id}
             type={type}
             accept={accept}
             disabled={disabled}
