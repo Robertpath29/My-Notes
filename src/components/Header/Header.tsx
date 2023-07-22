@@ -1,5 +1,6 @@
-import React, { FC, useEffect } from "react";
+import React, { FC, useEffect, useState } from "react";
 import {
+    ChatContainerBtn,
     ContainerGroupStyle,
     HeaderStyle,
     ImgUser,
@@ -15,6 +16,7 @@ import { useSelector } from "react-redux";
 import { reducersType } from "../../redux/combineReducers/combineReducers";
 import { URL_SERVER } from "../../api/AxiosQuery";
 import { UseGetInfoUser } from "../../hooks/useGetInfoUser";
+import Chat from "../Chat/Chat";
 
 const Header: FC<headerType> = ({
     userName,
@@ -25,9 +27,12 @@ const Header: FC<headerType> = ({
 }) => {
     const { visibility } = useSelector((state: reducersType) => state.confirm);
     const userData = useSelector((store: reducersType) => store.user);
-    const { visibilityConfirm, userLogIn } = useAction();
+    const { displayBtnChat } = useSelector((store: reducersType) => store.chat);
+    const { visibilityConfirm, userLogIn, setDisplayBtnChat, setDisplayChat } =
+        useAction();
     const router = useNavigate();
     const { getImgUser } = UseGetInfoUser();
+
     useEffect(() => {
         getImgUser();
     }, [getImgUser]);
@@ -57,6 +62,16 @@ const Header: FC<headerType> = ({
             </ContainerGroupStyle>
 
             <ContainerGroupStyle>
+                <ChatContainerBtn display={displayBtnChat}>
+                    <NotesButton
+                        onClick={() => {
+                            setDisplayChat({ displayChat: "visibility" });
+                            setDisplayBtnChat({ displayBtnChat: "none" });
+                        }}
+                    >
+                        Chat
+                    </NotesButton>
+                </ChatContainerBtn>
                 <NotesButton onClick={fnBtnNewNote}>
                     {nameBtnNewNote}
                 </NotesButton>
@@ -76,6 +91,7 @@ const Header: FC<headerType> = ({
                     onCancel={noExitAccount}
                 />
             )}
+            <Chat />
         </HeaderStyle>
     );
 };

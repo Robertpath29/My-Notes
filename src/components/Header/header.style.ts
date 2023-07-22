@@ -23,3 +23,8 @@ export const ImgUser = styled.img`
     border-radius: 50%;
     object-fit: cover;
 `;
+
+export const ChatContainerBtn = styled.div<{ display: string }>`
+    z-index: 11;
+    display: ${({ display }) => display};
+`;

@@ -6,6 +6,7 @@ import { actions as actionsRegisterLogIn } from "../redux/RegisterLogInSlice/reg
 import { actions as actionsValidationForm } from "../redux/errorMessageFormSlice/errorMessageFormSlice";
 import { actions as actionsUserSlice } from "../redux/UserSlice/userSlice";
 import { actions as actionsConfirm } from "../redux/ConfirmSlice/confirmSlice";
+import { actions as actionsChat } from "../redux/ChatSlice/chatSlice";
 
 const rootAction = {
     ...actionsLoading,
@@ -13,6 +14,7 @@ const rootAction = {
     ...actionsValidationForm,
     ...actionsUserSlice,
     ...actionsConfirm,
+    ...actionsChat,
 };
 
 export const useAction = () => {
