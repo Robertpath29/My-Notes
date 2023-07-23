@@ -18,7 +18,7 @@ const NoteDisplay = () => {
     const { id } = useSelector((state: reducersType) => state.user);
     const getNotes = useCallback(async () => {
         const response = await axiosQuery.axiosQueryGet(
-            { user_id: id, select: select },
+            { user_id: Number(id), select: select },
             NEW_NOTE_URL
         );
 

@@ -1,9 +1,11 @@
+import { ActionCreatorWithPayload } from "@reduxjs/toolkit";
 import axiosQuery, { LOGIN_URL } from "../api/AxiosQuery";
 import { secretKAY } from "../config/config";
 import CryptoJS from "crypto-js";
 export async function cookieGetUser(
     userLogIn: (value: object) => void,
-    setUser: (value: object) => void
+    setUser: (value: object) => void,
+    isOnline: ActionCreatorWithPayload<any, "webSocket/isOnline">
 ) {
     const saveUser = document.cookie.split("; ");
     const saveUserCookie = saveUser.find((saveUser) =>
@@ -32,5 +34,6 @@ export async function cookieGetUser(
             email: user.data.user.email,
             dataUser: [],
         });
+        isOnline({ online: true });
     }
 }

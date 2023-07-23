@@ -5,6 +5,7 @@ import { reducer as validationFormReducer } from "../errorMessageFormSlice/error
 import { reducer as userReducer } from "../UserSlice/userSlice";
 import { reducer as confirmReducer } from "../ConfirmSlice/confirmSlice";
 import { reducer as chatReducer } from "../ChatSlice/chatSlice";
+import { reducer as webSocketReducer } from "../webSocketSlice/webSocketSlice";
 
 export const reducers = combineReducers({
     loading: loadingReducer,
@@ -13,6 +14,7 @@ export const reducers = combineReducers({
     user: userReducer,
     confirm: confirmReducer,
     chat: chatReducer,
+    webSocket: webSocketReducer,
 });
 
 export type reducersType = ReturnType<typeof reducers>;

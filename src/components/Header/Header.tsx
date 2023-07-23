@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useEffect } from "react";
 import {
     ChatContainerBtn,
     ContainerGroupStyle,
@@ -11,7 +11,6 @@ import { headerType } from "./headerType";
 import NotesButton from "../basic/button/NotesButton";
 import { useAction } from "../../hooks/useAction";
 import Confirm from "../Confirm/Confirm";
-import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { reducersType } from "../../redux/combineReducers/combineReducers";
 import { URL_SERVER } from "../../api/AxiosQuery";
@@ -28,9 +27,13 @@ const Header: FC<headerType> = ({
     const { visibility } = useSelector((state: reducersType) => state.confirm);
     const userData = useSelector((store: reducersType) => store.user);
     const { displayBtnChat } = useSelector((store: reducersType) => store.chat);
-    const { visibilityConfirm, userLogIn, setDisplayBtnChat, setDisplayChat } =
-        useAction();
-    const router = useNavigate();
+    const {
+        visibilityConfirm,
+        userLogIn,
+        setDisplayBtnChat,
+        setDisplayChat,
+        isOnline,
+    } = useAction();
     const { getImgUser } = UseGetInfoUser();
 
     useEffect(() => {
@@ -38,8 +41,8 @@ const Header: FC<headerType> = ({
     }, [getImgUser]);
 
     function exitAccount() {
+        isOnline({ online: false });
         document.cookie = "saveUser=; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
-        router(`/login`);
         visibilityConfirm({ visibility: false });
         userLogIn({ userIsLogIn: false });
     }

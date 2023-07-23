@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React from "react";
 import {
     ChatDisplayStyle,
     ChatStyle,
@@ -19,6 +19,7 @@ const Chat = () => {
         (store: reducersType) => store.chat
     );
     const { setDisplayBtnChat, setDisplayChat, setOpacity } = useAction();
+
     return (
         <ChatStyle
             id="chat"

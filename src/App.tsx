@@ -7,13 +7,16 @@ import { reducersType } from "./redux/combineReducers/combineReducers";
 import { cookieLoadingPagesStart } from "./utils/cookieLoadingPagesStart";
 import { cookieGetUser } from "./utils/cookieGetUser";
 import { useAction } from "./hooks/useAction";
+import WebSocketConnection from "./components/basic/WebSocketConnection/WebSocketConnection";
 
 function App() {
     const [isLoadingPagesStart, setIsLoadingPagesStart] = useState(true);
     const { userIsLogIn } = useSelector(
         (store: reducersType) => store.registerLogIn
     );
-    const { userLogIn, setUser } = useAction();
+    const user = useSelector((store: reducersType) => store.user);
+    const { online } = useSelector((store: reducersType) => store.webSocket);
+    const { userLogIn, setUser, isOnline } = useAction();
 
     useEffect(() => {
         if (!cookieLoadingPagesStart(setIsLoadingPagesStart)) {
@@ -21,8 +24,8 @@ function App() {
             expirationDate.setTime(expirationDate.getTime() + 60000);
             document.cookie = `isLoadingPagesStart=; expires=${expirationDate.toUTCString()}`;
         }
-        cookieGetUser(userLogIn, setUser);
-    }, [setUser, userLogIn]);
+        cookieGetUser(userLogIn, setUser, isOnline);
+    }, [setUser, userLogIn, isOnline]);
 
     return (
         <RouterContext.Provider
@@ -57,6 +60,12 @@ function App() {
                           ))}
                 </Routes>
             </BrowserRouter>
+            {online && (
+                <WebSocketConnection
+                    url="ws://192.168.1.104:8080"
+                    user={user}
+                />
+            )}
         </RouterContext.Provider>
     );
 }

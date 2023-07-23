@@ -10,7 +10,6 @@ import CryptoJS from "crypto-js";
 
 export function useSubmitForm() {
     const router = useNavigate();
-    const { visibilityConfirm } = useAction();
     const [dataForm, setDataForm] = useState({
         userName: ``,
         email: ``,
@@ -30,8 +29,9 @@ export function useSubmitForm() {
         validSamePasswords,
         userLogIn,
         setUser,
+        visibilityConfirm,
+        isOnline,
     } = useAction();
-
     async function submitFormReg(e: React.MouseEvent<Element, MouseEvent>) {
         e.preventDefault();
         const validation = validFormsReg(
@@ -101,6 +101,7 @@ export function useSubmitForm() {
                         login: user.login,
                         email: user.email,
                     });
+                    isOnline({ online: true });
                     visibilityConfirm({ visibility: true });
                 }
             }
