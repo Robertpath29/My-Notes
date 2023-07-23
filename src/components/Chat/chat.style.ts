@@ -56,7 +56,11 @@ export const ChatDisplayStyle = styled.div`
     box-shadow: 0px 0px 10px black inset;
 `;
 export const UserDisplayStyle = styled(ChatDisplayStyle)`
+    padding-top: 10px;
     width: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 `;
 
 export const WriteTextGroupStyle = styled.div`

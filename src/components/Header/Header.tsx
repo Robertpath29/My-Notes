@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from "react";
+import React, { FC, useEffect, useState } from "react";
 import {
     ChatContainerBtn,
     ContainerGroupStyle,
@@ -13,9 +13,10 @@ import { useAction } from "../../hooks/useAction";
 import Confirm from "../Confirm/Confirm";
 import { useSelector } from "react-redux";
 import { reducersType } from "../../redux/combineReducers/combineReducers";
-import { URL_SERVER } from "../../api/AxiosQuery";
+import axiosQuery, { ADD_FRIEND_URL, URL_SERVER } from "../../api/AxiosQuery";
 import { UseGetInfoUser } from "../../hooks/useGetInfoUser";
 import Chat from "../Chat/Chat";
+import { friends } from "../Chat/chatType";
 
 const Header: FC<headerType> = ({
     userName,
@@ -35,6 +36,7 @@ const Header: FC<headerType> = ({
         isOnline,
     } = useAction();
     const { getImgUser } = UseGetInfoUser();
+    const [myFriends, setMyFriends] = useState<friends[]>([]);
 
     useEffect(() => {
         getImgUser();
@@ -49,6 +51,17 @@ const Header: FC<headerType> = ({
 
     function noExitAccount() {
         visibilityConfirm({ visibility: false });
+    }
+
+    async function getFriends() {
+        const friends = await axiosQuery.axiosQueryGet(
+            {
+                user_id: userData.id,
+            },
+            ADD_FRIEND_URL
+        );
+
+        setMyFriends(friends.data);
     }
     return (
         <HeaderStyle>
@@ -71,6 +84,7 @@ const Header: FC<headerType> = ({
                         onClick={() => {
                             setDisplayChat({ displayChat: "visibility" });
                             setDisplayBtnChat({ displayBtnChat: "none" });
+                            getFriends();
                         }}
                     >
                         Chat
@@ -83,7 +97,11 @@ const Header: FC<headerType> = ({
                     {nameBtnOptions}
                 </NotesButton>
                 <NotesButton
-                    onClick={() => visibilityConfirm({ visibility: true })}
+                    onClick={() => {
+                        visibilityConfirm({ visibility: true });
+                        setDisplayChat({ displayChat: "none" });
+                        setDisplayBtnChat({ displayBtnChat: "block" });
+                    }}
                 >
                     Exit
                 </NotesButton>
@@ -95,7 +113,11 @@ const Header: FC<headerType> = ({
                     onCancel={noExitAccount}
                 />
             )}
-            <Chat />
+            <Chat
+                getFriends={getFriends}
+                myFriends={myFriends}
+                setMyFriends={setMyFriends}
+            />
         </HeaderStyle>
     );
 };
