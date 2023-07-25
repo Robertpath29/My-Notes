@@ -16,10 +16,11 @@ function App() {
         (store: reducersType) => store.registerLogIn
     );
     const user = useSelector((store: reducersType) => store.user);
-    const { online, message } = useSelector(
+    const { online, message, messageDisplay } = useSelector(
         (store: reducersType) => store.webSocket
     );
-    const { userLogIn, setUser, isOnline } = useAction();
+    const { userLogIn, setUser, isOnline, setMessageDisplay } = useAction();
+    console.log(messageDisplay);
 
     useEffect(() => {
         if (!cookieLoadingPagesStart(setIsLoadingPagesStart)) {
@@ -69,7 +70,7 @@ function App() {
                     user={user}
                     message={message}
                     onMessage={(e) => {
-                        console.log(e);
+                        setMessageDisplay(e);
                     }}
                 />
             )}

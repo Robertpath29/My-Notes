@@ -20,7 +20,8 @@ const WebSocketConnection: FC<webSocketConnectionType> = ({
             }
         };
         const message = (e: any) => {
-            if (onMessage) onMessage(e.data);
+            const mes = JSON.parse(e.data);
+            if (onMessage) onMessage(mes);
         };
         const close = () => {
             if (onClose) onClose();

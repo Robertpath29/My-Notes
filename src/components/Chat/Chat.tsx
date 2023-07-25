@@ -17,6 +17,7 @@ import axiosQuery, { ADD_FRIEND_URL, GET_USER_URL } from "../../api/AxiosQuery";
 import WarningMessage from "../basic/warning_message/WarningMessage";
 import { chatType } from "./chatType";
 import Friend from "../Friend/Friend";
+import Message from "../Message/Message";
 
 const Chat: FC<chatType> = ({ getFriends, myFriends, setMyFriends }) => {
     const { displayChat, opacity } = useSelector(
@@ -24,9 +25,15 @@ const Chat: FC<chatType> = ({ getFriends, myFriends, setMyFriends }) => {
     );
 
     const { id, login } = useSelector((state: reducersType) => state.user);
+    const { messageDisplay } = useSelector(
+        (state: reducersType) => state.webSocket
+    );
     const [warning, isWarning] = useState({ war: false, message: "" });
     const [nameFriend, setNameFriend] = useState({ login: "" });
-    const { setDisplayBtnChat, setDisplayChat, setOpacity } = useAction();
+    const [loginFriend, setLoginFriend] = useState("");
+    const [myMessage, setMyMessage] = useState("");
+    const { setDisplayBtnChat, setDisplayChat, setOpacity, setWhom } =
+        useAction();
 
     async function addFriend() {
         const friendDB = await axiosQuery.axiosQueryGet(
@@ -61,6 +68,16 @@ const Chat: FC<chatType> = ({ getFriends, myFriends, setMyFriends }) => {
             setNameFriend({ ...nameFriend, login: "" });
             getFriends();
         }
+    }
+    function submitMessage() {
+        if (loginFriend === "") {
+            isWarning({ war: true, message: "Сhoose a friend!" });
+            return;
+        }
+        if (myMessage === "") return;
+        isWarning({ war: false, message: "" });
+        setWhom({ fromWhom: login, whom: loginFriend, message: myMessage });
+        setMyMessage("");
     }
     useEffect(() => {
         getFriends();
@@ -98,10 +115,20 @@ const Chat: FC<chatType> = ({ getFriends, myFriends, setMyFriends }) => {
                 </WarningMessage>
             </GroupNameUserStyle>
             <GroupMessageUserStyle id="groupMessageUser">
-                <ChatDisplayStyle id="chatDisplay"></ChatDisplayStyle>
+                <ChatDisplayStyle id="chatDisplay">
+                    {messageDisplay.map((mes, index) => (
+                        <Message position={mes.fromWhom} key={index}>
+                            {mes.message}
+                        </Message>
+                    ))}
+                </ChatDisplayStyle>
                 <UserDisplayStyle id="userDisplay">
                     {myFriends.map((friend) => (
-                        <Friend friend={friend} key={friend.id} />
+                        <Friend
+                            friend={friend}
+                            key={friend.id}
+                            setLoginFriend={setLoginFriend}
+                        />
                     ))}
                 </UserDisplayStyle>
             </GroupMessageUserStyle>
@@ -112,8 +139,18 @@ const Chat: FC<chatType> = ({ getFriends, myFriends, setMyFriends }) => {
                     rows={3}
                     cols={20}
                     placeholder="you message"
+                    value={myMessage}
+                    onChange={(e) => {
+                        setMyMessage(e.target.value);
+                        isWarning({ war: false, message: "" });
+                    }}
                 />
-                <NotesButton id="submit" onClick={() => {}}>
+                <NotesButton
+                    id="submit"
+                    onClick={() => {
+                        submitMessage();
+                    }}
+                >
                     Submit
                 </NotesButton>
             </WriteTextGroupStyle>
