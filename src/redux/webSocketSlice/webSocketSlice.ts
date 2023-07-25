@@ -2,6 +2,12 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     online: false,
+    chatConnecting: false,
+    message: {
+        fromWhom: "",
+        whom: "",
+        message: "",
+    },
 };
 
 export const webSocketSlice = createSlice({
@@ -10,6 +16,16 @@ export const webSocketSlice = createSlice({
     reducers: {
         isOnline: (state, { payload }) => {
             state.online = payload.online;
+        },
+        isChatConnecting: (state, { payload }) => {
+            state.chatConnecting = payload.chatConnecting;
+        },
+        setWhom: (state, { payload }) => {
+            state.message.fromWhom = payload.fromWhom;
+            state.message.whom = payload.whom;
+        },
+        setMessage: (state, { payload }) => {
+            state.message.message = payload.message;
         },
     },
 });

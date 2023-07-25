@@ -56,7 +56,7 @@ const Header: FC<headerType> = ({
     async function getFriends() {
         const friends = await axiosQuery.axiosQueryGet(
             {
-                user_id: userData.id,
+                user_id: Number(userData.id),
             },
             ADD_FRIEND_URL
         );

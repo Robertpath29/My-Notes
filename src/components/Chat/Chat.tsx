@@ -64,7 +64,7 @@ const Chat: FC<chatType> = ({ getFriends, myFriends, setMyFriends }) => {
     }
     useEffect(() => {
         getFriends();
-    }, [getFriends]);
+    }, []);
     return (
         <ChatStyle
             id="chat"

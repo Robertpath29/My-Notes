@@ -11,11 +11,14 @@ import WebSocketConnection from "./components/basic/WebSocketConnection/WebSocke
 
 function App() {
     const [isLoadingPagesStart, setIsLoadingPagesStart] = useState(true);
+
     const { userIsLogIn } = useSelector(
         (store: reducersType) => store.registerLogIn
     );
     const user = useSelector((store: reducersType) => store.user);
-    const { online } = useSelector((store: reducersType) => store.webSocket);
+    const { online, message } = useSelector(
+        (store: reducersType) => store.webSocket
+    );
     const { userLogIn, setUser, isOnline } = useAction();
 
     useEffect(() => {
@@ -64,6 +67,10 @@ function App() {
                 <WebSocketConnection
                     url="ws://192.168.1.104:8080"
                     user={user}
+                    message={message}
+                    onMessage={(e) => {
+                        console.log(e);
+                    }}
                 />
             )}
         </RouterContext.Provider>

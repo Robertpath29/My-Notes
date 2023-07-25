@@ -1,7 +1,7 @@
 export type webSocketConnectionType = {
     url: string;
     user?: {};
-    message?: string;
+    message?: { fromWhom: string; whom: string; message: string };
     onOpen?: () => void;
     onClose?: () => void;
     onMessage?: (message: string) => void;

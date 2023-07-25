@@ -19,7 +19,8 @@ export function opacityChat(
         element.id === "textareaShat" ||
         element.id === "closeChat" ||
         element.id === "submit" ||
-        element.id === "openChat"
+        element.id === "openChat" ||
+        element.localName === "span"
     )
         return;
 

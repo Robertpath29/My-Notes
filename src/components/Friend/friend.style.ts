@@ -4,6 +4,10 @@ export const FriendStyle = styled.div`
     width: max-content;
     display: flex;
     align-items: center;
+    cursor: pointer;
+    & > :hover {
+        color: white;
+    }
 `;
 export const NameStyle = styled.span`
     color: ${({ theme }) => theme.color.text};

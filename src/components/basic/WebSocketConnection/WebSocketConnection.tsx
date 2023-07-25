@@ -16,8 +16,7 @@ const WebSocketConnection: FC<webSocketConnectionType> = ({
         const open = () => {
             if (onOpen) onOpen();
             if (user) {
-                const jsonUser = JSON.stringify(user);
-                sendMessage(jsonUser);
+                sendMessage(user);
             }
         };
         const message = (e: any) => {
@@ -36,11 +35,12 @@ const WebSocketConnection: FC<webSocketConnectionType> = ({
                 ws.current.close();
             }
         };
-    }, [url, onMessage, onClose, onOpen, user]);
+    }, []);
 
-    const sendMessage = (message: string) => {
+    const sendMessage = (message: object) => {
+        const parseMessage = JSON.stringify(message);
         if (ws.current && ws.current.readyState === WebSocket.OPEN) {
-            ws.current.send(message);
+            ws.current.send(parseMessage);
         }
     };
 
