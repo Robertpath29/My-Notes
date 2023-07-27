@@ -6,23 +6,10 @@ export function opacityChat(
     displayChat: string
 ) {
     const element = e.target as HTMLElement;
+    const className = element.className.slice(-4);
+
     if (displayChat === "none") return;
-    if (
-        element.id === "chat" ||
-        element.id === "chatDisplay" ||
-        element.id === "userDisplay" ||
-        element.id === "groupMessageUser" ||
-        element.id === "inputUserLogin" ||
-        element.id === "userLoginBtn" ||
-        element.id === "groupNameUser" ||
-        element.id === "writeTextGroup" ||
-        element.id === "textareaShat" ||
-        element.id === "closeChat" ||
-        element.id === "submit" ||
-        element.id === "openChat" ||
-        element.localName === "span"
-    )
-        return;
+    if (className === "chat") return;
 
     setOpacity({ opacity: 0.5 });
 }

@@ -3,7 +3,7 @@ import React from "react";
 type notesInputType = {
     type: string;
     accept?: string;
-    id?: string;
+    className?: string;
     value?: string;
     placeholder?: string;
     disabled?: boolean;

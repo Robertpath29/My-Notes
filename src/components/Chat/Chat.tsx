@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useEffect, useRef, useState } from "react";
 import {
     ChatDisplayStyle,
     ChatStyle,
@@ -13,11 +13,12 @@ import NotesButton from "../basic/button/NotesButton";
 import { useSelector } from "react-redux";
 import { reducersType } from "../../redux/combineReducers/combineReducers";
 import { useAction } from "../../hooks/useAction";
-import axiosQuery, { ADD_FRIEND_URL, GET_USER_URL } from "../../api/AxiosQuery";
 import WarningMessage from "../basic/warning_message/WarningMessage";
 import { chatType } from "./chatType";
 import Friend from "../Friend/Friend";
 import Message from "../Message/Message";
+import { addFriend } from "../../utils/addFriends";
+import { scrollToNewMessage } from "../../utils/scrollToNewMessage";
 
 const Chat: FC<chatType> = ({ getFriends, myFriends, setMyFriends }) => {
     const { displayChat, opacity } = useSelector(
@@ -28,6 +29,7 @@ const Chat: FC<chatType> = ({ getFriends, myFriends, setMyFriends }) => {
     const { messageDisplay } = useSelector(
         (state: reducersType) => state.webSocket
     );
+    const displayMessageRef = useRef<HTMLDivElement | null>(null);
     const [warning, isWarning] = useState({ war: false, message: "" });
     const [nameFriend, setNameFriend] = useState({ login: "" });
     const [loginFriend, setLoginFriend] = useState("");
@@ -35,40 +37,6 @@ const Chat: FC<chatType> = ({ getFriends, myFriends, setMyFriends }) => {
     const { setDisplayBtnChat, setDisplayChat, setOpacity, setWhom } =
         useAction();
 
-    async function addFriend() {
-        const friendDB = await axiosQuery.axiosQueryGet(
-            { login: nameFriend.login },
-            GET_USER_URL
-        );
-        if (friendDB.data.length === 0) {
-            isWarning({ war: true, message: "User not found" });
-            return;
-        }
-        if (friendDB.data.login === login) {
-            isWarning({ war: true, message: "It's you!" });
-            return;
-        }
-        const friend = {
-            myId: id,
-            myLogin: login,
-            friendId: friendDB.data.id,
-            friendLogin: friendDB.data.login,
-        };
-        const response = await axiosQuery.axiosQueryPost(
-            friend,
-            ADD_FRIEND_URL
-        );
-
-        if (response.data.message === "The user is your friend") {
-            isWarning({ war: true, message: response.data.message });
-            return;
-        }
-
-        if (response.data.message === "friends ready") {
-            setNameFriend({ ...nameFriend, login: "" });
-            getFriends();
-        }
-    }
     function submitMessage() {
         if (loginFriend === "") {
             isWarning({ war: true, message: "Сhoose a friend!" });
@@ -82,16 +50,22 @@ const Chat: FC<chatType> = ({ getFriends, myFriends, setMyFriends }) => {
     useEffect(() => {
         getFriends();
     }, []);
+
+    useEffect(() => {
+        setTimeout(() => {
+            scrollToNewMessage(displayMessageRef);
+        });
+    }, [messageDisplay]);
     return (
         <ChatStyle
-            id="chat"
+            className="chat"
             display={displayChat}
             opacity={opacity}
             onClick={() => {
                 setOpacity({ opacity: 1 });
             }}
         >
-            <GroupNameUserStyle id="groupNameUser">
+            <GroupNameUserStyle className="chat">
                 <NotesInput
                     onChange={(e) => {
                         setNameFriend({ ...nameFriend, login: e.target.value });
@@ -100,12 +74,19 @@ const Chat: FC<chatType> = ({ getFriends, myFriends, setMyFriends }) => {
                     value={nameFriend.login}
                     type="text"
                     placeholder="user login"
-                    id="inputUserLogin"
+                    className="chat"
                 />
                 <NotesButton
-                    id="userLoginBtn"
+                    className="chat"
                     onClick={() => {
-                        addFriend();
+                        addFriend(
+                            nameFriend,
+                            isWarning,
+                            login,
+                            setNameFriend,
+                            getFriends,
+                            id
+                        );
                     }}
                 >
                     +
@@ -114,15 +95,15 @@ const Chat: FC<chatType> = ({ getFriends, myFriends, setMyFriends }) => {
                     {warning.message}
                 </WarningMessage>
             </GroupNameUserStyle>
-            <GroupMessageUserStyle id="groupMessageUser">
-                <ChatDisplayStyle id="chatDisplay">
+            <GroupMessageUserStyle className="chat">
+                <ChatDisplayStyle ref={displayMessageRef} className="chat">
                     {messageDisplay.map((mes, index) => (
                         <Message position={mes.fromWhom} key={index}>
                             {mes.message}
                         </Message>
                     ))}
                 </ChatDisplayStyle>
-                <UserDisplayStyle id="userDisplay">
+                <UserDisplayStyle className="chat">
                     {myFriends.map((friend) => (
                         <Friend
                             friend={friend}
@@ -132,21 +113,27 @@ const Chat: FC<chatType> = ({ getFriends, myFriends, setMyFriends }) => {
                     ))}
                 </UserDisplayStyle>
             </GroupMessageUserStyle>
-            <WriteTextGroupStyle id="writeTextGroup">
+            <WriteTextGroupStyle className="chat">
                 <TextareaShatStyle
-                    id="textareaShat"
+                    className="chat"
                     spellCheck
                     rows={3}
                     cols={20}
                     placeholder="you message"
                     value={myMessage}
+                    onKeyDown={(e) => {
+                        if (e.code === "Enter") {
+                            e.preventDefault();
+                            submitMessage();
+                        }
+                    }}
                     onChange={(e) => {
                         setMyMessage(e.target.value);
                         isWarning({ war: false, message: "" });
                     }}
                 />
                 <NotesButton
-                    id="submit"
+                    className="chat"
                     onClick={() => {
                         submitMessage();
                     }}
@@ -155,7 +142,7 @@ const Chat: FC<chatType> = ({ getFriends, myFriends, setMyFriends }) => {
                 </NotesButton>
             </WriteTextGroupStyle>
             <NotesButton
-                id="closeChat"
+                className="chat"
                 onClick={() => {
                     setDisplayChat({ displayChat: "none" });
                     setDisplayBtnChat({ displayBtnChat: "block" });

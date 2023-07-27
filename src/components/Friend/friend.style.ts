@@ -12,7 +12,7 @@ export const FriendStyle = styled.div`
 export const NameStyle = styled.span`
     color: ${({ theme }) => theme.color.text};
 `;
-export const OnlineStyle = styled.div<{ online: string }>`
+export const OnlineStyle = styled.span<{ online: string }>`
     width: 10px;
     height: 10px;
     margin-left: 10px;

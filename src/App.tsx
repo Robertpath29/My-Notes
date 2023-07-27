@@ -20,7 +20,6 @@ function App() {
         (store: reducersType) => store.webSocket
     );
     const { userLogIn, setUser, isOnline, setMessageDisplay } = useAction();
-    console.log(messageDisplay);
 
     useEffect(() => {
         if (!cookieLoadingPagesStart(setIsLoadingPagesStart)) {

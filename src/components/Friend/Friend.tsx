@@ -18,12 +18,13 @@ const Friend: FC<friendType> = ({ friend, setLoginFriend }) => {
     }, [getOnlineFriends]);
     return (
         <FriendStyle
+            className="chat"
             onClick={() => {
                 setLoginFriend(friend.login);
             }}
         >
-            <NameStyle>{friend.login}</NameStyle>
-            <OnlineStyle online={online.toString()} />
+            <NameStyle className="chat">{friend.login}</NameStyle>
+            <OnlineStyle className="chat" online={online.toString()} />
         </FriendStyle>
     );
 };

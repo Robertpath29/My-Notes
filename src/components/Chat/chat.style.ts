@@ -48,12 +48,15 @@ export const GroupMessageUserStyle = styled.div`
 export const TextareaShatStyle = styled.textarea`
     width: 100%;
     resize: none;
+    border-radius: 10px;
 `;
 export const ChatDisplayStyle = styled.div`
+    padding: 10px 0;
     width: 100%;
     height: 200px;
     border-radius: 20px;
     box-shadow: 0px 0px 10px black inset;
+    overflow: auto;
 `;
 export const UserDisplayStyle = styled(ChatDisplayStyle)`
     padding-top: 10px;

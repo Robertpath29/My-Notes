@@ -26,6 +26,9 @@ export const webSocketSlice = createSlice({
         setWhom: (state, { payload }) => {
             state.message.fromWhom = payload.fromWhom;
             state.message.whom = payload.whom;
+            if (payload.message === state.message.message) {
+                state.message.message = payload.message + " ";
+            }
             state.message.message = payload.message;
         },
 

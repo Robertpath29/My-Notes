@@ -15,8 +15,10 @@ const Message: FC<messageType> = ({ children, position }) => {
         }
     }, []);
     return (
-        <GroupMessage position={pos}>
-            <MessageStyle>{children}</MessageStyle>
+        <GroupMessage position={pos} className="chat">
+            <MessageStyle className="chat" position={pos}>
+                {children}
+            </MessageStyle>
         </GroupMessage>
     );
 };
