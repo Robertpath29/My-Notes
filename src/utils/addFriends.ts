@@ -46,6 +46,8 @@ export async function addFriend(
 
     if (response.data.message === "friends ready") {
         setNameFriend({ ...nameFriend, login: "" });
-        getFriends();
+        setInterval(() => {
+            getFriends();
+        });
     }
 }
