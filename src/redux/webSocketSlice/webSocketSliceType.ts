@@ -1,6 +1,5 @@
 export type initialStateType = {
     online: boolean;
-    chatConnecting: boolean;
     message: {
         fromWhom: string;
         whom: string;
@@ -11,4 +10,8 @@ export type initialStateType = {
         whom: string;
         message: string;
     }[];
+    friend: {
+        name: string;
+        delete: boolean;
+    };
 };

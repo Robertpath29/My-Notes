@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useEffect } from "react";
 import {
     ChatContainerBtn,
     ContainerGroupStyle,
@@ -13,10 +13,10 @@ import { useAction } from "../../hooks/useAction";
 import Confirm from "../Confirm/Confirm";
 import { useSelector } from "react-redux";
 import { reducersType } from "../../redux/combineReducers/combineReducers";
-import axiosQuery, { ADD_FRIEND_URL, URL_SERVER } from "../../api/AxiosQuery";
+import { URL_SERVER } from "../../api/AxiosQuery";
 import { UseGetInfoUser } from "../../hooks/useGetInfoUser";
 import Chat from "../Chat/Chat";
-import { friends } from "../Chat/chatType";
+import { useGetFriends } from "../../hooks/useGetFriends";
 
 const Header: FC<headerType> = ({
     userName,
@@ -36,8 +36,7 @@ const Header: FC<headerType> = ({
         isOnline,
     } = useAction();
     const { getImgUser } = UseGetInfoUser();
-    const [myFriends, setMyFriends] = useState<friends[]>([]);
-
+    const { getFriends } = useGetFriends();
     useEffect(() => {
         getImgUser();
     }, [getImgUser]);
@@ -53,16 +52,6 @@ const Header: FC<headerType> = ({
         visibilityConfirm({ visibility: false });
     }
 
-    async function getFriends() {
-        const friends = await axiosQuery.axiosQueryGet(
-            {
-                user_id: Number(userData.id),
-            },
-            ADD_FRIEND_URL
-        );
-
-        setMyFriends(friends.data);
-    }
     return (
         <HeaderStyle>
             <ContainerGroupStyle>
@@ -113,11 +102,7 @@ const Header: FC<headerType> = ({
                     onCancel={noExitAccount}
                 />
             )}
-            <Chat
-                getFriends={getFriends}
-                myFriends={myFriends}
-                setMyFriends={setMyFriends}
-            />
+            <Chat />
         </HeaderStyle>
     );
 };

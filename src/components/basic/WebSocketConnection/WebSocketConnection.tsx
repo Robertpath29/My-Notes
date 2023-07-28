@@ -1,15 +1,20 @@
 import { FC, useEffect, useRef } from "react";
 import { webSocketConnectionType } from "./webSocketConnectionType";
+import { useGetFriends } from "../../../hooks/useGetFriends";
+import { useAction } from "../../../hooks/useAction";
 
 const WebSocketConnection: FC<webSocketConnectionType> = ({
     url,
     user,
     message,
+    friend,
     onMessage,
     onOpen,
     onClose,
 }) => {
     const ws = useRef<WebSocket | null>(null);
+    const { getFriends } = useGetFriends();
+    const { setNewFriend } = useAction();
     useEffect(() => {
         ws.current = new WebSocket(url);
 
@@ -21,6 +26,13 @@ const WebSocketConnection: FC<webSocketConnectionType> = ({
         };
         const message = (e: any) => {
             const mes = JSON.parse(e.data);
+            if (mes.userFriends) {
+                setTimeout(() => {
+                    getFriends();
+                    setNewFriend({ friend: "", delete: false });
+                }, 100);
+                return;
+            }
             if (onMessage) onMessage(mes);
         };
         const close = () => {
@@ -48,6 +60,9 @@ const WebSocketConnection: FC<webSocketConnectionType> = ({
     useEffect(() => {
         if (message) sendMessage(message);
     }, [message]);
+    useEffect(() => {
+        if (friend && friend.name !== "") sendMessage(friend);
+    }, [friend]);
     return null;
 };
 

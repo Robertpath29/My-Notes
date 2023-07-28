@@ -3,14 +3,16 @@ import { initialStateType } from "./webSocketSliceType";
 
 const initialState: initialStateType = {
     online: false,
-    chatConnecting: false,
     message: {
         fromWhom: "",
         whom: "",
         message: "",
     },
-
     messageDisplay: [],
+    friend: {
+        name: "",
+        delete: false,
+    },
 };
 
 export const webSocketSlice = createSlice({
@@ -19,9 +21,6 @@ export const webSocketSlice = createSlice({
     reducers: {
         isOnline: (state, { payload }) => {
             state.online = payload.online;
-        },
-        isChatConnecting: (state, { payload }) => {
-            state.chatConnecting = payload.chatConnecting;
         },
         setWhom: (state, { payload }) => {
             state.message.fromWhom = payload.fromWhom;
@@ -34,6 +33,10 @@ export const webSocketSlice = createSlice({
 
         setMessageDisplay: (state, { payload }) => {
             state.messageDisplay.push(payload);
+        },
+        setNewFriend: (state, { payload }) => {
+            state.friend.name = payload.friend;
+            state.friend.delete = payload.delete;
         },
     },
 });

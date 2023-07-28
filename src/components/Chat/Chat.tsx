@@ -21,25 +21,34 @@ import { addFriend } from "../../utils/addFriends";
 import { scrollToNewMessage } from "../../utils/scrollToNewMessage";
 import Confirm from "../Confirm/Confirm";
 import { deleteFriend } from "../../utils/deleteFriends";
+import { useGetFriends } from "../../hooks/useGetFriends";
 
-const Chat: FC<chatType> = ({ getFriends, myFriends }) => {
+const Chat: FC<chatType> = () => {
     const { displayChat, opacity } = useSelector(
         (store: reducersType) => store.chat
     );
 
-    const { id, login } = useSelector((state: reducersType) => state.user);
+    const { id, login, myFriends } = useSelector(
+        (state: reducersType) => state.user
+    );
     const { messageDisplay } = useSelector(
         (state: reducersType) => state.webSocket
     );
     const [visibility, isVisibility] = useState(false);
+
     const displayMessageRef = useRef<HTMLDivElement | null>(null);
     const [warning, isWarning] = useState({ war: false, message: "" });
     const [nameFriend, setNameFriend] = useState({ login: "" });
     const [loginFriend, setLoginFriend] = useState("");
     const [myMessage, setMyMessage] = useState("");
-    const { setDisplayBtnChat, setDisplayChat, setOpacity, setWhom } =
-        useAction();
-
+    const {
+        setDisplayBtnChat,
+        setDisplayChat,
+        setOpacity,
+        setWhom,
+        setNewFriend,
+    } = useAction();
+    const { getFriends } = useGetFriends();
     function submitMessage() {
         if (loginFriend === "") {
             isWarning({ war: true, message: "Сhoose a friend!" });
@@ -53,7 +62,7 @@ const Chat: FC<chatType> = ({ getFriends, myFriends }) => {
 
     function confirmDeleteFriend() {
         isVisibility(false);
-        deleteFriend(loginFriend, login, getFriends, id);
+        deleteFriend(loginFriend, login, getFriends, setNewFriend, id);
     }
     function cancelDeleteFriend() {
         isVisibility(false);
@@ -100,7 +109,8 @@ const Chat: FC<chatType> = ({ getFriends, myFriends }) => {
                                 login,
                                 setNameFriend,
                                 getFriends,
-                                id
+                                id,
+                                setNewFriend
                             );
                         }}
                     >

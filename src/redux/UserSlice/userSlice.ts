@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { friends } from "../../components/Chat/chatType";
 const initialState = {
     id: ``,
     login: ``,
@@ -13,6 +14,7 @@ const initialState = {
         city: "",
         address: "",
     },
+    myFriends: [] as friends[],
 };
 export const userSlice = createSlice({
     name: `User`,
@@ -28,6 +30,9 @@ export const userSlice = createSlice({
         },
         setImgUser: (state, { payload }) => {
             state.dataUser.photo = payload.photo;
+        },
+        pushMyFriends: (state, { payload }) => {
+            state.myFriends = payload;
         },
     },
 });

@@ -1,3 +1,4 @@
+import { ActionCreatorWithPayload } from "@reduxjs/toolkit";
 import axiosQuery, { ADD_FRIEND_URL, GET_USER_URL } from "../api/AxiosQuery";
 
 export async function addFriend(
@@ -17,7 +18,8 @@ export async function addFriend(
         }>
     >,
     getFriends: () => void,
-    id: string
+    id: string,
+    setNewFriend: ActionCreatorWithPayload<any, "webSocket/setNewFriend">
 ) {
     const friendDB = await axiosQuery.axiosQueryGet(
         { login: nameFriend.login },
@@ -46,8 +48,9 @@ export async function addFriend(
 
     if (response.data.message === "friends ready") {
         setNameFriend({ ...nameFriend, login: "" });
-        setInterval(() => {
+        setNewFriend({ friend: friend.friendLogin, delete: false });
+        setTimeout(() => {
             getFriends();
-        });
+        }, 100);
     }
 }

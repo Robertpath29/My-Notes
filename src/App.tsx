@@ -16,7 +16,7 @@ function App() {
         (store: reducersType) => store.registerLogIn
     );
     const user = useSelector((store: reducersType) => store.user);
-    const { online, message, messageDisplay } = useSelector(
+    const { online, message, friend } = useSelector(
         (store: reducersType) => store.webSocket
     );
     const { userLogIn, setUser, isOnline, setMessageDisplay } = useAction();
@@ -68,6 +68,7 @@ function App() {
                     url="ws://192.168.1.104:8080"
                     user={user}
                     message={message}
+                    friend={friend}
                     onMessage={(e) => {
                         setMessageDisplay(e);
                     }}

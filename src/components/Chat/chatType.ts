@@ -1,8 +1,4 @@
-export type chatType = {
-    myFriends: friends[];
-    getFriends: () => void;
-    setMyFriends: React.Dispatch<React.SetStateAction<friends[]>>;
-};
+export type chatType = {};
 
 export type friends = {
     id: number;
