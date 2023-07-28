@@ -2,6 +2,7 @@ import { useSelector } from "react-redux";
 import axiosQuery, { ADD_FRIEND_URL } from "../api/AxiosQuery";
 import { reducersType } from "../redux/combineReducers/combineReducers";
 import { useAction } from "./useAction";
+import React from "react";
 
 export const useGetFriends = () => {
     const { id } = useSelector((state: reducersType) => state.user);

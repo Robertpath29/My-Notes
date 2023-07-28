@@ -14,7 +14,7 @@ const WebSocketConnection: FC<webSocketConnectionType> = ({
 }) => {
     const ws = useRef<WebSocket | null>(null);
     const { getFriends } = useGetFriends();
-    const { setNewFriend } = useAction();
+    const { setNewFriend, setFocusFriend } = useAction();
     useEffect(() => {
         ws.current = new WebSocket(url);
 
@@ -30,6 +30,7 @@ const WebSocketConnection: FC<webSocketConnectionType> = ({
                 setTimeout(() => {
                     getFriends();
                     setNewFriend({ friend: "", delete: false });
+                    setFocusFriend("");
                 }, 100);
                 return;
             }

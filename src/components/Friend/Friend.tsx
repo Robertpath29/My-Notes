@@ -8,8 +8,9 @@ import {
 import { friendType } from "./friendType";
 import axiosQuery, { GET_USER_URL } from "../../api/AxiosQuery";
 import NotesButton from "../basic/button/NotesButton";
+import { useAction } from "../../hooks/useAction";
 
-const Friend: FC<friendType> = ({ friend, isVisibility, setLoginFriend }) => {
+const Friend: FC<friendType> = ({ friend, isVisibility }) => {
     const [online, isOnline] = useState(false);
     const getOnlineFriends = useCallback(async () => {
         const response = await axiosQuery.axiosQueryGet(
@@ -18,6 +19,7 @@ const Friend: FC<friendType> = ({ friend, isVisibility, setLoginFriend }) => {
         );
         isOnline(response.data.online);
     }, [friend.login]);
+    const { setFocusFriend } = useAction();
     useEffect(() => {
         getOnlineFriends();
     }, [getOnlineFriends]);
@@ -25,7 +27,7 @@ const Friend: FC<friendType> = ({ friend, isVisibility, setLoginFriend }) => {
         <FriendStyle
             className="chat"
             onClick={() => {
-                setLoginFriend(friend.login);
+                setFocusFriend(friend.login);
             }}
         >
             <NameStyle className="chat">{friend.login}</NameStyle>

@@ -28,7 +28,7 @@ const Chat: FC<chatType> = () => {
         (store: reducersType) => store.chat
     );
 
-    const { id, login, myFriends } = useSelector(
+    const { id, login, myFriends, focusFriend } = useSelector(
         (state: reducersType) => state.user
     );
     const { messageDisplay } = useSelector(
@@ -39,7 +39,6 @@ const Chat: FC<chatType> = () => {
     const displayMessageRef = useRef<HTMLDivElement | null>(null);
     const [warning, isWarning] = useState({ war: false, message: "" });
     const [nameFriend, setNameFriend] = useState({ login: "" });
-    const [loginFriend, setLoginFriend] = useState("");
     const [myMessage, setMyMessage] = useState("");
     const {
         setDisplayBtnChat,
@@ -47,22 +46,24 @@ const Chat: FC<chatType> = () => {
         setOpacity,
         setWhom,
         setNewFriend,
+        setFocusFriend,
     } = useAction();
     const { getFriends } = useGetFriends();
     function submitMessage() {
-        if (loginFriend === "") {
+        if (focusFriend === "") {
             isWarning({ war: true, message: "Сhoose a friend!" });
             return;
         }
         if (myMessage === "") return;
         isWarning({ war: false, message: "" });
-        setWhom({ fromWhom: login, whom: loginFriend, message: myMessage });
+        setWhom({ fromWhom: login, whom: focusFriend, message: myMessage });
         setMyMessage("");
     }
 
     function confirmDeleteFriend() {
         isVisibility(false);
-        deleteFriend(loginFriend, login, getFriends, setNewFriend, id);
+        deleteFriend(focusFriend, login, getFriends, setNewFriend, id);
+        setFocusFriend("");
     }
     function cancelDeleteFriend() {
         isVisibility(false);
@@ -132,7 +133,6 @@ const Chat: FC<chatType> = () => {
                         {myFriends.map((friend) => (
                             <Friend
                                 friend={friend}
-                                setLoginFriend={setLoginFriend}
                                 isVisibility={isVisibility}
                                 key={friend.id}
                             />
@@ -180,7 +180,7 @@ const Chat: FC<chatType> = () => {
             </ChatStyle>
             {visibility && (
                 <Confirm
-                    message={`Delete friend ${loginFriend}`}
+                    message={`Delete friend ${focusFriend}`}
                     onConfirm={confirmDeleteFriend}
                     onCancel={cancelDeleteFriend}
                 />
