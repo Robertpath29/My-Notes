@@ -6,7 +6,11 @@ export async function deleteFriend(
     login: string,
     getFriends: () => void,
     setNewFriend: ActionCreatorWithPayload<any, "webSocket/setNewFriend">,
-    id: string
+    id: string,
+    focusFriend: {
+        name: string;
+        nameTableMessage: string;
+    }
 ) {
     const friendDB = await axiosQuery.axiosQueryGet(
         { login: loginFriend },
@@ -18,6 +22,7 @@ export async function deleteFriend(
         myLogin: login,
         friendId: friendDB.data.id,
         friendLogin: friendDB.data.login,
+        nameTableMessage: focusFriend.nameTableMessage,
     };
 
     const response = await axiosQuery.axiosQueryDelete(friend, ADD_FRIEND_URL);

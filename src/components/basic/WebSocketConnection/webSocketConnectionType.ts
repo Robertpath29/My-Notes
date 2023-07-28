@@ -4,7 +4,7 @@ export type webSocketConnectionType = {
     friend?: {
         name: string;
     };
-    message?: { fromWhom: string; whom: string; message: string };
+    message?: { from_whom: string; whom: string; message: string };
     onOpen?: () => void;
     onClose?: () => void;
     onMessage?: (message: string) => void;

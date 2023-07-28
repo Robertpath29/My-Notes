@@ -30,7 +30,7 @@ const WebSocketConnection: FC<webSocketConnectionType> = ({
                 setTimeout(() => {
                     getFriends();
                     setNewFriend({ friend: "", delete: false });
-                    setFocusFriend("");
+                    setFocusFriend({ name: "", nameTableMessage: "" });
                 }, 100);
                 return;
             }

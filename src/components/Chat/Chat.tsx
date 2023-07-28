@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useRef, useState } from "react";
+import React, { FC, MouseEvent, useEffect, useRef, useState } from "react";
 import {
     ChatDisplayStyle,
     ChatStyle,
@@ -22,6 +22,8 @@ import { scrollToNewMessage } from "../../utils/scrollToNewMessage";
 import Confirm from "../Confirm/Confirm";
 import { deleteFriend } from "../../utils/deleteFriends";
 import { useGetFriends } from "../../hooks/useGetFriends";
+import axiosQuery, { MESSAGE_URL } from "../../api/AxiosQuery";
+import { ourMessagesType } from "../Friend/friendType";
 
 const Chat: FC<chatType> = () => {
     const { displayChat, opacity } = useSelector(
@@ -47,27 +49,98 @@ const Chat: FC<chatType> = () => {
         setWhom,
         setNewFriend,
         setFocusFriend,
+        setMessageDisplay,
+        setFocusStyle,
+        clearMessageDisplay,
     } = useAction();
     const { getFriends } = useGetFriends();
     function submitMessage() {
-        if (focusFriend === "") {
+        const currentDate = new Date();
+        const date =
+            currentDate.getDay().toString() +
+            "." +
+            currentDate.getMonth().toString() +
+            "." +
+            currentDate.getFullYear().toString() +
+            " " +
+            currentDate.getHours().toString() +
+            ":" +
+            currentDate.getMinutes().toString();
+
+        if (focusFriend.name === "") {
             isWarning({ war: true, message: "Сhoose a friend!" });
             return;
         }
         if (myMessage === "") return;
         isWarning({ war: false, message: "" });
-        setWhom({ fromWhom: login, whom: focusFriend, message: myMessage });
+        setWhom({
+            from_Whom: login,
+            whom: focusFriend.name,
+            message: myMessage,
+            date: date,
+        });
         setMyMessage("");
+        axiosQuery.axiosQueryPost(
+            {
+                from_Whom: login,
+                whom: focusFriend.name,
+                message: myMessage,
+                date: date,
+                nameTableMessage: focusFriend.nameTableMessage,
+            },
+            MESSAGE_URL
+        );
     }
 
     function confirmDeleteFriend() {
         isVisibility(false);
-        deleteFriend(focusFriend, login, getFriends, setNewFriend, id);
-        setFocusFriend("");
+        deleteFriend(
+            focusFriend.name,
+            login,
+            getFriends,
+            setNewFriend,
+            id,
+            focusFriend
+        );
+        setFocusFriend({ name: "", nameTableMessage: "" });
     }
     function cancelDeleteFriend() {
         isVisibility(false);
     }
+    async function getFriendMessage(
+        e: React.MouseEvent<HTMLDivElement, globalThis.MouseEvent>
+    ) {
+        const element = e.target as HTMLElement;
+        setFocusStyle("");
+
+        if (
+            element.getAttribute("data-login") ||
+            element.parentElement?.getAttribute("data-login")
+        ) {
+            const friendLogin =
+                element.getAttribute("data-login") ||
+                element.parentElement?.getAttribute("data-login");
+            const friendTableMessage =
+                element.getAttribute("data-name_table_message") ||
+                element.parentElement?.getAttribute("data-name_table_message");
+            setFocusStyle(friendLogin);
+            setFocusFriend({
+                name: friendLogin,
+                nameTableMessage: friendTableMessage,
+            });
+            const ourMessages = await axiosQuery.axiosQueryGet(
+                { nameTableMessage: friendTableMessage },
+                MESSAGE_URL
+            );
+            if (ourMessages.data) {
+                clearMessageDisplay();
+                ourMessages.data.forEach((element: ourMessagesType) => {
+                    setMessageDisplay(element);
+                });
+            }
+        }
+    }
+
     useEffect(() => {
         getFriends();
     }, []);
@@ -124,17 +197,24 @@ const Chat: FC<chatType> = () => {
                 <GroupMessageUserStyle className="chat">
                     <ChatDisplayStyle ref={displayMessageRef} className="chat">
                         {messageDisplay.map((mes, index) => (
-                            <Message position={mes.fromWhom} key={index}>
+                            <Message position={mes.from_whom} key={index}>
                                 {mes.message}
                             </Message>
                         ))}
                     </ChatDisplayStyle>
-                    <UserDisplayStyle className="chat">
+                    <UserDisplayStyle
+                        className="chat"
+                        onClick={(e) => {
+                            getFriendMessage(e);
+                        }}
+                    >
                         {myFriends.map((friend) => (
                             <Friend
                                 friend={friend}
                                 isVisibility={isVisibility}
                                 key={friend.id}
+                                login={friend.login}
+                                nameTableMessage={friend.table_message_name}
                             />
                         ))}
                     </UserDisplayStyle>
@@ -180,7 +260,7 @@ const Chat: FC<chatType> = () => {
             </ChatStyle>
             {visibility && (
                 <Confirm
-                    message={`Delete friend ${focusFriend}`}
+                    message={`Delete friend ${focusFriend.name}`}
                     onConfirm={confirmDeleteFriend}
                     onCancel={cancelDeleteFriend}
                 />

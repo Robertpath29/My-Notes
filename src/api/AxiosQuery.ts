@@ -6,6 +6,7 @@ export const GET_INFO_USER_URL = `${URL_SERVER}/InfoUser`;
 export const NEW_NOTE_URL = `${URL_SERVER}/newNote`;
 export const GET_USER_URL = `${URL_SERVER}/user`;
 export const ADD_FRIEND_URL = `${URL_SERVER}/friends`;
+export const MESSAGE_URL = `${URL_SERVER}/friends/message`;
 class AxiosQuery {
     async axiosQueryPost(
         data: object | FormData,

@@ -1,12 +1,13 @@
 export type initialStateType = {
     online: boolean;
     message: {
-        fromWhom: string;
+        from_whom: string;
         whom: string;
         message: string;
+        date: string;
     };
     messageDisplay: {
-        fromWhom: string;
+        from_whom: string;
         whom: string;
         message: string;
     }[];

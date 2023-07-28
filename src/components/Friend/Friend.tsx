@@ -8,10 +8,17 @@ import {
 import { friendType } from "./friendType";
 import axiosQuery, { GET_USER_URL } from "../../api/AxiosQuery";
 import NotesButton from "../basic/button/NotesButton";
-import { useAction } from "../../hooks/useAction";
+import { useSelector } from "react-redux";
+import { reducersType } from "../../redux/combineReducers/combineReducers";
 
-const Friend: FC<friendType> = ({ friend, isVisibility }) => {
+const Friend: FC<friendType> = ({
+    friend,
+    isVisibility,
+    login,
+    nameTableMessage,
+}) => {
     const [online, isOnline] = useState(false);
+    const { focusFriend } = useSelector((state: reducersType) => state.user);
     const getOnlineFriends = useCallback(async () => {
         const response = await axiosQuery.axiosQueryGet(
             { login: friend.login },
@@ -19,20 +26,30 @@ const Friend: FC<friendType> = ({ friend, isVisibility }) => {
         );
         isOnline(response.data.online);
     }, [friend.login]);
-    const { setFocusFriend } = useAction();
+
     useEffect(() => {
         getOnlineFriends();
     }, [getOnlineFriends]);
+
     return (
         <FriendStyle
             className="chat"
-            onClick={() => {
-                setFocusFriend(friend.login);
-            }}
+            data-login={login}
+            data-name_table_message={nameTableMessage}
         >
-            <NameStyle className="chat">{friend.login}</NameStyle>
+            <NameStyle
+                className="chat"
+                focus={focusFriend.focusStyle}
+                login={login}
+            >
+                {friend.login}
+            </NameStyle>
             <OnlineStyle className="chat" online={online.toString()} />
-            <GroupDeleteFriendStyle className="chat">
+            <GroupDeleteFriendStyle
+                className="chat"
+                data-login={login}
+                data-name_table_message={nameTableMessage}
+            >
                 <NotesButton
                     className="chat"
                     onClick={() => {

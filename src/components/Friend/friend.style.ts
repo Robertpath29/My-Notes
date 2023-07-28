@@ -11,8 +11,9 @@ export const FriendStyle = styled.div`
         opacity: 1;
     }
 `;
-export const NameStyle = styled.span`
-    color: ${({ theme }) => theme.color.text};
+export const NameStyle = styled.span<{ focus: string; login: string }>`
+    color: ${({ focus, login, theme }) =>
+        focus === login ? "white" : theme.color.text};
 `;
 export const OnlineStyle = styled.span<{ online: string }>`
     width: 10px;

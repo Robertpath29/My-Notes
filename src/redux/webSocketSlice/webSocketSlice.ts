@@ -4,9 +4,10 @@ import { initialStateType } from "./webSocketSliceType";
 const initialState: initialStateType = {
     online: false,
     message: {
-        fromWhom: "",
+        from_whom: "",
         whom: "",
         message: "",
+        date: "",
     },
     messageDisplay: [],
     friend: {
@@ -23,16 +24,20 @@ export const webSocketSlice = createSlice({
             state.online = payload.online;
         },
         setWhom: (state, { payload }) => {
-            state.message.fromWhom = payload.fromWhom;
+            state.message.from_whom = payload.from_Whom;
             state.message.whom = payload.whom;
             if (payload.message === state.message.message) {
                 state.message.message = payload.message + " ";
             }
             state.message.message = payload.message;
+            state.message.date = payload.date;
         },
 
         setMessageDisplay: (state, { payload }) => {
             state.messageDisplay.push(payload);
+        },
+        clearMessageDisplay: (state) => {
+            state.messageDisplay = [];
         },
         setNewFriend: (state, { payload }) => {
             state.friend.name = payload.friend;

@@ -15,7 +15,11 @@ const initialState = {
         address: "",
     },
     myFriends: [] as friends[],
-    focusFriend: "",
+    focusFriend: {
+        name: "",
+        nameTableMessage: "",
+        focusStyle: "",
+    },
 };
 export const userSlice = createSlice({
     name: `User`,
@@ -36,7 +40,11 @@ export const userSlice = createSlice({
             state.myFriends = payload;
         },
         setFocusFriend: (state, { payload }) => {
-            state.focusFriend = payload;
+            state.focusFriend.name = payload.name;
+            state.focusFriend.nameTableMessage = payload.nameTableMessage;
+        },
+        setFocusStyle: (state, { payload }) => {
+            state.focusFriend.focusStyle = payload;
         },
     },
 });

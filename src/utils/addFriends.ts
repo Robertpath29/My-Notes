@@ -47,7 +47,7 @@ export async function addFriend(
     }
 
     if (response.data.message === "friends ready") {
-        setNameFriend({ ...nameFriend, login: "" });
+        setNameFriend({ login: "" });
         setNewFriend({ friend: friend.friendLogin, delete: false });
         setTimeout(() => {
             getFriends();
