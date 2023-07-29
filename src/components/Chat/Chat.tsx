@@ -29,7 +29,6 @@ const Chat: FC<chatType> = () => {
     const { displayChat, opacity } = useSelector(
         (store: reducersType) => store.chat
     );
-
     const { id, login, myFriends, focusFriend } = useSelector(
         (state: reducersType) => state.user
     );
@@ -112,7 +111,8 @@ const Chat: FC<chatType> = () => {
     ) {
         const element = e.target as HTMLElement;
         setFocusStyle("");
-
+        setFocusFriend({ name: "", nameTableMessage: "" });
+        clearMessageDisplay();
         if (
             element.getAttribute("data-login") ||
             element.parentElement?.getAttribute("data-login")

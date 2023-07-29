@@ -70,8 +70,6 @@ function App() {
                     message={message}
                     friend={friend}
                     onMessage={(e) => {
-                        console.log(e);
-
                         setMessageDisplay(e);
                     }}
                 />

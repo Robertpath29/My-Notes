@@ -1,3 +1,5 @@
+import { messageDisplayType } from "../../../redux/webSocketSlice/webSocketSliceType";
+
 export type webSocketConnectionType = {
     url: string;
     user?: {};
@@ -7,5 +9,5 @@ export type webSocketConnectionType = {
     message?: { from_whom: string; whom: string; message: string };
     onOpen?: () => void;
     onClose?: () => void;
-    onMessage?: (message: string) => void;
+    onMessage?: (message: messageDisplayType) => void;
 };

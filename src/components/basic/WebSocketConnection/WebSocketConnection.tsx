@@ -2,6 +2,8 @@ import { FC, useEffect, useRef } from "react";
 import { webSocketConnectionType } from "./webSocketConnectionType";
 import { useGetFriends } from "../../../hooks/useGetFriends";
 import { useAction } from "../../../hooks/useAction";
+import { useSelector } from "react-redux";
+import { reducersType } from "../../../redux/combineReducers/combineReducers";
 
 const WebSocketConnection: FC<webSocketConnectionType> = ({
     url,
@@ -14,7 +16,9 @@ const WebSocketConnection: FC<webSocketConnectionType> = ({
 }) => {
     const ws = useRef<WebSocket | null>(null);
     const { getFriends } = useGetFriends();
+    const { focusFriend } = useSelector((state: reducersType) => state.user);
     const { setNewFriend, setFocusFriend } = useAction();
+
     useEffect(() => {
         ws.current = new WebSocket(url);
 
@@ -34,7 +38,10 @@ const WebSocketConnection: FC<webSocketConnectionType> = ({
                 }, 100);
                 return;
             }
-            if (onMessage) onMessage(mes);
+            if (onMessage) {
+                if (focusFriend.name !== mes.from_whom) return;
+                onMessage(mes);
+            }
         };
         const close = () => {
             if (onClose) onClose();
@@ -49,7 +56,7 @@ const WebSocketConnection: FC<webSocketConnectionType> = ({
                 ws.current.close();
             }
         };
-    }, []);
+    }, [focusFriend]);
 
     const sendMessage = (message: object) => {
         const parseMessage = JSON.stringify(message);

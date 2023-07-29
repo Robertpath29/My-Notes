@@ -1,18 +1,16 @@
 export type initialStateType = {
     online: boolean;
-    message: {
-        from_whom: string;
-        whom: string;
-        message: string;
-        date: string;
-    };
-    messageDisplay: {
-        from_whom: string;
-        whom: string;
-        message: string;
-    }[];
+    message: messageDisplayType;
+    messageDisplay: messageDisplayType[];
     friend: {
         name: string;
         delete: boolean;
     };
+};
+
+export type messageDisplayType = {
+    from_whom: string;
+    whom: string;
+    message: string;
+    date: string;
 };
