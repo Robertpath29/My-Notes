@@ -1,5 +1,5 @@
 import { ActionCreatorWithPayload } from "@reduxjs/toolkit";
-import axiosQuery, { ADD_FRIEND_URL, GET_USER_URL } from "../api/AxiosQuery";
+import axiosQuery, { ADD_FRIEND_URL, GET_USER_URL } from "./AxiosQuery";
 
 export async function addFriend(
     nameFriend: {

@@ -1,5 +1,5 @@
 import { ActionCreatorWithPayload } from "@reduxjs/toolkit";
-import axiosQuery, { LOGIN_URL } from "../api/AxiosQuery";
+import axiosQuery, { LOGIN_URL } from "./AxiosQuery";
 import { secretKAY } from "../config/config";
 import CryptoJS from "crypto-js";
 export async function cookieGetUser(

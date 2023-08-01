@@ -3,7 +3,7 @@ import axiosQuery, {
     ADD_FRIEND_URL,
     GET_USER_URL,
     UNREAD_MESSAGE_URL,
-} from "../api/AxiosQuery";
+} from "./AxiosQuery";
 
 export async function deleteFriend(
     loginFriend: string,

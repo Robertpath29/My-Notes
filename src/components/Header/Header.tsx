@@ -46,8 +46,6 @@ const Header: FC<headerType> = ({
         getImgUser();
     }, [getImgUser]);
     useEffect(() => {
-        console.log(arrayNameFriendsUnreadMessage);
-
         setNumberUnreadMes(arrayNameFriendsUnreadMessage.length);
     }, [arrayNameFriendsUnreadMessage]);
 

@@ -5,7 +5,7 @@ import { RouterContext } from "./context/context";
 import { useSelector } from "react-redux";
 import { reducersType } from "./redux/combineReducers/combineReducers";
 import { cookieLoadingPagesStart } from "./utils/cookieLoadingPagesStart";
-import { cookieGetUser } from "./utils/cookieGetUser";
+import { cookieGetUser } from "./api/cookieGetUser";
 import { useAction } from "./hooks/useAction";
 import WebSocketConnection from "./components/basic/WebSocketConnection/WebSocketConnection";
 import { getUnreadMessage } from "./api/getUnreadMessage";

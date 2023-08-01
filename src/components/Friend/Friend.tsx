@@ -11,6 +11,7 @@ import axiosQuery, { GET_USER_URL } from "../../api/AxiosQuery";
 import NotesButton from "../basic/button/NotesButton";
 import { useSelector } from "react-redux";
 import { reducersType } from "../../redux/combineReducers/combineReducers";
+import { numberUnreadMessage } from "../../utils/numberUnreadMessage";
 
 const Friend: FC<friendType> = ({
     friend,
@@ -33,22 +34,16 @@ const Friend: FC<friendType> = ({
         isOnline(response.data.online);
     }, [friend.login]);
 
-    function numberUnreadMessage() {
-        const numberUnreadMessage: object[] = [];
-        for (let x of arrayNameFriendsUnreadMessage) {
-            if (x.name_friend === friend.login) {
-                numberUnreadMessage.push(x);
-            }
-        }
-        setNumberUnreadMes(numberUnreadMessage.length);
-    }
-
     useEffect(() => {
         getOnlineFriends();
     }, [getOnlineFriends]);
 
     useEffect(() => {
-        numberUnreadMessage();
+        numberUnreadMessage(
+            arrayNameFriendsUnreadMessage,
+            friend,
+            setNumberUnreadMes
+        );
     }, [arrayNameFriendsUnreadMessage]);
 
     return (

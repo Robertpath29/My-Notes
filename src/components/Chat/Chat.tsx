@@ -1,4 +1,4 @@
-import React, { FC, MouseEvent, useEffect, useRef, useState } from "react";
+import React, { FC, useEffect, useRef, useState } from "react";
 import {
     ChatDisplayStyle,
     ChatStyle,
@@ -17,40 +17,41 @@ import WarningMessage from "../basic/warning_message/WarningMessage";
 import { chatType } from "./chatType";
 import Friend from "../Friend/Friend";
 import Message from "../Message/Message";
-import { addFriend } from "../../utils/addFriends";
+import { addFriend } from "../../api/addFriends";
 import { scrollToNewMessage } from "../../utils/scrollToNewMessage";
 import Confirm from "../Confirm/Confirm";
-import { deleteFriend } from "../../utils/deleteFriends";
+import { deleteFriend } from "../../api/deleteFriends";
 import { useGetFriends } from "../../hooks/useGetFriends";
-import axiosQuery, {
-    MESSAGE_URL,
-    UNREAD_MESSAGE_URL,
-} from "../../api/AxiosQuery";
-import { ourMessagesType } from "../Friend/friendType";
-import { getUnreadMessage } from "../../api/getUnreadMessage";
+import { useSubmitMessage } from "../../hooks/useSubmitMessage";
+import { getFriendMessage } from "../../api/getFriendMessage";
+import { deleteUnreadMessage } from "../../api/deleteUnreadMessage";
 
 const Chat: FC<chatType> = () => {
-    const { displayChat, opacity } = useSelector(
-        (store: reducersType) => store.chat
-    );
-    const { id, login, myFriends, focusFriend } = useSelector(
-        (state: reducersType) => state.user
-    );
-
-    const { messageDisplay, arrayNameFriendsUnreadMessage } = useSelector(
-        (state: reducersType) => state.webSocket
-    );
+    const {
+        displayChat,
+        opacity,
+        id,
+        login,
+        myFriends,
+        focusFriend,
+        messageDisplay,
+    } = useSelector((state: reducersType) => ({
+        displayChat: state.chat.displayChat,
+        opacity: state.chat.opacity,
+        id: state.user.id,
+        login: state.user.login,
+        myFriends: state.user.myFriends,
+        focusFriend: state.user.focusFriend,
+        messageDisplay: state.webSocket.messageDisplay,
+    }));
     const [visibility, isVisibility] = useState(false);
 
     const displayMessageRef = useRef<HTMLDivElement | null>(null);
-    const [warning, isWarning] = useState({ war: false, message: "" });
     const [nameFriend, setNameFriend] = useState({ login: "" });
-    const [myMessage, setMyMessage] = useState("");
     const {
         setDisplayBtnChat,
         setDisplayChat,
         setOpacity,
-        setWhom,
         setNewFriend,
         setFocusFriend,
         setMessageDisplay,
@@ -59,45 +60,8 @@ const Chat: FC<chatType> = () => {
         setArrayNameFriendsUnreadMessage,
     } = useAction();
     const { getFriends } = useGetFriends();
-    function submitMessage() {
-        const currentDate = new Date();
-        const date =
-            currentDate.getDay().toString() +
-            "." +
-            currentDate.getMonth().toString() +
-            "." +
-            currentDate.getFullYear().toString() +
-            " " +
-            currentDate.getHours().toString() +
-            ":" +
-            currentDate.getMinutes().toString();
-
-        if (focusFriend.name === "") {
-            isWarning({ war: true, message: "Сhoose a friend!" });
-            return;
-        }
-        if (myMessage === "") return;
-        isWarning({ war: false, message: "" });
-        setWhom({
-            from_Whom: login,
-            whom: focusFriend.name,
-            message: myMessage,
-            date: date,
-        });
-        setMyMessage("");
-        setTimeout(() => {
-            axiosQuery.axiosQueryPost(
-                {
-                    from_whom: login,
-                    whom: focusFriend.name,
-                    message: myMessage,
-                    date: date,
-                    nameTableMessage: focusFriend.nameTableMessage,
-                },
-                MESSAGE_URL
-            );
-        }, 100);
-    }
+    const { submitMessage, warning, isWarning, setMyMessage, myMessage } =
+        useSubmitMessage(focusFriend);
 
     function confirmDeleteFriend() {
         isVisibility(false);
@@ -115,54 +79,13 @@ const Chat: FC<chatType> = () => {
     function cancelDeleteFriend() {
         isVisibility(false);
     }
-    async function getFriendMessage(
-        e: React.MouseEvent<HTMLDivElement, globalThis.MouseEvent>
-    ) {
-        const element = e.target as HTMLElement;
-        setFocusStyle("");
-        setFocusFriend({ name: "", nameTableMessage: "" });
-        clearMessageDisplay();
-        if (
-            element.getAttribute("data-login") ||
-            element.parentElement?.getAttribute("data-login")
-        ) {
-            const friendLogin =
-                element.getAttribute("data-login") ||
-                element.parentElement?.getAttribute("data-login");
-            const friendTableMessage =
-                element.getAttribute("data-name_table_message") ||
-                element.parentElement?.getAttribute("data-name_table_message");
-            setFocusStyle(friendLogin);
-            setFocusFriend({
-                name: friendLogin,
-                nameTableMessage: friendTableMessage,
-            });
-            const ourMessages = await axiosQuery.axiosQueryGet(
-                { nameTableMessage: friendTableMessage },
-                MESSAGE_URL
-            );
-            if (ourMessages.data) {
-                clearMessageDisplay();
-                ourMessages.data.forEach((element: ourMessagesType) => {
-                    setMessageDisplay(element);
-                });
-            }
-        }
-    }
-
-    async function deleteUnreadMessage(focus: string, login: string) {
-        if (focus === "") return;
-        const response = await axiosQuery.axiosQueryDelete(
-            { whom: focus, from_whom: login },
-            UNREAD_MESSAGE_URL
-        );
-        if (response.data.message === `delete table rows ${focus}`) {
-            getUnreadMessage(login, setArrayNameFriendsUnreadMessage);
-        }
-    }
 
     useEffect(() => {
-        deleteUnreadMessage(focusFriend.name, login);
+        deleteUnreadMessage(
+            focusFriend.name,
+            login,
+            setArrayNameFriendsUnreadMessage
+        );
     }, [focusFriend.name]);
     useEffect(() => {
         getFriends();
@@ -228,7 +151,13 @@ const Chat: FC<chatType> = () => {
                     <UserDisplayStyle
                         className="chat"
                         onClick={(e) => {
-                            getFriendMessage(e);
+                            getFriendMessage(
+                                e,
+                                setFocusFriend,
+                                setMessageDisplay,
+                                setFocusStyle,
+                                clearMessageDisplay
+                            );
                         }}
                     >
                         {myFriends.map((friend) => (
