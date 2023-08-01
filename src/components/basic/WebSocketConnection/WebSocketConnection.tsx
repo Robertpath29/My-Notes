@@ -4,6 +4,7 @@ import { useGetFriends } from "../../../hooks/useGetFriends";
 import { useAction } from "../../../hooks/useAction";
 import { useSelector } from "react-redux";
 import { reducersType } from "../../../redux/combineReducers/combineReducers";
+import axiosQuery, { UNREAD_MESSAGE_URL } from "../../../api/AxiosQuery";
 
 const WebSocketConnection: FC<webSocketConnectionType> = ({
     url,
@@ -16,8 +17,14 @@ const WebSocketConnection: FC<webSocketConnectionType> = ({
 }) => {
     const ws = useRef<WebSocket | null>(null);
     const { getFriends } = useGetFriends();
-    const { focusFriend } = useSelector((state: reducersType) => state.user);
-    const { setNewFriend, setFocusFriend } = useAction();
+    const { focusFriend, login } = useSelector(
+        (state: reducersType) => state.user
+    );
+    const { arrayNameFriendsUnreadMessage } = useSelector(
+        (state: reducersType) => state.webSocket
+    );
+    const { setNewFriend, setFocusFriend, pushArrayNameFriendsUnreadMessage } =
+        useAction();
 
     useEffect(() => {
         ws.current = new WebSocket(url);
@@ -39,7 +46,21 @@ const WebSocketConnection: FC<webSocketConnectionType> = ({
                 return;
             }
             if (onMessage) {
-                if (focusFriend.name !== mes.from_whom) return;
+                if (
+                    focusFriend.name !== mes.from_whom &&
+                    mes.from_whom !== login
+                ) {
+                    pushArrayNameFriendsUnreadMessage({
+                        id: Date.now(),
+                        name_friend: mes.from_whom,
+                    });
+
+                    axiosQuery.axiosQueryPost(
+                        { whom: mes.whom, from_whom: mes.from_whom },
+                        UNREAD_MESSAGE_URL
+                    );
+                    return;
+                }
                 onMessage(mes);
             }
         };

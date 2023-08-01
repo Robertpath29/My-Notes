@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from "react";
+import React, { FC, useEffect, useState } from "react";
 import {
     ChatContainerBtn,
     ContainerGroupStyle,
@@ -17,6 +17,7 @@ import { URL_SERVER } from "../../api/AxiosQuery";
 import { UseGetInfoUser } from "../../hooks/useGetInfoUser";
 import Chat from "../Chat/Chat";
 import { useGetFriends } from "../../hooks/useGetFriends";
+import { NumberUnreadMessageStyle } from "../Friend/friend.style";
 
 const Header: FC<headerType> = ({
     userName,
@@ -27,6 +28,9 @@ const Header: FC<headerType> = ({
 }) => {
     const { visibility } = useSelector((state: reducersType) => state.confirm);
     const userData = useSelector((store: reducersType) => store.user);
+    const { arrayNameFriendsUnreadMessage } = useSelector(
+        (store: reducersType) => store.webSocket
+    );
     const { displayBtnChat } = useSelector((store: reducersType) => store.chat);
     const {
         visibilityConfirm,
@@ -37,9 +41,15 @@ const Header: FC<headerType> = ({
     } = useAction();
     const { getImgUser } = UseGetInfoUser();
     const { getFriends } = useGetFriends();
+    const [numberUnreadMes, setNumberUnreadMes] = useState(0);
     useEffect(() => {
         getImgUser();
     }, [getImgUser]);
+    useEffect(() => {
+        console.log(arrayNameFriendsUnreadMessage);
+
+        setNumberUnreadMes(arrayNameFriendsUnreadMessage.length);
+    }, [arrayNameFriendsUnreadMessage]);
 
     function exitAccount() {
         isOnline({ online: false });
@@ -68,6 +78,9 @@ const Header: FC<headerType> = ({
 
             <ContainerGroupStyle>
                 <ChatContainerBtn display={displayBtnChat}>
+                    <NumberUnreadMessageStyle numberUnreadMes={numberUnreadMes}>
+                        {numberUnreadMes}
+                    </NumberUnreadMessageStyle>
                     <NotesButton
                         id="openChat"
                         onClick={() => {

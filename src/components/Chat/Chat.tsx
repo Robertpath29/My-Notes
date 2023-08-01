@@ -22,8 +22,12 @@ import { scrollToNewMessage } from "../../utils/scrollToNewMessage";
 import Confirm from "../Confirm/Confirm";
 import { deleteFriend } from "../../utils/deleteFriends";
 import { useGetFriends } from "../../hooks/useGetFriends";
-import axiosQuery, { MESSAGE_URL } from "../../api/AxiosQuery";
+import axiosQuery, {
+    MESSAGE_URL,
+    UNREAD_MESSAGE_URL,
+} from "../../api/AxiosQuery";
 import { ourMessagesType } from "../Friend/friendType";
+import { getUnreadMessage } from "../../api/getUnreadMessage";
 
 const Chat: FC<chatType> = () => {
     const { displayChat, opacity } = useSelector(
@@ -32,7 +36,8 @@ const Chat: FC<chatType> = () => {
     const { id, login, myFriends, focusFriend } = useSelector(
         (state: reducersType) => state.user
     );
-    const { messageDisplay } = useSelector(
+
+    const { messageDisplay, arrayNameFriendsUnreadMessage } = useSelector(
         (state: reducersType) => state.webSocket
     );
     const [visibility, isVisibility] = useState(false);
@@ -51,6 +56,7 @@ const Chat: FC<chatType> = () => {
         setMessageDisplay,
         setFocusStyle,
         clearMessageDisplay,
+        setArrayNameFriendsUnreadMessage,
     } = useAction();
     const { getFriends } = useGetFriends();
     function submitMessage() {
@@ -79,16 +85,18 @@ const Chat: FC<chatType> = () => {
             date: date,
         });
         setMyMessage("");
-        axiosQuery.axiosQueryPost(
-            {
-                from_Whom: login,
-                whom: focusFriend.name,
-                message: myMessage,
-                date: date,
-                nameTableMessage: focusFriend.nameTableMessage,
-            },
-            MESSAGE_URL
-        );
+        setTimeout(() => {
+            axiosQuery.axiosQueryPost(
+                {
+                    from_whom: login,
+                    whom: focusFriend.name,
+                    message: myMessage,
+                    date: date,
+                    nameTableMessage: focusFriend.nameTableMessage,
+                },
+                MESSAGE_URL
+            );
+        }, 100);
     }
 
     function confirmDeleteFriend() {
@@ -102,6 +110,7 @@ const Chat: FC<chatType> = () => {
             focusFriend
         );
         setFocusFriend({ name: "", nameTableMessage: "" });
+        clearMessageDisplay();
     }
     function cancelDeleteFriend() {
         isVisibility(false);
@@ -141,6 +150,20 @@ const Chat: FC<chatType> = () => {
         }
     }
 
+    async function deleteUnreadMessage(focus: string, login: string) {
+        if (focus === "") return;
+        const response = await axiosQuery.axiosQueryDelete(
+            { whom: focus, from_whom: login },
+            UNREAD_MESSAGE_URL
+        );
+        if (response.data.message === `delete table rows ${focus}`) {
+            getUnreadMessage(login, setArrayNameFriendsUnreadMessage);
+        }
+    }
+
+    useEffect(() => {
+        deleteUnreadMessage(focusFriend.name, login);
+    }, [focusFriend.name]);
     useEffect(() => {
         getFriends();
     }, []);
@@ -253,6 +276,8 @@ const Chat: FC<chatType> = () => {
                         setDisplayChat({ displayChat: "none" });
                         setDisplayBtnChat({ displayBtnChat: "block" });
                         isWarning({ war: false, message: "" });
+                        setFocusFriend({ name: "", nameTableMessage: "" });
+                        clearMessageDisplay();
                     }}
                 >
                     X

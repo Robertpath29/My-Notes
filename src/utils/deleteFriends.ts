@@ -1,5 +1,9 @@
 import { ActionCreatorWithPayload } from "@reduxjs/toolkit";
-import axiosQuery, { ADD_FRIEND_URL, GET_USER_URL } from "../api/AxiosQuery";
+import axiosQuery, {
+    ADD_FRIEND_URL,
+    GET_USER_URL,
+    UNREAD_MESSAGE_URL,
+} from "../api/AxiosQuery";
 
 export async function deleteFriend(
     loginFriend: string,
@@ -26,6 +30,10 @@ export async function deleteFriend(
     };
 
     const response = await axiosQuery.axiosQueryDelete(friend, ADD_FRIEND_URL);
+    axiosQuery.axiosQueryDelete(
+        { whom: login, from_whom: friendDB.data.login },
+        UNREAD_MESSAGE_URL
+    );
 
     if (response.data.message === "friends delete") {
         setNewFriend({ friend: friend.friendLogin, delete: true });

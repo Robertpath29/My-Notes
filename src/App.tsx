@@ -8,6 +8,7 @@ import { cookieLoadingPagesStart } from "./utils/cookieLoadingPagesStart";
 import { cookieGetUser } from "./utils/cookieGetUser";
 import { useAction } from "./hooks/useAction";
 import WebSocketConnection from "./components/basic/WebSocketConnection/WebSocketConnection";
+import { getUnreadMessage } from "./api/getUnreadMessage";
 
 function App() {
     const [isLoadingPagesStart, setIsLoadingPagesStart] = useState(true);
@@ -19,7 +20,14 @@ function App() {
     const { online, message, friend } = useSelector(
         (store: reducersType) => store.webSocket
     );
-    const { userLogIn, setUser, isOnline, setMessageDisplay } = useAction();
+    const {
+        userLogIn,
+        setUser,
+        isOnline,
+        setMessageDisplay,
+        setArrayNameFriendsUnreadMessage,
+        clearMessageDisplay,
+    } = useAction();
 
     useEffect(() => {
         if (!cookieLoadingPagesStart(setIsLoadingPagesStart)) {
@@ -29,7 +37,10 @@ function App() {
         }
         cookieGetUser(userLogIn, setUser, isOnline);
     }, [setUser, userLogIn, isOnline]);
-
+    useEffect(() => {
+        getUnreadMessage(user.login, setArrayNameFriendsUnreadMessage);
+        clearMessageDisplay();
+    }, [user.login]);
     return (
         <RouterContext.Provider
             value={{

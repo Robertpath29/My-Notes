@@ -9,6 +9,7 @@ const initialState: initialStateType = {
         message: "",
         date: "",
     },
+    arrayNameFriendsUnreadMessage: [],
     messageDisplay: [],
     friend: {
         name: "",
@@ -42,6 +43,13 @@ export const webSocketSlice = createSlice({
         setNewFriend: (state, { payload }) => {
             state.friend.name = payload.friend;
             state.friend.delete = payload.delete;
+        },
+
+        setArrayNameFriendsUnreadMessage: (state, { payload }) => {
+            state.arrayNameFriendsUnreadMessage = payload;
+        },
+        pushArrayNameFriendsUnreadMessage: (state, { payload }) => {
+            state.arrayNameFriendsUnreadMessage.push(payload);
         },
     },
 });

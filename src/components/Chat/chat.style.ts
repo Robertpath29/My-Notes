@@ -63,7 +63,7 @@ export const UserDisplayStyle = styled(ChatDisplayStyle)`
     width: 200px;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    padding-left: 10px;
 `;
 
 export const WriteTextGroupStyle = styled.div`
