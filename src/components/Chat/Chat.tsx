@@ -27,23 +27,15 @@ import { getFriendMessage } from "../../api/getFriendMessage";
 import { deleteUnreadMessage } from "../../api/deleteUnreadMessage";
 
 const Chat: FC<chatType> = () => {
-    const {
-        displayChat,
-        opacity,
-        id,
-        login,
-        myFriends,
-        focusFriend,
-        messageDisplay,
-    } = useSelector((state: reducersType) => ({
-        displayChat: state.chat.displayChat,
-        opacity: state.chat.opacity,
-        id: state.user.id,
-        login: state.user.login,
-        myFriends: state.user.myFriends,
-        focusFriend: state.user.focusFriend,
-        messageDisplay: state.webSocket.messageDisplay,
-    }));
+    const { id, login, myFriends, focusFriend } = useSelector(
+        (store: reducersType) => store.user
+    );
+    const { displayChat, opacity } = useSelector(
+        (store: reducersType) => store.chat
+    );
+    const { messageDisplay } = useSelector(
+        (store: reducersType) => store.webSocket
+    );
     const [visibility, isVisibility] = useState(false);
 
     const displayMessageRef = useRef<HTMLDivElement | null>(null);
@@ -143,9 +135,7 @@ const Chat: FC<chatType> = () => {
                 <GroupMessageUserStyle className="chat">
                     <ChatDisplayStyle ref={displayMessageRef} className="chat">
                         {messageDisplay.map((mes, index) => (
-                            <Message position={mes.from_whom} key={index}>
-                                {mes.message}
-                            </Message>
+                            <Message message={mes} key={index} />
                         ))}
                     </ChatDisplayStyle>
                     <UserDisplayStyle

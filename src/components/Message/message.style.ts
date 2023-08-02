@@ -6,7 +6,7 @@ export const GroupMessage = styled.div<{ position: string }>`
     margin: ${({ position }) =>
         position === "start" ? "0px 40px 0px 5px" : "0px 5px 0px 40px"};
     padding: 3px 10px;
-    align-items: center;
+    align-items: end;
     display: ${({ position }) => (position ? "flex" : "none")};
 `;
 
@@ -17,4 +17,10 @@ export const MessageStyle = styled.p<{ position: string }>`
     padding: 2px 15px;
     border-radius: 10px;
     word-break: break-all;
+`;
+
+export const DataStyle = styled.span`
+    margin: 0 5px;
+    font-size: 0.6rem;
+    color: ${({ theme }) => theme.color.text};
 `;

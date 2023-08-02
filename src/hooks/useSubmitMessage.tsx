@@ -3,6 +3,7 @@ import { useAction } from "./useAction";
 import { useSelector } from "react-redux";
 import { reducersType } from "../redux/combineReducers/combineReducers";
 import { useState } from "react";
+import { getData } from "../utils/getDate";
 
 export const useSubmitMessage = (focusFriend: {
     name: string;
@@ -15,18 +16,7 @@ export const useSubmitMessage = (focusFriend: {
     const { setWhom } = useAction();
 
     function submitMessage() {
-        const currentDate = new Date();
-        const date =
-            currentDate.getDay().toString() +
-            "." +
-            currentDate.getMonth().toString() +
-            "." +
-            currentDate.getFullYear().toString() +
-            " " +
-            currentDate.getHours().toString() +
-            ":" +
-            currentDate.getMinutes().toString();
-
+        const date = getData();
         if (focusFriend.name === "") {
             isWarning({ war: true, message: "Сhoose a friend!" });
             return;

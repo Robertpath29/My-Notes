@@ -1,4 +1,5 @@
+import { messageDisplayType } from "../../redux/webSocketSlice/webSocketSliceType";
+
 export type messageType = {
-    children: string;
-    position: string;
+    message: messageDisplayType;
 };
