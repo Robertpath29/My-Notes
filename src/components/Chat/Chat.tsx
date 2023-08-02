@@ -2,6 +2,7 @@ import React, { FC, useEffect, useRef, useState } from "react";
 import {
     ChatDisplayStyle,
     ChatStyle,
+    GroupBtnOldMessage,
     GroupMessageUserStyle,
     GroupNameUserStyle,
     TextareaShatStyle,
@@ -25,6 +26,7 @@ import { useGetFriends } from "../../hooks/useGetFriends";
 import { useSubmitMessage } from "../../hooks/useSubmitMessage";
 import { getFriendMessage } from "../../api/getFriendMessage";
 import { deleteUnreadMessage } from "../../api/deleteUnreadMessage";
+import { getOldMessage } from "../../api/getOldMessage";
 
 const Chat: FC<chatType> = () => {
     const { id, login, myFriends, focusFriend } = useSelector(
@@ -33,7 +35,7 @@ const Chat: FC<chatType> = () => {
     const { displayChat, opacity } = useSelector(
         (store: reducersType) => store.chat
     );
-    const { messageDisplay } = useSelector(
+    const { messageDisplay, numberLoadingMessage } = useSelector(
         (store: reducersType) => store.webSocket
     );
     const [visibility, isVisibility] = useState(false);
@@ -50,6 +52,8 @@ const Chat: FC<chatType> = () => {
         setFocusStyle,
         clearMessageDisplay,
         setArrayNameFriendsUnreadMessage,
+        ClearNumberLoadingMessage,
+        setNumberLoadingMessage,
     } = useAction();
     const { getFriends } = useGetFriends();
     const { submitMessage, warning, isWarning, setMyMessage, myMessage } =
@@ -84,6 +88,8 @@ const Chat: FC<chatType> = () => {
     }, []);
 
     useEffect(() => {
+        console.log(messageDisplay);
+
         setTimeout(() => {
             scrollToNewMessage(displayMessageRef);
         });
@@ -134,6 +140,24 @@ const Chat: FC<chatType> = () => {
                 </GroupNameUserStyle>
                 <GroupMessageUserStyle className="chat">
                     <ChatDisplayStyle ref={displayMessageRef} className="chat">
+                        {messageDisplay.length > numberLoadingMessage - 1 && (
+                            <GroupBtnOldMessage>
+                                <NotesButton
+                                    className="chat"
+                                    onClick={() => {
+                                        getOldMessage(
+                                            focusFriend,
+                                            numberLoadingMessage,
+                                            setNumberLoadingMessage,
+                                            clearMessageDisplay,
+                                            setMessageDisplay
+                                        );
+                                    }}
+                                >
+                                    Get old message
+                                </NotesButton>
+                            </GroupBtnOldMessage>
+                        )}
                         {messageDisplay.map((mes, index) => (
                             <Message message={mes} key={index} />
                         ))}
@@ -146,7 +170,10 @@ const Chat: FC<chatType> = () => {
                                 setFocusFriend,
                                 setMessageDisplay,
                                 setFocusStyle,
-                                clearMessageDisplay
+                                clearMessageDisplay,
+                                numberLoadingMessage,
+                                ClearNumberLoadingMessage,
+                                focusFriend
                             );
                         }}
                     >

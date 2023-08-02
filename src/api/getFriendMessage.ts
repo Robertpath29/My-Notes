@@ -13,12 +13,26 @@ export async function getFriendMessage(
         "webSocket/setMessageDisplay"
     >,
     setFocusStyle: ActionCreatorWithPayload<any, "User/setFocusStyle">,
-    clearMessageDisplay: ActionCreatorWithoutPayload<"webSocket/clearMessageDisplay">
+    clearMessageDisplay: ActionCreatorWithoutPayload<"webSocket/clearMessageDisplay">,
+    numberLoadingMessage: number,
+    ClearNumberLoadingMessage: ActionCreatorWithoutPayload<"webSocket/ClearNumberLoadingMessage">,
+    focusFriend: {
+        name: string;
+        nameTableMessage: string;
+        focusStyle: string;
+    }
 ) {
     const element = e.target as HTMLElement;
+    if (
+        element.getAttribute("data-login") === focusFriend.name ||
+        element.parentElement?.getAttribute("data-login") === focusFriend.name
+    ) {
+        return;
+    }
     setFocusStyle("");
     setFocusFriend({ name: "", nameTableMessage: "" });
     clearMessageDisplay();
+    ClearNumberLoadingMessage();
     if (
         element.getAttribute("data-login") ||
         element.parentElement?.getAttribute("data-login")
@@ -35,7 +49,10 @@ export async function getFriendMessage(
             nameTableMessage: friendTableMessage,
         });
         const ourMessages = await axiosQuery.axiosQueryGet(
-            { nameTableMessage: friendTableMessage },
+            {
+                nameTableMessage: friendTableMessage,
+                numberMessage: numberLoadingMessage,
+            },
             MESSAGE_URL
         );
         if (ourMessages.data) {

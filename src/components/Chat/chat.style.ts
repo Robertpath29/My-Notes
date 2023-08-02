@@ -71,3 +71,15 @@ export const WriteTextGroupStyle = styled.div`
     flex-direction: column;
     align-items: center;
 `;
+
+export const GroupBtnOldMessage = styled.div`
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    & > button {
+        margin: 0;
+        padding: 2px;
+        font-size: 0.6rem;
+        height: max-content;
+    }
+`;

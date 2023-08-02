@@ -2,6 +2,7 @@ export type initialStateType = {
     online: boolean;
     message: messageDisplayType;
     messageDisplay: messageDisplayType[];
+    numberLoadingMessage: number;
     arrayNameFriendsUnreadMessage: unreadMessageType[];
     friend: {
         name: string;

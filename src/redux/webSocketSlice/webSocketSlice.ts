@@ -11,6 +11,7 @@ const initialState: initialStateType = {
     },
     arrayNameFriendsUnreadMessage: [],
     messageDisplay: [],
+    numberLoadingMessage: 10,
     friend: {
         name: "",
         delete: false,
@@ -50,6 +51,12 @@ export const webSocketSlice = createSlice({
         },
         pushArrayNameFriendsUnreadMessage: (state, { payload }) => {
             state.arrayNameFriendsUnreadMessage.push(payload);
+        },
+        setNumberLoadingMessage: (state, { payload }) => {
+            state.numberLoadingMessage = payload;
+        },
+        ClearNumberLoadingMessage: (state) => {
+            state.numberLoadingMessage = 10;
         },
     },
 });
