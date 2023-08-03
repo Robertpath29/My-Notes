@@ -9,10 +9,11 @@ import { cookieGetUser } from "./api/cookieGetUser";
 import { useAction } from "./hooks/useAction";
 import WebSocketConnection from "./components/basic/WebSocketConnection/WebSocketConnection";
 import { getUnreadMessage } from "./api/getUnreadMessage";
+import AudioMessage from "./components/AudioMessage/AudioMessage";
 
 function App() {
     const [isLoadingPagesStart, setIsLoadingPagesStart] = useState(true);
-
+    const [playAudio, isPlayAudio] = useState(false);
     const { userIsLogIn } = useSelector(
         (store: reducersType) => store.registerLogIn
     );
@@ -75,15 +76,25 @@ function App() {
                 </Routes>
             </BrowserRouter>
             {online && (
-                <WebSocketConnection
-                    url="ws://192.168.1.104:8080"
-                    user={user}
-                    message={message}
-                    friend={friend}
-                    onMessage={(e) => {
-                        setMessageDisplay(e);
-                    }}
-                />
+                <>
+                    <WebSocketConnection
+                        url="ws://192.168.1.104:8080"
+                        user={user}
+                        message={message}
+                        friend={friend}
+                        isPlayAudio={isPlayAudio}
+                        onMessage={(e) => {
+                            setMessageDisplay(e);
+                            if (e.from_whom !== user.login) {
+                                isPlayAudio(true);
+                            }
+                        }}
+                    />
+                    <AudioMessage
+                        playAudio={playAudio}
+                        isPlayAudio={isPlayAudio}
+                    />
+                </>
             )}
         </RouterContext.Provider>
     );

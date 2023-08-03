@@ -14,14 +14,12 @@ const WebSocketConnection: FC<webSocketConnectionType> = ({
     onMessage,
     onOpen,
     onClose,
+    isPlayAudio,
 }) => {
     const ws = useRef<WebSocket | null>(null);
     const { getFriends } = useGetFriends();
     const { focusFriend, login } = useSelector(
         (state: reducersType) => state.user
-    );
-    const { arrayNameFriendsUnreadMessage } = useSelector(
-        (state: reducersType) => state.webSocket
     );
     const { setNewFriend, setFocusFriend, pushArrayNameFriendsUnreadMessage } =
         useAction();
@@ -54,7 +52,7 @@ const WebSocketConnection: FC<webSocketConnectionType> = ({
                         id: Date.now(),
                         name_friend: mes.from_whom,
                     });
-
+                    isPlayAudio(true);
                     axiosQuery.axiosQueryPost(
                         { whom: mes.whom, from_whom: mes.from_whom },
                         UNREAD_MESSAGE_URL

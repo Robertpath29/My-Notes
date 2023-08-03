@@ -9,5 +9,6 @@ export type webSocketConnectionType = {
     message?: { from_whom: string; whom: string; message: string };
     onOpen?: () => void;
     onClose?: () => void;
+    isPlayAudio: React.Dispatch<React.SetStateAction<boolean>>;
     onMessage?: (message: messageDisplayType) => void;
 };

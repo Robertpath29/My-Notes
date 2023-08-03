@@ -88,8 +88,6 @@ const Chat: FC<chatType> = () => {
     }, []);
 
     useEffect(() => {
-        console.log(messageDisplay);
-
         setTimeout(() => {
             scrollToNewMessage(displayMessageRef);
         });
