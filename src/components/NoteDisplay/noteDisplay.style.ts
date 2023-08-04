@@ -5,7 +5,7 @@ export const NoteDisplayStyle = styled.div`
     width: 80%;
     height: 75vh;
     margin: 0 auto;
-    padding-top: 20px;
+    padding-top: 45px;
     overflow: auto;
     background-image: url("/images/background-mainPages.png");
     background-position: center;
@@ -16,10 +16,14 @@ export const NoteDisplayStyle = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
+    @media (max-width: ${({ theme }) => theme.size.mobileDevices}) {
+        padding-top: 70px;
+    }
 `;
 
 export const SelectStyle = styled.select`
     position: absolute;
+    top: 20px;
     left: 20px;
     width: max-content;
     height: 30px;

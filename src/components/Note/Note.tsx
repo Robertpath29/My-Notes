@@ -4,6 +4,7 @@ import {
     IsDoneGroupInputStyle,
     IsDoneGroupStyle,
     NoteStyle,
+    TextIsDoneStyle,
     TextStyle,
     TitleNoteStyle,
 } from "./note.style";
@@ -59,7 +60,7 @@ const Note: FC<noteType> = (data: noteType) => {
                             checkBox(e);
                         }}
                     />
-                    <TextStyle>is Done?</TextStyle>
+                    <TextIsDoneStyle>is Done?</TextIsDoneStyle>
                 </IsDoneGroupInputStyle>
                 <IsDoneGroupBtnStyle display={display.toString()}>
                     <NotesButton
