@@ -11,5 +11,9 @@ type baseThemeType = {
         main: string;
         text: string;
     };
+    size: {
+        tablet: string;
+        mobileDevices: string;
+    };
 };
 export default baseThemeType;

@@ -13,6 +13,10 @@ const baseTheme: baseThemeType = {
         main: "rgb(87, 25, 0)",
         text: `#b8a2a2`,
     },
+    size: {
+        tablet: "1024px",
+        mobileDevices: "768px",
+    },
 };
 
 export default baseTheme;

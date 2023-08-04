@@ -17,7 +17,7 @@ export const RegistrationPagesStyle = styled.form`
         content: "";
         position: absolute;
         width: 100%;
-        height: 100%;
+        height: 100vh;
         background-color: gray;
         opacity: 0.5;
     }
@@ -28,6 +28,12 @@ export const RegistrationPagesStyle = styled.form`
         max-width: 150px;
         width: 100%;
     }
+
+    @media (max-width: ${({ theme }) => theme.size.tablet}) {
+        & > :last-child {
+            max-width: max-content;
+        }
+    }
 `;
 
 export const HeaderFormRegistration = styled.h1`
@@ -35,4 +41,5 @@ export const HeaderFormRegistration = styled.h1`
     z-index: 11;
     font-family: ${({ theme }) => theme.font.text};
     color: ${({ theme }) => theme.color.main};
+    text-align: center;
 `;

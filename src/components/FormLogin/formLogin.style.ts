@@ -3,6 +3,7 @@ import styled from "styled-components";
 export const FormLoginStyle = styled.form<{ background?: boolean }>`
     z-index: 11;
     display: flex;
+    margin: 0 10px;
     flex-direction: column;
     max-width: 450px;
     width: 100%;
