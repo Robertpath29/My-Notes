@@ -1,5 +1,10 @@
 import React, { useState } from "react";
-import { ContainerStyle, OptionsStyle, VerticalStrip } from "./options.style";
+import {
+    ContainerStyle,
+    HorizontalStrip,
+    OptionsStyle,
+    VerticalStrip,
+} from "./options.style";
 import { useSelector } from "react-redux";
 import { reducersType } from "../../redux/combineReducers/combineReducers";
 import { useNavigate } from "react-router-dom";
@@ -34,6 +39,7 @@ const Options = () => {
                     moveTo("/my-notes/new-note");
                 }}
             />
+            <HorizontalStrip />
             <ContainerStyle>
                 <NavOptions fn={setElement} visDisplay={setVisDisplay} />
                 <VerticalStrip />

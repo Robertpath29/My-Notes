@@ -6,6 +6,9 @@ export const InformationUserStyle = styled.div`
     padding: 10px;
     position: relative;
     color: ${({ theme }) => theme.color.text};
+    @media (max-width: ${({ theme }) => theme.size.mobileDevices}) {
+        margin-top: 30px;
+    }
 `;
 export const PhotoStyle = styled.img`
     max-width: 200px;
@@ -21,4 +24,7 @@ export const ContainerEditBtnStyle = styled.div`
     position: absolute;
     top: 0;
     right: 0;
+    @media (max-width: ${({ theme }) => theme.size.mobileDevices}) {
+        position: relative;
+    }
 `;
