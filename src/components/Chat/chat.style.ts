@@ -23,6 +23,14 @@ export const ChatStyle = styled.div<{ display: string; opacity: number }>`
         background: none;
         font-size: 1.5rem;
     }
+    @media (max-width: ${({ theme }) => theme.size.tablet}) {
+        width: 100%;
+        bottom: 0;
+        top: 0;
+        right: ${({ display }) => (display === `none` ? `-100%` : `0px`)};
+        border-radius: 0;
+        overflow: auto;
+    }
 `;
 export const GroupNameUserStyle = styled.div`
     display: flex;
@@ -38,12 +46,21 @@ export const GroupNameUserStyle = styled.div`
 
         font-size: 1.8rem;
         border-radius: 50%;
+        @media (max-width: ${({ theme }) => theme.size.tablet}) {
+            font-size: 1rem;
+            min-width: 20px;
+        }
     }
 `;
 export const GroupMessageUserStyle = styled.div`
     display: flex;
     gap: 10px;
     margin-bottom: 20px;
+    @media (max-width: ${({ theme }) => theme.size.tablet}) {
+        height: 500px;
+        flex-direction: column-reverse;
+        justify-content: start;
+    }
 `;
 export const TextareaShatStyle = styled.textarea`
     width: 100%;
@@ -57,6 +74,9 @@ export const ChatDisplayStyle = styled.div`
     border-radius: 20px;
     box-shadow: 0px 0px 10px black inset;
     overflow: auto;
+    @media (max-width: ${({ theme }) => theme.size.tablet}) {
+        height: 500px;
+    }
 `;
 export const UserDisplayStyle = styled(ChatDisplayStyle)`
     padding-top: 10px;
@@ -64,6 +84,11 @@ export const UserDisplayStyle = styled(ChatDisplayStyle)`
     display: flex;
     flex-direction: column;
     padding-left: 10px;
+    @media (max-width: ${({ theme }) => theme.size.tablet}) {
+        font-size: 0.8rem;
+        width: 100%;
+        height: max-content;
+    }
 `;
 
 export const WriteTextGroupStyle = styled.div`

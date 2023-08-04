@@ -132,7 +132,7 @@ const Chat: FC<chatType> = () => {
                     >
                         +
                     </NotesButton>
-                    <WarningMessage none={warning.war}>
+                    <WarningMessage className="chat" none={warning.war}>
                         {warning.message}
                     </WarningMessage>
                 </GroupNameUserStyle>
