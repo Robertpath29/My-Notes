@@ -7,12 +7,30 @@ export const HeaderStyle = styled.header`
     display: flex;
     align-items: center;
     justify-content: space-between;
+    @media (max-width: ${({ theme }) => theme.size.tablet}) {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
 `;
 
 export const NameUserStyle = styled(LogoStyle)`
     color: yellow;
+    @media (max-width: ${({ theme }) => theme.size.mobileDevices}) {
+        font-size: 1.4rem;
+    }
 `;
-export const ContainerGroupStyle = styled.div`
+export const ContainerLogoStyle = styled.div`
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    margin: 0 5px;
+    @media (max-width: ${({ theme }) => theme.size.tablet}) {
+        justify-content: center;
+    }
+`;
+export const ContainerLoginImgStyle = styled(ContainerLogoStyle)``;
+
+export const ContainerBtnStyle = styled.div`
     display: flex;
     align-items: center;
 `;
@@ -22,19 +40,7 @@ export const ImgUser = styled.img`
     height: 70px;
     border-radius: 50%;
     object-fit: cover;
-`;
-
-export const ChatContainerBtn = styled.div<{ display: string }>`
-    z-index: 11;
-    display: ${({ display }) => display};
-    position: relative;
-    & > span {
-        z-index: 111;
-        position: absolute;
-        top: 5px;
-        left: 5px;
-        width: 20px;
-        height: 20px;
-        font-size: 1rem;
+    @media (max-width: ${({ theme }) => theme.size.tablet}) {
+        margin: 5px;
     }
 `;

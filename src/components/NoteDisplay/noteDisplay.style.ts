@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const NoteDisplayStyle = styled.div`
     position: relative;
     width: 80%;
-    height: 80%;
+    height: 75vh;
     margin: 0 auto;
     padding-top: 20px;
     overflow: auto;

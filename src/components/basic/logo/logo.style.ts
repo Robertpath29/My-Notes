@@ -10,5 +10,8 @@ const LogoStyle = styled.h1<{ color?: string }>`
     color: ${({ theme, color }) => (color ? color : theme.color.main)};
     text-shadow: 0 0 10px yellow, 5px 5px 4px black;
     transition: all 0.3s;
+    @media (max-width: ${({ theme }) => theme.size.mobileDevices}) {
+        font-size: 1.4rem;
+    }
 `;
 export default LogoStyle;

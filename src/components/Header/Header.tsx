@@ -1,14 +1,13 @@
 import React, { FC, useEffect, useState } from "react";
 import {
-    ChatContainerBtn,
-    ContainerGroupStyle,
+    ContainerLoginImgStyle,
+    ContainerLogoStyle,
     HeaderStyle,
     ImgUser,
     NameUserStyle,
 } from "./header.style";
 import Logo from "../basic/logo/Logo";
 import { headerType } from "./headerType";
-import NotesButton from "../basic/button/NotesButton";
 import { useAction } from "../../hooks/useAction";
 import Confirm from "../Confirm/Confirm";
 import { useSelector } from "react-redux";
@@ -16,8 +15,7 @@ import { reducersType } from "../../redux/combineReducers/combineReducers";
 import { URL_SERVER } from "../../api/AxiosQuery";
 import { UseGetInfoUser } from "../../hooks/useGetInfoUser";
 import Chat from "../Chat/Chat";
-import { useGetFriends } from "../../hooks/useGetFriends";
-import { NumberUnreadMessageStyle } from "../Friend/friend.style";
+import Navigation from "../Navigation/Navigation";
 
 const Header: FC<headerType> = ({
     userName,
@@ -31,17 +29,10 @@ const Header: FC<headerType> = ({
     const { arrayNameFriendsUnreadMessage } = useSelector(
         (store: reducersType) => store.webSocket
     );
-    const { displayBtnChat } = useSelector((store: reducersType) => store.chat);
-    const {
-        visibilityConfirm,
-        userLogIn,
-        setDisplayBtnChat,
-        setDisplayChat,
-        isOnline,
-    } = useAction();
+    const { visibilityConfirm, userLogIn, isOnline } = useAction();
     const { getImgUser } = UseGetInfoUser();
-    const { getFriends } = useGetFriends();
     const [numberUnreadMes, setNumberUnreadMes] = useState(0);
+
     useEffect(() => {
         getImgUser();
     }, [getImgUser]);
@@ -62,50 +53,26 @@ const Header: FC<headerType> = ({
 
     return (
         <HeaderStyle>
-            <ContainerGroupStyle>
+            <ContainerLogoStyle>
                 <Logo color="yellow">My-Notes</Logo>
-                <NameUserStyle>{userName}</NameUserStyle>
-                <ImgUser
-                    src={
-                        userData.dataUser.photo === ""
-                            ? "/images/userIcon.svg"
-                            : `${URL_SERVER}/${userData.dataUser.photo}`
-                    }
-                />
-            </ContainerGroupStyle>
-
-            <ContainerGroupStyle>
-                <ChatContainerBtn display={displayBtnChat}>
-                    <NumberUnreadMessageStyle numberUnreadMes={numberUnreadMes}>
-                        {numberUnreadMes}
-                    </NumberUnreadMessageStyle>
-                    <NotesButton
-                        id="openChat"
-                        onClick={() => {
-                            setDisplayChat({ displayChat: "visibility" });
-                            setDisplayBtnChat({ displayBtnChat: "none" });
-                            getFriends();
-                        }}
-                    >
-                        Chat
-                    </NotesButton>
-                </ChatContainerBtn>
-                <NotesButton onClick={fnBtnNewNote}>
-                    {nameBtnNewNote}
-                </NotesButton>
-                <NotesButton onClick={fnBtnOptions}>
-                    {nameBtnOptions}
-                </NotesButton>
-                <NotesButton
-                    onClick={() => {
-                        visibilityConfirm({ visibility: true });
-                        setDisplayChat({ displayChat: "none" });
-                        setDisplayBtnChat({ displayBtnChat: "block" });
-                    }}
-                >
-                    Exit
-                </NotesButton>
-            </ContainerGroupStyle>
+                <ContainerLoginImgStyle>
+                    <NameUserStyle>{userName}</NameUserStyle>
+                    <ImgUser
+                        src={
+                            userData.dataUser.photo === ""
+                                ? "/images/userIcon.svg"
+                                : `${URL_SERVER}/${userData.dataUser.photo}`
+                        }
+                    />
+                </ContainerLoginImgStyle>
+            </ContainerLogoStyle>
+            <Navigation
+                fnBtnNewNote={fnBtnNewNote}
+                fnBtnOptions={fnBtnOptions}
+                nameBtnNewNote={nameBtnNewNote}
+                nameBtnOptions={nameBtnOptions}
+                numberUnreadMes={numberUnreadMes}
+            />
             {visibility && (
                 <Confirm
                     message={`Exit account ${userData.login}?`}
