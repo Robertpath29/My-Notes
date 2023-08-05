@@ -78,7 +78,7 @@ function App() {
             {online && (
                 <>
                     <WebSocketConnection
-                        url="ws://192.168.1.104:8080"
+                        url="wss://my-notes-server-project-481be4be43f0.herokuapp.com"
                         user={user}
                         message={message}
                         friend={friend}
