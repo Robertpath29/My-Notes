@@ -1,5 +1,7 @@
 import axios from "axios";
-export const URL_SERVER = `http://192.168.1.104:5001`;
+export const URL_SERVER = `https://my-notes-server-project-481be4be43f0.herokuapp.com`;
+export const URL_WEBSOCKET =
+    "wss://my-notes-server-project-481be4be43f0.herokuapp.com";
 export const REG_URL = `${URL_SERVER}/registration`;
 export const LOGIN_URL = `${URL_SERVER}/login`;
 export const GET_INFO_USER_URL = `${URL_SERVER}/InfoUser`;

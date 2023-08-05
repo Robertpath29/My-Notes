@@ -4,10 +4,12 @@ import { useGetFriends } from "../../../hooks/useGetFriends";
 import { useAction } from "../../../hooks/useAction";
 import { useSelector } from "react-redux";
 import { reducersType } from "../../../redux/combineReducers/combineReducers";
-import axiosQuery, { UNREAD_MESSAGE_URL } from "../../../api/AxiosQuery";
+import axiosQuery, {
+    UNREAD_MESSAGE_URL,
+    URL_WEBSOCKET,
+} from "../../../api/AxiosQuery";
 
 const WebSocketConnection: FC<webSocketConnectionType> = ({
-    url,
     user,
     message,
     friend,
@@ -25,7 +27,7 @@ const WebSocketConnection: FC<webSocketConnectionType> = ({
         useAction();
 
     useEffect(() => {
-        ws.current = new WebSocket(url);
+        ws.current = new WebSocket(URL_WEBSOCKET);
 
         const open = () => {
             if (onOpen) onOpen();

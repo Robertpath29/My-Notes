@@ -1,7 +1,6 @@
 import { messageDisplayType } from "../../../redux/webSocketSlice/webSocketSliceType";
 
 export type webSocketConnectionType = {
-    url: string;
     user?: {};
     friend?: {
         name: string;
