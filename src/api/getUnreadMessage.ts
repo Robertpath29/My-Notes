@@ -12,6 +12,6 @@ export async function getUnreadMessage(
         { login },
         UNREAD_MESSAGE_URL
     );
-    if (response.data.message === "no login") return;
+    if (response.data?.message === "no login") return;
     setArrayNameFriendsUnreadMessage(response.data);
 }

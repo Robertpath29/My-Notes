@@ -16,7 +16,7 @@ import axiosQuery, { NEW_NOTE_URL } from "../../api/AxiosQuery";
 
 const Note: FC<noteType> = (data: noteType) => {
     const [opacityCheckbox, setOpacityCheckbox] = useState(0);
-    const [display, setDisplay] = useState(data.done);
+    const [display, setDisplay] = useState(Boolean(data.done));
     const [displayNote, setDisplayNote] = useState("flex");
 
     function checkBox(e: Event) {

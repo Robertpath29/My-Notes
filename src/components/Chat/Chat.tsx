@@ -27,6 +27,7 @@ import { useSubmitMessage } from "../../hooks/useSubmitMessage";
 import { getFriendMessage } from "../../api/getFriendMessage";
 import { deleteUnreadMessage } from "../../api/deleteUnreadMessage";
 import { getOldMessage } from "../../api/getOldMessage";
+import Loading from "../basic/loading/Loading";
 
 const Chat: FC<chatType> = () => {
     const { id, login, myFriends, focusFriend } = useSelector(
@@ -39,7 +40,7 @@ const Chat: FC<chatType> = () => {
         (store: reducersType) => store.webSocket
     );
     const [visibility, isVisibility] = useState(false);
-
+    const [loading, isLoading] = useState(false);
     const displayMessageRef = useRef<HTMLDivElement | null>(null);
     const [nameFriend, setNameFriend] = useState({ login: "" });
     const {
@@ -116,22 +117,29 @@ const Chat: FC<chatType> = () => {
                         placeholder="user login"
                         className="chat"
                     />
-                    <NotesButton
-                        className="chat"
-                        onClick={() => {
-                            addFriend(
-                                nameFriend,
-                                isWarning,
-                                login,
-                                setNameFriend,
-                                getFriends,
-                                id,
-                                setNewFriend
-                            );
-                        }}
-                    >
-                        +
-                    </NotesButton>
+                    {loading ? (
+                        <Loading />
+                    ) : (
+                        <NotesButton
+                            className="chat"
+                            onClick={() => {
+                                isLoading(true);
+                                addFriend(
+                                    nameFriend,
+                                    isWarning,
+                                    login,
+                                    setNameFriend,
+                                    getFriends,
+                                    id,
+                                    setNewFriend,
+                                    isLoading
+                                );
+                            }}
+                        >
+                            +
+                        </NotesButton>
+                    )}
+
                     <WarningMessage className="chat" none={warning.war}>
                         {warning.message}
                     </WarningMessage>

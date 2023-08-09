@@ -31,7 +31,7 @@ const Friend: FC<friendType> = ({
             { login: friend.login },
             GET_USER_URL
         );
-        isOnline(response.data.online);
+        isOnline(Boolean(response.data.online));
     }, [friend.login]);
 
     useEffect(() => {

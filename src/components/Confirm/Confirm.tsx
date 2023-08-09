@@ -22,15 +22,19 @@ const Confirm: FC<ConfirmType> = ({ message, onConfirm, onCancel }) => {
         visibilityConfirm({ visibility: false });
     }
     return (
-        <ConfirmStyle>
-            <ContainerConfirm>
-                <MessageStyle>{message}</MessageStyle>
-                <ContainerLoading>
+        <ConfirmStyle className="chat">
+            <ContainerConfirm className="chat">
+                <MessageStyle className="chat">{message}</MessageStyle>
+                <ContainerLoading className="chat">
                     <Loading />
                 </ContainerLoading>
-                <ContainerBtnStyle>
-                    <NotesButton onClick={btnConfirm}>Yes</NotesButton>
-                    <NotesButton onClick={btnCancel}>no</NotesButton>
+                <ContainerBtnStyle className="chat">
+                    <NotesButton onClick={btnConfirm} className="chat">
+                        Yes
+                    </NotesButton>
+                    <NotesButton onClick={btnCancel} className="chat">
+                        no
+                    </NotesButton>
                 </ContainerBtnStyle>
             </ContainerConfirm>
         </ConfirmStyle>

@@ -1,8 +1,6 @@
 import { useState } from "react";
 import axiosQuery, { GET_INFO_USER_URL } from "../api/AxiosQuery";
 import { useAction } from "./useAction";
-import { useSelector } from "react-redux";
-import { reducersType } from "../redux/combineReducers/combineReducers";
 import { dataObj } from "../components/FormUserInfo/formInfoUserType";
 
 export const useSubmitFormInfoUser = (
